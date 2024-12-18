@@ -36,6 +36,8 @@
 		animation: 128
 	};
 
+	/** @typedef {import('svelte').Component} Component */
+	/** @type {Record<Domain, Component>} */
 	const iconTag = {
 		game: GameIcon,
 		animation: AnimationIcon
@@ -91,13 +93,12 @@
 
 	.selector,
 	.selector::before {
-		@apply absolute h-10 w-32 rounded-full border-2 transition-transform duration-1000;
+		@apply absolute h-10 w-32 rounded-full border-2 transition-all duration-1000;
 		background: var(--game-selector-bg);
 		border-color: var(--selector-border-color);
 	}
 
 	.selector::before {
-		@apply transition-all duration-1000;
 		top: -2px;
 		left: -2px;
 		content: '';

@@ -92,7 +92,7 @@
 	{/each}
 
 	<div
-		class="absolute h-8 w-16 rounded-full transition-colors transition-transform duration-300"
+		class="absolute h-8 w-16 rounded-full transition-all duration-300"
 		style:transform={`translateX(${offset[tempLang]}px)`}
 		style:background-color={selectBgColor[domain]}
 	></div>
