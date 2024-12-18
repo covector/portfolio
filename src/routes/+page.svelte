@@ -9,6 +9,8 @@
 	import LanguageSelect from './common/LanguageSelect.svelte';
 	import Watermark from './common/Watermark.svelte';
 	import AnimationScroll from './animation/AnimationScroll.svelte';
+	import MeasurementProvider from './MeasurementProvider.svelte';
+	import Blob from './common/Blob.svelte';
 	/** @typedef {import("$lib/domain.js").Domain} Domain */
 
 	let lang = $state(runtime.languageTag());
@@ -21,31 +23,32 @@
 		const path = i18n.route($page.url.pathname);
 		domain.current = getDomainFromUrl(path);
 	});
-
-	/** @type {Record<Domain, string>}*/
-	const bgColor = {
-		game: '#000000',
-		animation: '#F7F8FB'
-	};
 </script>
 
-<div class="fixed top-0 left-0 w-full h-12 pt-6 px-6 pb-2 grid z-10">
-	<div class="justify-self-center row-col-1"><DomainSelect /></div>
-	<div class="justify-self-end row-col-1"><LanguageSelect /></div>
+<div
+	class="fixed left-0 top-0 z-10 flex h-12 w-full flex-col items-center gap-4 px-6 pb-2 pt-6 sm:grid"
+>
+	<div class="row-col-1 justify-self-center"><DomainSelect /></div>
+	<div class="row-col-1 justify-self-end"><LanguageSelect /></div>
 </div>
-<div class="fixed h-screen top-0 left-0 py-10 pl-6 z-10">
-	<Watermark />
+<div class="fixed left-0 top-0 z-10 h-screen py-10 pl-6">
+	<MeasurementProvider>
+		<Watermark />
+	</MeasurementProvider>
 </div>
 
-<div
-	class="w-full h-screen transition-colors duration-1000"
-	style:background-color={bgColor[domain.current]}
->
-	<AnimationScroll />
+<div class="min-h-screen w-full transition-colors duration-1000">
+	<MeasurementProvider>
+		<div class:hidden={domain.current !== 'animation'}>
+			<AnimationScroll />
+		</div>
+	</MeasurementProvider>
 </div>
+
+<Blob />
 
 <style>
 	.row-col-1 {
-		@apply row-start-1 row-end-1 col-start-1 col-end-1;
+		@apply col-start-1 col-end-1 row-start-1 row-end-1;
 	}
 </style>
