@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: "master"
+    branches: 'master'
 
 jobs:
   build_site:
@@ -28,13 +28,13 @@ jobs:
 
       - name: build
         env:
-          BASE_PATH: "/${{ github.event.repository.name }}"
+          BASE_PATH: '/${{ github.event.repository.name }}'
         run: |
           npm run build
 
       - name: Map 404 error to index
         env:
-          BASE_PATH: "/${{ github.event.repository.name }}"
+          BASE_PATH: '/${{ github.event.repository.name }}'
         run: |
           sudo cp build/index.html build/404.html
 
@@ -42,7 +42,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           # this should match the `pages` option in your adapter-static options
-          path: "build/"
+          path: 'build/'
 
   deploy:
     needs: build_site

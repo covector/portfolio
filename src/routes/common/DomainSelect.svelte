@@ -5,7 +5,7 @@
 	import AnimationIcon from './AnimationIcon.svelte';
 	import { goto } from '$app/navigation';
 	import { DOMAINS } from '$lib/domain.js';
-	import { base } from "$app/paths";
+	import { base } from '$app/paths';
 
 	/** @typedef {import("$lib/domain.js").Domain} Domain */
 
@@ -48,7 +48,7 @@
 	/** @type {(d: Domain) => void} */
 	const setDomain = (d) => {
 		// const lang = getContext('lang');
-		const newPath = lang == 'en' ? `${base}/${d}` : `${base}/${lang}/${d}`;
+		const newPath = lang == 'en' ? `${base}${d}` : `${base}${lang}/${d}`;
 		goto(newPath);
 	};
 </script>

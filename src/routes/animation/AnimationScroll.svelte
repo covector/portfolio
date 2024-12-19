@@ -3,7 +3,7 @@
 	import { getContext, onMount } from 'svelte';
 	import PlayVideo from './PlayVideo.svelte';
 	import { mobileAndTabletCheck } from '$lib/utils';
-	import { base } from "$app/paths";
+	import { base } from '$app/paths';
 
 	const ANIMATION_SCROLL_HEIGHT = 1000;
 	const totalHeight = $derived(
@@ -12,6 +12,11 @@
 			: 0
 	);
 	let scroll = $state(0);
+
+	let isMobile = $state(false);
+	onMount(() => {
+		isMobile = mobileAndTabletCheck();
+	});
 
 	/**
 	 * @param {number} t current value
@@ -98,10 +103,11 @@
 
 	/** @param {Event} e */
 	function onScroll(e) {
-		if (typeof window != 'undefined' && window.innerWidth <= 768) {
-			return;
+		if (isMobile) {
+			window.scrollTo(0, mobileScroll);
+		} else {
+			scroll = window.scrollY;
 		}
-		scroll = window.scrollY;
 	}
 	onMount(() => {
 		window.addEventListener('scroll', onScroll);
@@ -129,6 +135,9 @@
 	let yUp = $state(null);
 	/** @type {number} */
 	let mobileViewingIndex = $state(0);
+	let mobileScroll = $derived(
+		mobileViewingIndex == 0 ? 0 : (mobileViewingIndex + 0.5) * ANIMATION_SCROLL_HEIGHT
+	);
 	/** @param {TouchEvent} e*/
 	function handleTouchStart(e) {
 		// @ts-ignore
@@ -137,8 +146,8 @@
 	}
 	/** @param {TouchEvent} e*/
 	function handleTouchMove(e) {
-		e.preventDefault();
-		e.stopPropagation();
+		// e.preventDefault();
+		// e.stopPropagation();
 		// @ts-ignore
 		const lastTouch = (e.touches || e.originalEvent?.touches)[0];
 		yUp = lastTouch.clientY;
@@ -151,7 +160,7 @@
 			} else if (yUp - yDown > 100 && mobileViewingIndex > 0) {
 				mobileViewingIndex--;
 			}
-			scroll = mobileViewingIndex * ANIMATION_SCROLL_HEIGHT;
+			scroll = mobileScroll;
 		}
 		yDown = null;
 		yUp = null;
@@ -183,7 +192,7 @@
 				scroll,
 				i * ANIMATION_SCROLL_HEIGHT,
 				(i + 1) * ANIMATION_SCROLL_HEIGHT
-			) + '%'}
+			) + 'vh'}
 		>
 			<div
 				class="video-wrap max-w-full -translate-y-1/2 rounded-2xl"
@@ -192,7 +201,7 @@
 					scroll,
 					i * ANIMATION_SCROLL_HEIGHT,
 					(i + 1) * ANIMATION_SCROLL_HEIGHT
-				) + '%'}
+				) + 'vh'}
 			>
 				<PlayVideo
 					class="animation-vid size-auto rounded-2xl"
@@ -201,7 +210,7 @@
 					play={scroll <= 0
 						? true
 						: isVisible(scroll, i * ANIMATION_SCROLL_HEIGHT, (i + 1) * ANIMATION_SCROLL_HEIGHT)}
-					uri="{base}/{data.uri}"
+					uri="{base}{data.uri}"
 					alt={data.name}
 				/>
 			</div>
@@ -214,7 +223,7 @@
 				scroll,
 				i * ANIMATION_SCROLL_HEIGHT,
 				(i + 1) * ANIMATION_SCROLL_HEIGHT
-			) + '%'}
+			) + 'vh'}
 			style:color="#404040"
 		>
 			<div

@@ -21,8 +21,7 @@
 	function textVerticalBP() {
 		const height = getContext('size').height;
 		if (height > 640) return '16px';
-		else if (height > 320) return '12px';
-		else return '10px';
+		else return '2vh';
 	}
 
 	function lineXVerticalBP() {
