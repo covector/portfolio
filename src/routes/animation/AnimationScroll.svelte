@@ -2,6 +2,7 @@
 	import { animationData } from '$lib/animation_data';
 	import { getContext, onMount } from 'svelte';
 	import PlayVideo from './PlayVideo.svelte';
+	import { mobileAndTabletCheck } from '$lib/utils';
 
 	const ANIMATION_SCROLL_HEIGHT = 1000;
 	const totalHeight = $derived(
@@ -94,7 +95,11 @@
 		return t >= start && t < end;
 	}
 
-	function onScroll() {
+	/** @param {Event} e */
+	function onScroll(e) {
+		if (typeof window != 'undefined' && window.innerWidth <= 768) {
+			return;
+		}
 		scroll = window.scrollY;
 	}
 	onMount(() => {
@@ -103,6 +108,53 @@
 			window.removeEventListener('scroll', onScroll);
 		};
 	});
+
+	// mobile custom scroll
+	onMount(() => {
+		if (mobileAndTabletCheck()) {
+			window.addEventListener('touchstart', handleTouchStart);
+			window.addEventListener('touchmove', handleTouchMove, { passive: false });
+			window.addEventListener('touchend', handleTouchEnd);
+		}
+		return () => {
+			window.removeEventListener('touchstart', handleTouchStart);
+			window.removeEventListener('touchmove', handleTouchMove);
+			window.removeEventListener('touchend', handleTouchEnd);
+		};
+	});
+	/** @type {number|null}*/
+	let yDown = $state(null);
+	/** @type {number|null}*/
+	let yUp = $state(null);
+	/** @type {number} */
+	let mobileViewingIndex = $state(0);
+	/** @param {TouchEvent} e*/
+	function handleTouchStart(e) {
+		// @ts-ignore
+		const firstTouch = (e.touches || e.originalEvent?.touches)[0];
+		yDown = firstTouch.clientY;
+	}
+	/** @param {TouchEvent} e*/
+	function handleTouchMove(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		// @ts-ignore
+		const lastTouch = (e.touches || e.originalEvent?.touches)[0];
+		yUp = lastTouch.clientY;
+	}
+	/** @param {TouchEvent} e*/
+	function handleTouchEnd(e) {
+		if (yDown && yUp) {
+			if (yDown - yUp > 100 && mobileViewingIndex < animationData.length - 1) {
+				mobileViewingIndex++;
+			} else if (yUp - yDown > 100 && mobileViewingIndex > 0) {
+				mobileViewingIndex--;
+			}
+			scroll = mobileViewingIndex * ANIMATION_SCROLL_HEIGHT;
+		}
+		yDown = null;
+		yUp = null;
+	}
 
 	/**
 	 * @param {Date} date
