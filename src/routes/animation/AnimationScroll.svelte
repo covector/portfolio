@@ -3,6 +3,7 @@
 	import { getContext, onMount } from 'svelte';
 	import PlayVideo from './PlayVideo.svelte';
 	import { mobileAndTabletCheck } from '$lib/utils';
+	import { base } from "$app/paths";
 
 	const ANIMATION_SCROLL_HEIGHT = 1000;
 	const totalHeight = $derived(
@@ -200,7 +201,7 @@
 					play={scroll <= 0
 						? true
 						: isVisible(scroll, i * ANIMATION_SCROLL_HEIGHT, (i + 1) * ANIMATION_SCROLL_HEIGHT)}
-					uri={data.uri}
+					uri="{base}/{data.uri}"
 					alt={data.name}
 				/>
 			</div>
