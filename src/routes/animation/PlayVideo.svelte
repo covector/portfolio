@@ -36,6 +36,7 @@
 	onloadeddata={() => {
 		loaded = true;
 	}}
+	style:z-index="1"
 >
 	<source src={uri} type="video/mp4" />
 	{#if alt}<p>{alt}</p>{/if}
