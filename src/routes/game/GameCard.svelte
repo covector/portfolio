@@ -2,15 +2,17 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { i18n } from '$lib/i18n';
+	import { onMount } from 'svelte';
 
 	/** @typedef {Object} Props
 	 * @property {string} title
 	 * @property {string} description
 	 * @property {string} image
+	 * @property {string} previewVideo
 	 * @property {string} link
 	 */
 	/** @type {Props} */
-	const { title, description, image, link } = $props();
+	const { title, description, image, previewVideo, link } = $props();
 
 	/** @param {string} url  */
 	function gotoPage(url) {
@@ -18,15 +20,41 @@
 		const localisedPath = i18n.resolveRoute(`${url}`, lang);
 		goto(localisedPath);
 	}
+
+	let hover = $state(false);
+    /** @type {HTMLVideoElement} */
+    let videoComponent;
+    onMount(() => {
+        videoComponent.pause();
+    });
 </script>
 
-<button class="flex h-72 w-64 flex-col transition-transform" onclick={() => gotoPage(link)}>
+<button
+	class="flex h-72 w-64 flex-col transition-transform"
+	onclick={() => gotoPage(link)}
+	onmouseenter={() => { hover = true; videoComponent.play(); }}
+    onmouseleave={() => { hover = false; videoComponent.pause(); }}
+>
 	<div
 		class="size-full rounded-xl border"
 		style:border-color="#9675A6"
 		style:background="linear-gradient(167deg, rgba(34,25,46,1) 0%, rgba(63,49,65,1) 100%)"
 	>
-		<img src={image} alt={title} class="h-32 w-full rounded-t-xl object-cover" />
+	<div class="relative h-32 w-full rounded-t-xl">
+		<img
+			src={image}
+			alt="thumbnail"
+			class="size-full absolute rounded-t-xl object-cover"
+		/>
+		<video
+			class="size-full absolute rounded-t-xl object-cover z-10 transition-opacity"
+			style:opacity={hover ? 1 : 0}
+			loop muted autoplay
+			bind:this={videoComponent}
+			>
+			<source src={previewVideo} type="video/mp4" />
+		</video>
+	</div>
 		<div class="px-3 pt-3 text-left text-xl font-bold" style:color="#DFDDF9">{title}</div>
 		<div class="px-3 pt-1 text-left text-sm" style:color="#84719E">{description}</div>
 	</div>

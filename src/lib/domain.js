@@ -1,4 +1,5 @@
 const domainRegex = /(?:\/)(animation|game)s?(?=\/|$)/;
+const pathRegex = /(?:\/animations?\/)|(?:\/games?\/)(.+)(?=\/|$)/;
 const DEFAULT_DOMAIN = 'game';
 
 /** @typedef {'game'|'animation'} Domain */
@@ -22,3 +23,14 @@ export const isValidPath = (url) => {
 	const domain = getDomain(url);
 	return domain == 'game' || domain == 'animation';
 };
+
+/** @type (url: string) => string */
+export const getPath = (url) => {
+	const match = url.match(pathRegex);
+	if (!match?.[1]) return '';
+	let path = match[1];
+	if (path.endsWith('/')) {
+		path = path.slice(0, -1);
+	}
+	return path;
+}
