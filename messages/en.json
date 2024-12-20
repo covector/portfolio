@@ -2,5 +2,7 @@
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"game": "GAME",
 	"animation": "ANIMATION",
-	"scroll": "Scroll down"
+	"scroll": "Scroll down",
+	"chameleon_title": "Chameleon",
+	"chameleon_description": "A survival horror game, where you collect items while being hunted down by a shape-shifting monster."
 }

@@ -18,6 +18,8 @@
 		isMobile = mobileAndTabletCheck();
 	});
 
+	const domain = $derived(getContext('domain').current);
+
 	/**
 	 * @param {number} t current value
 	 * @param {number} start start of range
@@ -118,6 +120,9 @@
 
 	/** @param {Event} e */
 	function onScroll(e) {
+		if (domain !== 'animation') {
+			return;
+		}
 		if (isMobile) {
 			window.scrollTo(0, mobileScroll);
 		} else {
@@ -155,12 +160,18 @@
 	);
 	/** @param {TouchEvent} e*/
 	function handleTouchStart(e) {
+		if (domain !== 'animation') {
+			return;
+		}
 		// @ts-ignore
 		const firstTouch = (e.touches || e.originalEvent?.touches)[0];
 		yDown = firstTouch.clientY;
 	}
 	/** @param {TouchEvent} e*/
 	function handleTouchMove(e) {
+		if (domain !== 'animation') {
+			return;
+		}
 		// e.preventDefault();
 		// e.stopPropagation();
 		// @ts-ignore
@@ -169,6 +180,9 @@
 	}
 	/** @param {TouchEvent} e*/
 	function handleTouchEnd(e) {
+		if (domain !== 'animation') {
+			return;
+		}
 		if (yDown && yUp) {
 			if (yDown - yUp > 100 && mobileViewingIndex < animationData.length - 1) {
 				mobileViewingIndex++;
@@ -197,7 +211,7 @@
 	}
 </script>
 
-<div class="min-h-screen w-full" style:height={totalHeight + 'px'}>
+<div class="overflow-scroll-y h-screen w-full" style:height={totalHeight + 'px'}>
 	{#each animationData as data, i (i)}
 		<div
 			class={'card fixed right-[4.166667%] w-11/12 transition-transform duration-500 ease-[cubic-bezier(.77,0,.33,1)] sm:w-5/6 md:w-3/5' +
@@ -210,24 +224,28 @@
 			) + 'vh'}
 		>
 			<div
-				class="video-wrap max-w-full -translate-y-1/2 rounded-2xl"
-				style:width="max-content"
-				style:--translate-y={backCardMap(
-					scroll,
-					i * ANIMATION_SCROLL_HEIGHT,
-					(i + 1) * ANIMATION_SCROLL_HEIGHT
-				) + 'vh'}
+				style:transform={`translateY(${scroll == 0 || scroll == totalHeight - window.innerHeight ? getContext('overscroll').current : 0}px)`}
 			>
-				<PlayVideo
-					class="animation-vid size-auto rounded-2xl"
-					loop
-					muted
-					play={scroll <= 0
-						? true
-						: isVisible(scroll, i * ANIMATION_SCROLL_HEIGHT, (i + 1) * ANIMATION_SCROLL_HEIGHT)}
-					uri="{fixBase(base)}{data.uri}"
-					alt={data.name}
-				/>
+				<div
+					class="video-wrap max-w-full -translate-y-1/2 rounded-2xl"
+					style:width="max-content"
+					style:--translate-y={backCardMap(
+						scroll,
+						i * ANIMATION_SCROLL_HEIGHT,
+						(i + 1) * ANIMATION_SCROLL_HEIGHT
+					) + 'vh'}
+				>
+					<PlayVideo
+						class="animation-vid size-auto rounded-2xl"
+						loop
+						muted
+						play={scroll <= 0
+							? true
+							: isVisible(scroll, i * ANIMATION_SCROLL_HEIGHT, (i + 1) * ANIMATION_SCROLL_HEIGHT)}
+						uri="{fixBase(base)}{data.uri}"
+						alt={data.name}
+					/>
+				</div>
 			</div>
 		</div>
 		<div
@@ -273,22 +291,5 @@
 	:global(.animation-vid) {
 		max-height: 70vh;
 		clip-path: fill-box;
-	}
-
-	:global(::-webkit-scrollbar) {
-		width: 10px;
-	}
-
-	:global(::-webkit-scrollbar-track) {
-		background: #fae4ff;
-	}
-
-	:global(::-webkit-scrollbar-thumb) {
-		background-color: #c76fdd;
-		border-radius: 5px;
-	}
-
-	:global(::-webkit-scrollbar-thumb:hover) {
-		background-color: #c05ea8;
 	}
 </style>

@@ -11,6 +11,9 @@
 	import AnimationScroll from './animation/AnimationScroll.svelte';
 	import MeasurementProvider from './MeasurementProvider.svelte';
 	import Blob from './common/Blob.svelte';
+	import GameGrid from './game/GameGrid.svelte';
+	import OverscrollProvider from './OverscrollProvider.svelte';
+	import ScrollColor from './common/ScrollColor.svelte';
 	/** @typedef {import("$lib/domain.js").Domain} Domain */
 
 	let lang = $state(runtime.languageTag());
@@ -25,27 +28,34 @@
 	});
 </script>
 
-<div
-	class="fixed left-0 top-0 z-10 flex h-12 w-full flex-col items-center gap-4 px-6 pb-2 pt-6 sm:grid"
->
-	<div class="row-col-1 justify-self-center"><DomainSelect /></div>
-	<div class="row-col-1 justify-self-end"><LanguageSelect /></div>
-</div>
-<div class="fixed left-0 top-0 z-10 h-screen py-10 pl-6">
-	<MeasurementProvider>
-		<Watermark />
-	</MeasurementProvider>
-</div>
-
-<div class="min-h-screen w-full transition-colors duration-1000">
-	<MeasurementProvider>
-		<div class:hidden={domain.current !== 'animation'}>
-			<AnimationScroll />
+<OverscrollProvider>
+	<ScrollColor>
+		<div
+			class="fixed left-0 top-0 z-10 flex h-12 w-full flex-col items-center gap-4 px-6 pb-2 pt-6 sm:grid"
+		>
+			<div class="row-col-1 justify-self-center"><DomainSelect /></div>
+			<div class="row-col-1 justify-self-end"><LanguageSelect /></div>
 		</div>
-	</MeasurementProvider>
-</div>
+		<div class="fixed left-0 top-0 z-10 h-screen py-10 pl-6">
+			<MeasurementProvider>
+				<Watermark />
+			</MeasurementProvider>
+		</div>
 
-<Blob />
+		<div class="min-h-screen w-full transition-colors duration-1000">
+			<MeasurementProvider>
+				<div class:hidden={domain.current !== 'game'}>
+					<GameGrid />
+				</div>
+				<div class:hidden={domain.current !== 'animation'}>
+					<AnimationScroll />
+				</div>
+			</MeasurementProvider>
+		</div>
+
+		<Blob />
+	</ScrollColor>
+</OverscrollProvider>
 
 <style>
 	.row-col-1 {

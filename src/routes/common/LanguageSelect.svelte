@@ -78,6 +78,7 @@
 <div
 	class="flex w-fit cursor-pointer select-none rounded-full border transition-colors duration-300"
 	style:border-color={borderColor[domain]}
+	style:transform={`translateY(${getContext('overscroll').current / 40}px)`}
 >
 	{#each LANGS as l (l)}
 		<button

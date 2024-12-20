@@ -55,9 +55,10 @@
 </script>
 
 <div
-	class="flex w-fit cursor-pointer select-none rounded-full transition-colors duration-1000 {lang ??
+	class="relative flex w-fit cursor-pointer select-none rounded-full transition-colors duration-1000 {lang ??
 		'en'}"
 	style:background={bgColor[domain]}
+	style:transform={`translateY(${getContext('overscroll').current / 20}px)`}
 >
 	{#each DOMAINS as d (d)}
 		{@const Component = iconTag[d]}

@@ -2,5 +2,7 @@
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"game": "遊戲",
 	"animation": "動畫",
-	"scroll": "向下捲動"
+	"scroll": "向下捲動",
+	"chameleon_title": "辨識龍",
+	"chameleon_description": "玩家會在被變形怪物追殺的同時收集物件。一款生存恐怖游戲。"
 }

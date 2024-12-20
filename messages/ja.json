@@ -2,5 +2,7 @@
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"game": "ゲーム",
 	"animation": "アニメ",
-	"scroll": "スクロールしてください"
+	"scroll": "スクロールしてください",
+	"chameleon_title": "カメレオン",
+	"chameleon_description": "変身怪物に追い詰められながらアイテムを集める、というサバイバル・ホラーゲームです。"
 }
