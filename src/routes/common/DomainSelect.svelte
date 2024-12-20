@@ -6,6 +6,7 @@
 	import { goto } from '$app/navigation';
 	import { DOMAINS } from '$lib/domain.js';
 	import { base } from '$app/paths';
+	import { fixBase } from '$lib/utils';
 
 	/** @typedef {import("$lib/domain.js").Domain} Domain */
 
@@ -48,7 +49,7 @@
 	/** @type {(d: Domain) => void} */
 	const setDomain = (d) => {
 		// const lang = getContext('lang');
-		const newPath = lang == 'en' ? `${base}${d}` : `${base}${lang}/${d}`;
+		const newPath = lang == 'en' ? `${fixBase(base)}${d}` : `${fixBase(base)}${lang}/${d}`;
 		goto(newPath);
 	};
 </script>

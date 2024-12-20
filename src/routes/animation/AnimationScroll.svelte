@@ -2,7 +2,7 @@
 	import { animationData } from '$lib/animation_data';
 	import { getContext, onMount } from 'svelte';
 	import PlayVideo from './PlayVideo.svelte';
-	import { mobileAndTabletCheck } from '$lib/utils';
+	import { fixBase, mobileAndTabletCheck } from '$lib/utils';
 	import { base } from '$app/paths';
 
 	const ANIMATION_SCROLL_HEIGHT = 1000;
@@ -66,6 +66,9 @@
 	 * @param {number} end end of range
 	 */
 	function frontCardMap(t, start, end) {
+		if (isMobile) {
+			return 50;
+		}
 		return Relu6Map(t, start, end, 55, 45);
 	}
 	/**
@@ -74,6 +77,9 @@
 	 * @param {number} end end of range
 	 */
 	function backCardMap(t, start, end) {
+		if (isMobile) {
+			return -1;
+		}
 		return Relu6Map(t, start, end, -4, 2);
 	}
 	/**
@@ -85,10 +91,19 @@
 		const isPhone = getContext('size').width <= 640;
 		const isTablet = getContext('size').width <= 768;
 		if (isPhone) {
+			if (isMobile) {
+				return 20;
+			}
 			return Relu6Map(t, start, end, 25, 15);
 		} else if (isTablet) {
+			if (isMobile) {
+				return 13;
+			}
 			return Relu6Map(t, start, end, 18, 8);
 		} else {
+			if (isMobile) {
+				return 50;
+			}
 			return Relu6Map(t, start, end, 60, 40);
 		}
 	}
@@ -210,7 +225,7 @@
 					play={scroll <= 0
 						? true
 						: isVisible(scroll, i * ANIMATION_SCROLL_HEIGHT, (i + 1) * ANIMATION_SCROLL_HEIGHT)}
-					uri="{base}{data.uri}"
+					uri="{fixBase(base)}{data.uri}"
 					alt={data.name}
 				/>
 			</div>

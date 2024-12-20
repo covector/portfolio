@@ -15,3 +15,8 @@ export function mobileAndTabletCheck() {
 	})(navigator.userAgent || navigator.vendor || window.opera);
 	return check;
 }
+
+/** @param {string} base */
+export function fixBase(base) {
+	return base === '/' ? base : base + '/';
+}
