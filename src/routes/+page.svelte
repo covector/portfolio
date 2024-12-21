@@ -1,6 +1,6 @@
 <script>
 	import { afterNavigate } from '$app/navigation';
-	import { getDomainFromUrl } from '$lib/domain';
+	import { getDomainFromUrl, getPath } from '$lib/domain';
 	import * as runtime from '$lib/paraglide/runtime';
 	import DomainSelect from './common/DomainSelect.svelte';
 	import { setContext } from 'svelte';
@@ -14,10 +14,12 @@
 	import GameGrid from './game/GameGrid.svelte';
 	import OverscrollProvider from './OverscrollProvider.svelte';
 	import ScrollColor from './common/ScrollColor.svelte';
+	import Chameleon from './game/Chameleon.svelte';
 	/** @typedef {import("$lib/domain.js").Domain} Domain */
 
 	let lang = $state(runtime.languageTag());
-	let domain = $state({ current: getDomainFromUrl($page.url.pathname) });
+	let domain = $state({ current: getDomainFromUrl(i18n.route($page.url.pathname)) });
+	let subdomain = $state({ current: getPath(i18n.route($page.url.pathname)) });
 
 	setContext('lang', lang);
 	setContext('domain', domain);
@@ -25,6 +27,7 @@
 	afterNavigate(() => {
 		const path = i18n.route($page.url.pathname);
 		domain.current = getDomainFromUrl(path);
+		subdomain.current = getPath(path);
 	});
 </script>
 
@@ -45,7 +48,11 @@
 		<div class="min-h-screen w-full transition-colors duration-1000">
 			<MeasurementProvider>
 				<div class:hidden={domain.current !== 'game'}>
-					<GameGrid />
+					{#if subdomain.current === ''}
+						<GameGrid />
+					{:else if subdomain.current === 'chameleon'}
+						<Chameleon />
+					{/if}
 				</div>
 				<div class:hidden={domain.current !== 'animation'}>
 					<AnimationScroll />

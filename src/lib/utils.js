@@ -1,3 +1,8 @@
+import { goto } from "$app/navigation";
+import { page } from '$app/stores';
+import { get } from 'svelte/store';
+import { i18n } from "./i18n";
+
 // from https://stackoverflow.com/a/11381730
 export function mobileAndTabletCheck() {
 	let check = false;
@@ -19,4 +24,11 @@ export function mobileAndTabletCheck() {
 /** @param {string} base */
 export function fixBase(base) {
 	return base === '/' ? base : base + '/';
+}
+
+/** @param {string} url  */
+export function gotoPage(url) {
+	const lang = i18n.getLanguageFromUrl(get(page).url);
+	const localisedPath = i18n.resolveRoute(`${url}`, lang);
+	goto(localisedPath);
 }

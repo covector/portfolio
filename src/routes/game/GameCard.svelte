@@ -1,7 +1,5 @@
 <script>
-	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
-	import { i18n } from '$lib/i18n';
+	import { gotoPage } from '$lib/utils';
 	import { onMount } from 'svelte';
 
 	/** @typedef {Object} Props
@@ -13,13 +11,6 @@
 	 */
 	/** @type {Props} */
 	const { title, description, image, previewVideo, link } = $props();
-
-	/** @param {string} url  */
-	function gotoPage(url) {
-		const lang = i18n.getLanguageFromUrl($page.url);
-		const localisedPath = i18n.resolveRoute(`${url}`, lang);
-		goto(localisedPath);
-	}
 
 	let hover = $state(false);
     /** @type {HTMLVideoElement} */
