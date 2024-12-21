@@ -4,5 +4,11 @@
 	"animation": "アニメ",
 	"scroll": "スクロールしてください",
 	"chameleon_title": "カメレオン",
-	"chameleon_description": "変身怪物に追い詰められながらアイテムを集める、というサバイバル・ホラーゲームです。"
+	"chameleon_description": "変身怪物に追い詰められながらアイテムを集める、というサバイバル・ホラーゲームです。",
+	"chameleon_longdesc": "「<span style='color:#5D3CED'>変身怪物</span>に追い詰められながらアイテムを集める、という<span style='color:#D44141'>サバイバル・ホラーゲーム</span>です。」",
+	"features": "特徴",
+	"procedural_generation": "手続き型生成",
+	"procedural_generation_description": "すべての環境的な素材は擬似乱数によって手続き型生成されます。",
+	"model_assets": "モデル素材",
+	"model_assets_description": "他の素材は自分がBlenderでモデリングしてアニメしていました"
 }

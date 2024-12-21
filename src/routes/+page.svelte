@@ -34,7 +34,7 @@
 <OverscrollProvider>
 	<ScrollColor>
 		<div
-			class="fixed left-0 top-0 z-10 flex h-12 w-full flex-col items-center gap-4 px-6 pb-2 pt-6 sm:grid"
+			class="fixed left-0 top-0 z-10 flex h-12 w-full flex-col items-center gap-4 px-6 pb-2 pt-6 md:grid"
 		>
 			<div class="row-col-1 justify-self-center"><DomainSelect /></div>
 			<div class="row-col-1 justify-self-end"><LanguageSelect /></div>

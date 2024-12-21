@@ -51,7 +51,7 @@
 			</video>
 		</div>
 		<div class="px-3 pt-3 text-left text-xl font-bold" style:color="#DFDDF9">{title}</div>
-		<div class="px-3 pt-1 text-left text-sm" style:color="#84719E">{description}</div>
+		<div class="px-3 pt-1 text-left text-base" style:color="#84719E">{description}</div>
 	</div>
 </button>
 

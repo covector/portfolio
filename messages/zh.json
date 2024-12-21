@@ -4,5 +4,11 @@
 	"animation": "動畫",
 	"scroll": "向下捲動",
 	"chameleon_title": "辨識龍",
-	"chameleon_description": "玩家會在被變形怪物追殺的同時收集物件。一款生存恐怖游戲。"
+	"chameleon_description": "玩家會在被變形怪物追殺的同時收集物件。一款生存恐怖游戲。",
+	"chameleon_longdesc": "「玩家會在被<span style='color:#5D3CED'>變形怪物</span>追殺的同時收集物件。一款<span style='color:#D44141'>生存恐怖</span>游戲。」",
+	"features": "特點",
+	"procedural_generation": "程序化生成",
+	"procedural_generation_description": "所有的環境素材都是由偽隨機數程序產生的。",
+	"model_assets": "模型素材",
+	"model_assets_description": "其他素材由我在Blender裏建模和動畫的。"
 }

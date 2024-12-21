@@ -33,3 +33,8 @@ export function gotoPage(url) {
 	const newPath = lang == 'en' ? `${fixBase(base)}${url}` : `${fixBase(base)}${lang}/${url}`;
 	goto(newPath);
 }
+
+/** @param {string} url */
+export function image(url) {
+	return `${fixBase(base)}${url}`;
+}
