@@ -1,5 +1,6 @@
 import { goto } from '$app/navigation';
 import { page } from '$app/stores';
+import { base } from '$app/paths';
 import { get } from 'svelte/store';
 import { i18n } from './i18n';
 
@@ -29,6 +30,6 @@ export function fixBase(base) {
 /** @param {string} url  */
 export function gotoPage(url) {
 	const lang = i18n.getLanguageFromUrl(get(page).url);
-	const localisedPath = i18n.resolveRoute(`${url}`, lang);
-	goto(localisedPath);
+	const newPath = lang == 'en' ? `${fixBase(base)}${url}` : `${fixBase(base)}${lang}/${url}`;
+	goto(newPath);
 }

@@ -6,7 +6,7 @@
 	class="relative z-30 text-white"
 	onclick={() => {
 		console.log('click');
-		gotoPage('/game');
+		gotoPage('game');
 	}}
 >
 	Back

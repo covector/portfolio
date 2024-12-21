@@ -35,7 +35,7 @@
 				description={m[`${game.id}_description`]()}
 				image={fixBase(base) + game.image}
 				previewVideo={fixBase(base) + game.previewVideo}
-				link="/game/{game.id}"
+				link="game/{game.id}"
 			/>
 		</div>
 	{/each}
