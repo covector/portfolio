@@ -1,7 +1,7 @@
-import { goto } from "$app/navigation";
+import { goto } from '$app/navigation';
 import { page } from '$app/stores';
 import { get } from 'svelte/store';
-import { i18n } from "./i18n";
+import { i18n } from './i18n';
 
 // from https://stackoverflow.com/a/11381730
 export function mobileAndTabletCheck() {

@@ -33,4 +33,4 @@ export const getPath = (url) => {
 		path = path.slice(0, -1);
 	}
 	return path;
-}
+};

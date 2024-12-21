@@ -13,39 +13,43 @@
 	const { title, description, image, previewVideo, link } = $props();
 
 	let hover = $state(false);
-    /** @type {HTMLVideoElement} */
-    let videoComponent;
-    onMount(() => {
-        videoComponent.pause();
-    });
+	/** @type {HTMLVideoElement} */
+	let videoComponent;
+	onMount(() => {
+		videoComponent.pause();
+	});
 </script>
 
 <button
 	class="flex h-72 w-64 flex-col transition-transform"
 	onclick={() => gotoPage(link)}
-	onmouseenter={() => { hover = true; videoComponent.play(); }}
-    onmouseleave={() => { hover = false; videoComponent.pause(); }}
+	onmouseenter={() => {
+		hover = true;
+		videoComponent.play();
+	}}
+	onmouseleave={() => {
+		hover = false;
+		videoComponent.pause();
+	}}
 >
 	<div
 		class="size-full rounded-xl border"
 		style:border-color="#9675A6"
 		style:background="linear-gradient(167deg, rgba(34,25,46,1) 0%, rgba(63,49,65,1) 100%)"
 	>
-	<div class="relative h-32 w-full rounded-t-xl">
-		<img
-			src={image}
-			alt="thumbnail"
-			class="size-full absolute rounded-t-xl object-cover"
-		/>
-		<video
-			class="size-full absolute rounded-t-xl object-cover z-10 transition-opacity"
-			style:opacity={hover ? 1 : 0}
-			loop muted autoplay
-			bind:this={videoComponent}
+		<div class="relative h-32 w-full rounded-t-xl">
+			<img src={image} alt="thumbnail" class="absolute size-full rounded-t-xl object-cover" />
+			<video
+				class="absolute z-10 size-full rounded-t-xl object-cover transition-opacity"
+				style:opacity={hover ? 1 : 0}
+				loop
+				muted
+				autoplay
+				bind:this={videoComponent}
 			>
-			<source src={previewVideo} type="video/mp4" />
-		</video>
-	</div>
+				<source src={previewVideo} type="video/mp4" />
+			</video>
+		</div>
 		<div class="px-3 pt-3 text-left text-xl font-bold" style:color="#DFDDF9">{title}</div>
 		<div class="px-3 pt-1 text-left text-sm" style:color="#84719E">{description}</div>
 	</div>

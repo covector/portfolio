@@ -7,13 +7,21 @@
 
 	/** @type {{id: string, image: string, previewVideo: string}[]} */
 	const games = [
-		{ id: 'chameleon', image: 'games/thumbnails/test.png', previewVideo: 'games/thumbnails/test.mp4' },
-		{ id: 'chameleon', image: 'games/thumbnails/test.png', previewVideo: 'games/thumbnails/test.mp4' }
+		{
+			id: 'chameleon',
+			image: 'games/thumbnails/test.png',
+			previewVideo: 'games/thumbnails/test.mp4'
+		},
+		{
+			id: 'chameleon',
+			image: 'games/thumbnails/test.png',
+			previewVideo: 'games/thumbnails/test.mp4'
+		}
 	];
 </script>
 
 <div
-	class="absolute right-0 grid w-11/12 grid-cols-1 justify-items-center gap-y-12 py-40 sm:grid-cols-2 min-[1000px]:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
+	class="absolute right-0 grid w-full grid-cols-1 justify-items-center gap-y-12 py-40 sm:w-11/12 sm:grid-cols-2 min-[1000px]:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
 	style:transform={`translateY(${getContext('overscroll').current}px)`}
 >
 	{#each games as game, i (i)}
@@ -27,7 +35,7 @@
 				description={m[`${game.id}_description`]()}
 				image={fixBase(base) + game.image}
 				previewVideo={fixBase(base) + game.previewVideo}
-				link="game/{game.id}"
+				link="/game/{game.id}"
 			/>
 		</div>
 	{/each}
