@@ -5,29 +5,31 @@
 </script>
 
 <div>
+	{/* DEMO SECTION */ null}
 	<button
-		class="absolute left-8 top-10 z-30 sm:left-20 sm:top-20 lg:left-28"
+		class="absolute left-8 top-32 min-[400px]:top-10 z-30 sm:left-20 sm:top-20 lg:left-28"
 		onclick={() => gotoPage('game')}
 	>
-		<BackIcon color="#DFDDF9" class="h-10 w-10" />
+		<BackIcon color="#DFDDF9" class="size-6 sm:size-10" />
 	</button>
 	<img
 		src={image('games/chameleon/banner.png')}
 		alt="chameleon banner"
 		class="absolute left-1/2 top-40 z-10 w-2/6 -translate-x-1/2 md:top-20"
 	/>
-
 	<div
-		class="relative mt-48 flex flex-col items-center gap-20 md:mt-32 lg:ml-64 lg:mr-12 lg:mt-40 lg:flex-row lg:items-end 2xl:mt-52"
+		class="relative mt-48 flex flex-col items-center gap-20 md:mt-32 ml-0 xl:ml-64 xl:mr-12 xl:mt-40 xl:flex-row xl:items-end 2xl:mt-52"
 	>
-		<div class="relative w-4/6 shrink-0">
+		<div class="relative w-[80vw] sm:w-[60vw] shrink-0">
 			{/* yt demo */ null}
 			<div class="relative w-full pt-[56.25%]">
 				<iframe
-					class="absolute bottom-0 left-0 right-0 top-0 h-full w-full rounded-md sm:rounded-xl xl:rounded-3xl"
-					height="1000"
-					src="https://www.youtube.com/embed/cNu3ARoF3js?autoplay=1&loop=1"
-					allow="autoplay"
+					class="absolute bottom-0 left-0 right-0 top-0 size-full rounded-md sm:rounded-xl xl:rounded-3xl"
+					height="1080"
+					width="1920"
+					frameborder="0"
+					src="https://www.youtube.com/embed/cNu3ARoF3js?vq=hd720p;feature=oembed&amp;hd=1&amp;modestbranding=1&amp;autohide=1&amp;showinfo=0&&amp;autoplay=1"
+					allow="autoplay; encrypted-media" allowfullscreen
 				></iframe>
 			</div>
 			{/* back rect */ null}
@@ -51,10 +53,19 @@
 		</div>
 
 		<div
-			class="relative bottom-14 mx-20 mt-10 shrink text-lg font-bold lg:mx-0 lg:mt-0 xl:text-xl"
+			class="relative bottom-14 mx-20 mt-10 shrink font-bold xl:mx-0 xl:mt-0 text-base md:text-lg xl:text-base 2xl:text-xl"
 			style:color="#84719E"
 		>
 			{@html m.chameleon_longdesc()}
+		</div>
+	</div>
+
+
+
+	{/* FEATURES SECTION */ null}
+	<div class="relative h-screen w-full">
+		<div class="w-1/2">
+
 		</div>
 	</div>
 </div>

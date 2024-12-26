@@ -10,12 +10,12 @@
 		{
 			id: 'chameleon',
 			image: 'games/thumbnails/test.png',
-			previewVideo: 'games/thumbnails/test.mp4'
+			previewVideo: 'games/thumbnails/test.webm'
 		},
 		{
 			id: 'chameleon',
 			image: 'games/thumbnails/test.png',
-			previewVideo: 'games/thumbnails/test.mp4'
+			previewVideo: 'games/thumbnails/test.webm'
 		}
 	];
 </script>
