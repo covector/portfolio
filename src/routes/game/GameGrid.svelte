@@ -5,16 +5,38 @@
 	import { getContext, onMount } from 'svelte';
 	import GameCard from './GameCard.svelte';
 
-	/** @type {{id: string, image: string, previewVideo?: string}[]} */
+	/** @typedef {Object} ColorProps
+		 * @property {string} borderColor
+		 * @property {string} background
+		 * @property {string} titleColor
+		 * @property {string} descColor
+		 * @property {string} hoverColor
+	 */
+
+	/** @type {{id: string, image: string, previewVideo?: string, colors: ColorProps}[]} */
 	const games = [
 		{
 			id: 'chameleon',
 			image: 'games/thumbnails/test.png',
-			previewVideo: 'games/thumbnails/test.webm'
+			previewVideo: 'games/thumbnails/test.webm',
+			colors: {
+				borderColor: '#9675A6',
+				background: 'linear-gradient(167deg, rgba(34,25,46,1) 0%, rgba(63,49,65,1) 100%)',
+				titleColor: '#DFDDF9',
+				descColor: '#84719E',
+				hoverColor: '#47428b'
+			}
 		},
 		{
 			id: 'pivot',
-			image: 'games/thumbnails/pivot_thumbnail.png'
+			image: 'games/thumbnails/pivot_thumbnail.png',
+			colors: {
+				borderColor: '#75A69A',
+				background: 'linear-gradient(167deg, #192E22 0%, #314141 100%)',
+				titleColor: '#DDF9F1',
+				descColor: '#719E9B',
+				hoverColor: '#468976'
+			}
 		}
 	];
 </script>
@@ -35,6 +57,7 @@
 				image={fixBase(base) + game.image}
 				previewVideo={game.previewVideo && fixBase(base) + game.previewVideo}
 				link="game/{game.id}"
+				colors={game.colors}
 			/>
 		</div>
 	{/each}

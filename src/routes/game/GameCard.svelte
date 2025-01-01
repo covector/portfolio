@@ -2,15 +2,24 @@
 	import { gotoPage } from '$lib/utils';
 	import { onMount } from 'svelte';
 
+	/** @typedef {Object} ColorProps
+	 * @property {string} borderColor
+	 * @property {string} background
+	 * @property {string} titleColor
+	 * @property {string} descColor
+	 * @property {string} hoverColor
+	 */
+
 	/** @typedef {Object} Props
 	 * @property {string} title
 	 * @property {string} description
 	 * @property {string} image
 	 * @property {string|undefined} previewVideo
 	 * @property {string} link
+	 * @property {ColorProps} colors
 	 */
 	/** @type {Props} */
-	const { title, description, image, previewVideo, link } = $props();
+	const { title, description, image, previewVideo, link, colors } = $props();
 
 	let hover = $state(false);
 	/** @type {HTMLVideoElement|null} */
@@ -25,6 +34,7 @@
 <button
 	class="flex h-72 w-64 flex-col transition-transform"
 	onclick={() => gotoPage(link)}
+	style:--hoverColor={colors.hoverColor}
 	onmouseenter={() => {
 		if (videoComponent && previewVideo) {
 			hover = true;
@@ -38,12 +48,8 @@
 		}
 	}}
 >
-	<div
-		class="size-full rounded-xl border"
-		style:border-color="#9675A6"
-		style:background="linear-gradient(167deg, rgba(34,25,46,1) 0%, rgba(63,49,65,1) 100%)"
-	>
-		<div class="relative h-32 w-full rounded-t-xl">
+	<div class="size-full">
+		<div class="relative h-32 w-full rounded-t-xl z-10">
 			<img src={image} alt="thumbnail" class="absolute size-full rounded-t-xl object-cover" />
 			{#if previewVideo}	
 			<video
@@ -58,8 +64,13 @@
 			</video>
 			{/if}
 		</div>
-		<div class="px-3 pt-3 text-left text-xl font-bold" style:color="#DFDDF9">{title}</div>
-		<div class="px-3 pt-1 text-left text-base" style:color="#84719E">{description}</div>
+		<div class="px-3 pt-3 text-left text-xl font-bold z-10 relative" style:color={colors.titleColor}>{title}</div>
+		<div class="px-3 pt-1 text-left text-base z-10 relative" style:color={colors.descColor}>{description}</div>
+		<div
+			class="w-full h-5/6 rounded-xl border absolute bottom-0 left-0"
+			style:border-color={colors.borderColor}
+			style:background={colors.background}
+		></div>
 	</div>
 </button>
 
@@ -71,7 +82,7 @@
 	button::before {
 		content: '';
 		display: block;
-		background-color: #47428b;
+		background: var(--hoverColor);
 		width: 100%;
 		height: 100%;
 		position: absolute;
