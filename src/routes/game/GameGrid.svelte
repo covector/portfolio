@@ -5,7 +5,7 @@
 	import { getContext, onMount } from 'svelte';
 	import GameCard from './GameCard.svelte';
 
-	/** @type {{id: string, image: string, previewVideo: string}[]} */
+	/** @type {{id: string, image: string, previewVideo?: string}[]} */
 	const games = [
 		{
 			id: 'chameleon',
@@ -13,9 +13,8 @@
 			previewVideo: 'games/thumbnails/test.webm'
 		},
 		{
-			id: 'chameleon',
-			image: 'games/thumbnails/test.png',
-			previewVideo: 'games/thumbnails/test.webm'
+			id: 'pivot',
+			image: 'games/thumbnails/pivot_thumbnail.png'
 		}
 	];
 </script>
@@ -34,7 +33,7 @@
 				title={m[`${game.id}_title`]()}
 				description={m[`${game.id}_description`]()}
 				image={fixBase(base) + game.image}
-				previewVideo={fixBase(base) + game.previewVideo}
+				previewVideo={game.previewVideo && fixBase(base) + game.previewVideo}
 				link="game/{game.id}"
 			/>
 		</div>

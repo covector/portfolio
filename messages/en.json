@@ -10,5 +10,7 @@
 	"procedural_generation": "Procedural Generation",
 	"procedural_generation_description": "All environmental assets are procedurally generated via psuedo-random.",
 	"model_assets": "Model Assets",
-	"model_assets_description": "Other assets are modelled and animated in Blender by myself."
+	"model_assets_description": "Other assets are modelled and animated in Blender by myself.",
+	"pivot_title": "piVot",
+	"pivot_description": "A casual game where you fight of monsters by only manipulating the pivot point to move around."
 }

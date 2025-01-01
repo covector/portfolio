@@ -10,5 +10,7 @@
 	"procedural_generation": "手続き型生成",
 	"procedural_generation_description": "すべての環境的な素材は擬似乱数によって手続き型生成されます。",
 	"model_assets": "モデル素材",
-	"model_assets_description": "他の素材は自分がBlenderでモデリングしてアニメしていました"
+	"model_assets_description": "他の素材は自分がBlenderでモデリングしてアニメしていました",
+	"pivot_title": "クルクル",
+	"pivot_description": "回転軸を操作するだけで歩き回って、怪物と戦うカジュアルゲームです。"
 }

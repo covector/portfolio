@@ -10,5 +10,7 @@
 	"procedural_generation": "程序化生成",
 	"procedural_generation_description": "所有的環境素材都是由偽隨機數程序產生的。",
 	"model_assets": "模型素材",
-	"model_assets_description": "其他素材由我在Blender裏建模和動畫的。"
+	"model_assets_description": "其他素材由我在Blender裏建模和動畫的。",
+	"pivot_title": "轉來轉去",
+	"pivot_description": "一個利用改變旋轉軸來四處移動，擊退怪物的休閒遊戲。"
 }

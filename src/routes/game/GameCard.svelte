@@ -6,17 +6,19 @@
 	 * @property {string} title
 	 * @property {string} description
 	 * @property {string} image
-	 * @property {string} previewVideo
+	 * @property {string|undefined} previewVideo
 	 * @property {string} link
 	 */
 	/** @type {Props} */
 	const { title, description, image, previewVideo, link } = $props();
 
 	let hover = $state(false);
-	/** @type {HTMLVideoElement} */
-	let videoComponent;
+	/** @type {HTMLVideoElement|null} */
+	let videoComponent = $state(null);
 	onMount(() => {
-		videoComponent.pause();
+		if (videoComponent) {
+			videoComponent.pause();
+		}
 	});
 </script>
 
@@ -24,12 +26,16 @@
 	class="flex h-72 w-64 flex-col transition-transform"
 	onclick={() => gotoPage(link)}
 	onmouseenter={() => {
-		hover = true;
-		videoComponent.play();
+		if (videoComponent && previewVideo) {
+			hover = true;
+			videoComponent.play();
+		}
 	}}
 	onmouseleave={() => {
-		hover = false;
-		videoComponent.pause();
+		if (videoComponent && previewVideo) {
+			hover = false;
+			videoComponent.pause();
+		}
 	}}
 >
 	<div
@@ -39,6 +45,7 @@
 	>
 		<div class="relative h-32 w-full rounded-t-xl">
 			<img src={image} alt="thumbnail" class="absolute size-full rounded-t-xl object-cover" />
+			{#if previewVideo}	
 			<video
 				class="absolute z-10 size-full rounded-t-xl object-cover transition-opacity"
 				style:opacity={hover ? 1 : 0}
@@ -49,6 +56,7 @@
 			>
 				<source src={previewVideo} type="video/mp4" />
 			</video>
+			{/if}
 		</div>
 		<div class="px-3 pt-3 text-left text-xl font-bold" style:color="#DFDDF9">{title}</div>
 		<div class="px-3 pt-1 text-left text-base" style:color="#84719E">{description}</div>
