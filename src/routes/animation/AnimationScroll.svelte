@@ -239,6 +239,7 @@
 						class="animation-vid size-auto rounded-2xl"
 						loop
 						muted
+						playsinline
 						play={scroll <= 0
 							? true
 							: isVisible(scroll, i * ANIMATION_SCROLL_HEIGHT, (i + 1) * ANIMATION_SCROLL_HEIGHT)}

@@ -15,6 +15,7 @@
 	import OverscrollProvider from './OverscrollProvider.svelte';
 	import ScrollColor from './common/ScrollColor.svelte';
 	import Chameleon from './game/Chameleon.svelte';
+	import Pivot from './game/Pivot.svelte';
 	/** @typedef {import("$lib/domain.js").Domain} Domain */
 
 	let lang = $state(runtime.languageTag());
@@ -34,12 +35,12 @@
 <OverscrollProvider>
 	<ScrollColor>
 		<div
-			class="fixed left-0 top-0 z-10 flex h-12 w-full flex-col items-center gap-4 px-6 pb-2 pt-6 md:grid"
+			class="fixed left-0 top-0 z-50 flex h-12 w-full flex-col items-center gap-4 px-6 pb-2 pt-6 md:grid"
 		>
 			<div class="row-col-1 justify-self-center"><DomainSelect /></div>
 			<div class="row-col-1 justify-self-end"><LanguageSelect /></div>
 		</div>
-		<div class="fixed left-0 top-0 z-10 h-screen py-10 pl-6">
+		<div class="fixed left-0 top-0 z-50 h-screen py-10 pl-6">
 			<MeasurementProvider>
 				<Watermark />
 			</MeasurementProvider>
@@ -52,6 +53,10 @@
 						<GameGrid />
 					{:else if subdomain.current === 'chameleon'}
 						<Chameleon />
+					{:else if subdomain.current === 'pivot'}
+						<Pivot />
+					{:else}
+						<GameGrid />
 					{/if}
 				</div>
 				<div class:hidden={domain.current !== 'animation'}>
@@ -67,5 +72,9 @@
 <style>
 	.row-col-1 {
 		@apply col-start-1 col-end-1 row-start-1 row-end-1;
+	}
+
+	:global(html) {
+		scroll-behavior: smooth;
 	}
 </style>
