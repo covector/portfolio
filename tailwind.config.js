@@ -6,7 +6,8 @@ export default {
 		extend: {
 			fontFamily: {
 				sans: ['"Inter"', 'sans-serif'],
-				jersey: ['"Jersey 20"', 'sans-serif']
+				jersey: ['"Jersey 20"', 'sans-serif'],
+				dotgothic16: ['"DotGothic16"', 'sans-serif'],
 			}
 		},
 		screens: {

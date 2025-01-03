@@ -2,6 +2,8 @@
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"game": "GAME",
 	"animation": "ANIMATION",
+	"quote": "“",
+	"quote_end": "”",
 	"scroll": "Scroll down",
 	"chameleon_title": "Chameleon",
 	"chameleon_description": "A survival horror game, where you collect items while being hunted down by a shape-shifting monster.",
@@ -12,5 +14,11 @@
 	"model_assets": "Model Assets",
 	"model_assets_description": "Other assets are modelled and animated in Blender by myself.",
 	"pivot_title": "piVot",
-	"pivot_description": "A casual game where you fight of monsters by only manipulating the pivot point to move around."
+	"pivot_description": "A casual game where you fight of monsters by only manipulating the pivot point to move around.",
+	"gameplay": "GAMEPLAY",
+	"concept_arts": "CONCEPT<br />ARTS",
+	"weapon_art_desc": "Player Axe Weapon Design",
+	"cave_art_desc": "Cave Background Concept",
+	"monster_anim_desc": "Monster Draft Animation",
+	"monster_art_desc": "Monster Design Concept"
 }

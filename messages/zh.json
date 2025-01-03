@@ -2,6 +2,8 @@
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"game": "遊戲",
 	"animation": "動畫",
+	"quote": "「",
+	"quote_end": "」",
 	"scroll": "向下捲動",
 	"chameleon_title": "辨識龍",
 	"chameleon_description": "玩家會在被變形怪物追殺的同時收集物件。一款生存恐怖游戲。",
@@ -12,5 +14,11 @@
 	"model_assets": "模型素材",
 	"model_assets_description": "其他素材由我在Blender裏建模和動畫的。",
 	"pivot_title": "轉來轉去",
-	"pivot_description": "一個利用改變旋轉軸來四處移動，擊退怪物的休閒遊戲。"
+	"pivot_description": "一個利用改變旋轉軸來四處移動，擊退怪物的休閒遊戲。",
+	"gameplay": "遊戲片段",
+	"concept_arts": "概念設計",
+	"weapon_art_desc": "玩家斧頭武器設計",
+	"cave_art_desc": "洞穴背景",
+	"monster_anim_desc": "怪物草稿動畫",
+	"monster_art_desc": "怪物設計"
 }

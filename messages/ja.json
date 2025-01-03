@@ -2,6 +2,8 @@
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"game": "ゲーム",
 	"animation": "アニメ",
+	"quote": "「",
+	"quote_end": "」",
 	"scroll": "スクロールしてください",
 	"chameleon_title": "カメレオン",
 	"chameleon_description": "変身怪物に追い詰められながらアイテムを集める、というサバイバル・ホラーゲームです。",
@@ -12,5 +14,11 @@
 	"model_assets": "モデル素材",
 	"model_assets_description": "他の素材は自分がBlenderでモデリングしてアニメしていました",
 	"pivot_title": "クルクル",
-	"pivot_description": "回転軸を操作するだけで歩き回って、怪物と戦うカジュアルゲームです。"
+	"pivot_description": "回転軸を操作するだけで歩き回って、怪物と戦うカジュアルゲームです。",
+	"gameplay": "ゲームプレイ",
+	"concept_arts": "コンセプト<br />アート",
+	"weapon_art_desc": "プレーヤー斧の武器デザイン",
+	"cave_art_desc": "洞窟の背景デザイン",
+	"monster_anim_desc": "怪物のラフアニメーション",
+	"monster_art_desc": "怪物のコンセプトアート"
 }

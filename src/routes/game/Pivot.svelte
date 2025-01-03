@@ -2,12 +2,17 @@
 	import { gotoPage, image } from '$lib/utils';
 	import * as m from '$lib/paraglide/messages.js';
 	import HorizontalLine from '../common/svg/HorizontalLine.svelte';
-	import { onMount } from 'svelte';
+	import { getContext, onMount } from 'svelte';
 	import ArrowDown from '../common/svg/ArrowDown.svelte';
 	import VerticalLine from '../common/svg/VerticalLine.svelte';
 	import BackIcon from '../common/svg/BackIcon.svelte';
 	import Cross from '../common/svg/Cross.svelte';
 	import FlyIn from '../common/FlyIn.svelte';
+
+	/** @typedef {import("$lib/paraglide/runtime").AvailableLanguageTag} Lang */
+
+	/** @type {Lang} */
+	const lang = getContext('lang');
 
 	let scroll = $state(0);
 	onMount(() => {
@@ -72,6 +77,14 @@
 	let pixelated = $derived(largerView == 3);
 	let isVideo = $derived(largerView >= 0 ? artImg[largerView].endsWith('.mp4') : false);
 	let topCorner = $state({ x: 0, y: 0 });
+
+
+    let conceptArtsShow = $derived(window ? [
+        conceptArtScroll + (window?.innerHeight ?? 0) > 150,
+        conceptArtScroll + (window?.innerHeight ?? 0) > 650,
+        conceptArtScroll + (window?.innerHeight ?? 0) > 900,
+        conceptArtScroll + (window?.innerHeight ?? 0) > 1100,
+    ] : [false, false, false, false]);
 </script>
 
 <div class="w-full">
@@ -103,14 +116,14 @@
 				<div
 					class="banner-text center-x absolute bottom-1/4 flex w-5/6 flex-col items-center gap-7 sm:w-1/2 xl:bottom-[20%] xl:left-28 xl:w-1/3 xl:translate-x-0"
 				>
-					<img class="w-full" src={image('games/pivot/pivot_logo.png')} alt="logo" />
+					<img class="w-full select-none" src={image('games/pivot/pivot_logo.png')} alt="logo" />
 					<HorizontalLine stroke="#649B9F" strokeWidth="2" width="90%" class="xl:translate-x-4" />
 
 					<div
-						class="w-8/12 font-jersey text-2xl leading-6 lg:text-[1.6rem] xl:translate-x-8"
+						class="w-8/12 text-2xl {lang == "en" ? "font-jersey leading-6" : "font-dotgothic16 leading-9"} lg:text-[1.6rem] xl:translate-x-8"
 						style:color="#649B9F"
 					>
-						“{m.pivot_description()}”
+						{m.quote()}{m.pivot_description()}{m.quote_end()}
 					</div>
 					<HorizontalLine stroke="#649B9F" strokeWidth="2" width="90%" class="xl:translate-x-20" />
 
@@ -185,8 +198,8 @@
 				</svg>
 				<div class="flex h-full items-center gap-4 md:gap-6 xl:gap-8">
 					<VerticalLine stroke="#649B9F" strokeWidth="2" height="100%" class="w-1 lg:w-[6px]" />
-					<div class="font-jersey text-4xl leading-6 md:text-6xl lg:text-8xl" style:color="#649B9F">
-						GAMEPLAY
+					<div class="{lang == "en" ? "font-jersey text-4xl leading-6 md:text-6xl lg:text-8xl" : "font-dotgothic16 text-2xl md:text-4xl lg:text-6xl"}" style:color="#649B9F">
+						{m.gameplay()}
 					</div>
 					<VerticalLine stroke="#649B9F" strokeWidth="6" height="100%" class="w-1 lg:w-[6px]" />
 				</div>
@@ -239,7 +252,7 @@
 			<div class="relative w-full pt-[56.25%]">
 				<iframe
 					title="pivot gameplay"
-					class="absolute bottom-0 left-0 right-0 top-0 size-full rounded-md sm:rounded-xl xl:rounded-3xl"
+					class="absolute bottom-0 left-0 right-0 top-0 size-full rounded-md select-none sm:rounded-xl xl:rounded-3xl"
 					height="1080"
 					width="1920"
 					frameborder="0"
@@ -267,39 +280,42 @@
 	>
 		{/* CONCEPT ARTS TITLE */ null}
 		<div
-			class="center-xy fixed z-10 select-none"
+			class="center-xy fixed z-10 select-none  transition-transform duration-500"
 			style:filter="drop-shadow(0px 4px 0 rgb(74, 74, 74))"
+			style:transform="translate(-50%, {conceptArtScroll + (window?.innerHeight ?? 0) / 3 > 0 ? -50 : -200}%)"
 		>
-			<div class="relative" style:transform="translateY({-conceptArtScroll / 10}px)">
-				<div class="text-center font-jersey text-4xl leading-6 text-white md:text-6xl lg:text-8xl">
-					CONCEPT<br />ARTS
+			<div class="relative" style:transform="translateY({conceptArtScroll / 4}px)">
+				<div class="text-center {lang == "en" ? "font-jersey text-4xl leading-6 md:text-6xl lg:text-8xl" : "font-dotgothic16 text-3xl md:text-5xl lg:text-7xl"} text-white">
+					{@html m.concept_arts()}
 				</div>
 				<HorizontalLine stroke="#ffffff" strokeWidth="4" width="100%" class="translate-y-4" />
 			</div>
 		</div>
 
 		{/* POKER DOTS */ null}
-		<div class="pointer-events-none absolute right-28 top-14 w-48">
-			<img class="w-full" src={image('games/pivot/dots.png')} alt="poker dots" />
+		<div class="pointer-events-none absolute right-28 top-14 w-48"  style:transform="translateY({-conceptArtScroll / 10}px)">
+			<img class="w-full select-none" src={image('games/pivot/dots.png')} alt="poker dots" />
 		</div>
 
 		{/* WEAPON */ null}
 		<div
 			class="center-x relative w-10/12 sm:absolute sm:left-28 sm:top-8 sm:w-[400px] sm:translate-x-0 2xl:left-52"
 		>
+		<button class="clickable" onclick={() => (largerView = 0)}>
 			<img
-				class="w-full rounded-xl"
+				class="relative w-full rounded-xl select-none transition-all duration-700"
 				src={image(artImg[0])}
 				alt="weapon"
-				role="button"
-				onclick={() => (largerView = 0)}
+                style:transform="translateX({conceptArtsShow[0] ? 0 : -400}px)"
+                class:opacity-0={!conceptArtsShow[0]}
 			/>
+		</button>
 			<div
 				class="absolute -left-64 bottom-16 -z-10 h-[200px] w-[728px] rounded-xl"
 				style:background-color="#A2D7D2"
 			></div>
-			<div class="absolute -bottom-12 left-3 font-jersey text-2xl text-white sm:text-3xl">
-				= Player Axe Weapon Design
+			<div class="absolute -bottom-12 left-3 {lang == "en" ? "font-jersey text-2xl sm:text-3xl" : "font-dotgothic16 text-xl sm:text-2xl"} text-white">
+				= {m.weapon_art_desc()}
 			</div>
 		</div>
 
@@ -307,19 +323,48 @@
 		<div
 			class="center-x relative w-10/12 sm:absolute sm:left-auto sm:right-6 sm:top-[500px] sm:w-[640px] sm:translate-x-0 xl:top-[344px] 2xl:right-24"
 		>
+		<button class="clickable" onclick={() => (largerView = 1)}>
 			<img
-				class="w-full rounded-xl"
+				class="relative w-full rounded-xl select-none transition-all duration-700"
 				src={image(artImg[1])}
 				alt="background"
-				role="button"
-				onclick={() => (largerView = 1)}
+                style:transform="translateX({conceptArtsShow[1] ? 0 : 400}px)"
+                class:opacity-0={!conceptArtsShow[1]}
 			/>
+		</button>
 			<div
 				class="absolute -right-14 bottom-12 -z-10 h-[100px] w-[800px] rounded-xl"
 				style:background-color="#A2D7D2"
 			></div>
-			<div class="absolute -bottom-12 right-6 font-jersey text-2xl text-white sm:text-3xl">
-				= Cave Background Concept
+			<div class="absolute -bottom-12 right-6 {lang == "en" ? "font-jersey text-2xl sm:text-3xl" : "font-dotgothic16 text-xl sm:text-2xl"} text-white">
+				= {m.cave_art_desc()}
+			</div>
+		</div>
+
+        {/* ANIMATION */ null}
+		<div
+			class="center-x relative w-10/12 sm:absolute sm:left-48 sm:top-[910px] sm:w-[400px] sm:translate-x-0 sm:xl:top-[650px] 2xl:left-64"
+            style:z-index={1}
+            >
+			<button class="clickable" aria-label="click to enlarge" onclick={() => (largerView = 2)}>
+			<video
+				class="relative w-full rounded-xl select-none transition-all duration-700"
+				autoplay
+				loop
+				muted
+				playsinline
+                style:transform="translateX({conceptArtsShow[2] ? 0 : -400}px)"
+                class:opacity-0={!conceptArtsShow[2]}
+			>
+				<source type="video/mp4" src={image(artImg[2])} />
+			</video>
+			</button>
+			<div
+				class="absolute -left-52 bottom-16 -z-10 h-[200px] w-[640px] rounded-xl"
+				style:background-color="#A2D7D2"
+			></div>
+			<div class="absolute -bottom-12 left-3 {lang == "en" ? "font-jersey text-2xl sm:text-3xl" : "font-dotgothic16 text-xl sm:text-2xl"} text-white">
+				= {m.monster_anim_desc()}
 			</div>
 		</div>
 
@@ -327,44 +372,22 @@
 		<div
 			class="center-x relative w-10/12 sm:absolute sm:left-auto sm:right-14 sm:top-[1380px] sm:w-[500px] sm:translate-x-0 xl:top-[900px] 2xl:right-48"
 		>
+		<button class="clickable" onclick={() => (largerView = 3)}>
 			<img
-				class="w-full rounded-xl"
+				class="relative w-full rounded-xl select-none transition-all duration-700"
 				style:image-rendering={pixelated ? 'pixelated' : 'auto'}
 				src={image(artImg[3])}
 				alt="monster"
-				role="button"
-				onclick={() => (largerView = 3)}
+                style:transform="translateX({conceptArtsShow[3] ? 0 : 400}px)"
+                class:opacity-0={!conceptArtsShow[3]}
 			/>
+		</button>
 			<div
 				class="absolute -right-52 bottom-12 -z-10 h-[100px] w-[928px] rounded-xl"
 				style:background-color="#A2D7D2"
 			></div>
-			<div class="absolute -bottom-12 right-6 font-jersey text-2xl text-white sm:text-3xl">
-				= Monster Design Concept
-			</div>
-		</div>
-
-		{/* ANIMATION */ null}
-		<div
-			class="center-x relative w-10/12 sm:absolute sm:left-48 sm:top-[910px] sm:w-[400px] sm:translate-x-0 sm:xl:top-[650px] 2xl:left-64"
-		>
-			<video
-				class="w-full rounded-xl"
-				autoplay
-				loop
-				muted
-				playsinline
-				role="button"
-				onclick={() => (largerView = 2)}
-			>
-				<source type="video/mp4" src={image(artImg[2])} />
-			</video>
-			<div
-				class="absolute -left-52 bottom-16 -z-10 h-[200px] w-[640px] rounded-xl"
-				style:background-color="#A2D7D2"
-			></div>
-			<div class="absolute -bottom-12 left-3 font-jersey text-2xl text-white sm:text-3xl">
-				= Monster Draft Animation
+			<div class="absolute -bottom-12 right-6 {lang == "en" ? "font-jersey text-2xl sm:text-3xl" : "font-dotgothic16 text-xl sm:text-2xl"} text-white">
+				= {m.monster_art_desc()}
 			</div>
 		</div>
 	</div>
@@ -376,6 +399,8 @@
 		class:opacity-0={largerView == -1}
 		style:background-color="rgba(0,0,0,0.8)"
 		onclick={() => (largerView = -1)}
+		role="none"
+		onkeydown={(e) => e.key == 'Escape' && (largerView = -1)}
 	>
 		<div class="center-xy absolute size-5/6" bind:this={largerContainer}>
 			{#if largerView != -1}
@@ -394,6 +419,7 @@
 						<source type="video/mp4" src={image(artImg[largerView])} />
 					</video>
 				{:else}
+					<!-- svelte-ignore a11y_click_events_have_key_events --><!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 					<img
 						class="center-xy relative"
 						class:w-full={!useHeight}
@@ -420,3 +446,13 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	.clickable {
+		@apply transition-transform duration-700;
+	}
+
+	.clickable:hover {
+		transform: scale(1.05);
+	} 
+</style>
