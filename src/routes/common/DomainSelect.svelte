@@ -1,8 +1,8 @@
 <script>
 	import { getContext } from 'svelte';
 	import * as m from '$lib/paraglide/messages.js';
-	import GameIcon from './GameIcon.svelte';
-	import AnimationIcon from './AnimationIcon.svelte';
+	import GameIcon from './svg/GameIcon.svelte';
+	import AnimationIcon from './svg/AnimationIcon.svelte';
 	import { goto } from '$app/navigation';
 	import { DOMAINS } from '$lib/domain.js';
 	import { base } from '$app/paths';

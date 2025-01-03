@@ -4,13 +4,14 @@
 	import { fixBase } from '$lib/utils';
 	import { getContext, onMount } from 'svelte';
 	import GameCard from './GameCard.svelte';
+	import FlyIn from '../common/FlyIn.svelte';
 
 	/** @typedef {Object} ColorProps
-		 * @property {string} borderColor
-		 * @property {string} background
-		 * @property {string} titleColor
-		 * @property {string} descColor
-		 * @property {string} hoverColor
+	 * @property {string} borderColor
+	 * @property {string} background
+	 * @property {string} titleColor
+	 * @property {string} descColor
+	 * @property {string} hoverColor
 	 */
 
 	/** @type {{id: string, image: string, previewVideo?: string, colors: ColorProps}[]} */
@@ -46,10 +47,7 @@
 	style:transform={`translateY(${getContext('overscroll').current}px)`}
 >
 	{#each games as game, i (i)}
-		<div
-			class="translate-y-1/2 opacity-0"
-			style:animation={`flyIn 0.5s ease-out ${i * 0.1}s forwards`}
-		>
+		<FlyIn delay={i * 0.1}>
 			{/* @ts-ignore */ null}
 			<GameCard
 				title={m[`${game.id}_title`]()}
@@ -59,19 +57,6 @@
 				link="game/{game.id}"
 				colors={game.colors}
 			/>
-		</div>
+		</FlyIn>
 	{/each}
 </div>
-
-<style>
-	@keyframes -global-flyIn {
-		0% {
-			opacity: 0;
-			transform: translateY(50%);
-		}
-		100% {
-			opacity: 1;
-			transform: translateY(0);
-		}
-	}
-</style>

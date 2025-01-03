@@ -49,25 +49,32 @@
 	}}
 >
 	<div class="size-full">
-		<div class="relative h-32 w-full rounded-t-xl z-10">
+		<div class="relative z-10 h-32 w-full rounded-t-xl">
 			<img src={image} alt="thumbnail" class="absolute size-full rounded-t-xl object-cover" />
-			{#if previewVideo}	
-			<video
-				class="absolute z-10 size-full rounded-t-xl object-cover transition-opacity"
-				style:opacity={hover ? 1 : 0}
-				loop
-				muted
-				autoplay
-				bind:this={videoComponent}
-			>
-				<source src={previewVideo} type="video/mp4" />
-			</video>
+			{#if previewVideo}
+				<video
+					class="absolute z-10 size-full rounded-t-xl object-cover transition-opacity"
+					style:opacity={hover ? 1 : 0}
+					loop
+					muted
+					autoplay
+					bind:this={videoComponent}
+				>
+					<source src={previewVideo} type="video/mp4" />
+				</video>
 			{/if}
 		</div>
-		<div class="px-3 pt-3 text-left text-xl font-bold z-10 relative" style:color={colors.titleColor}>{title}</div>
-		<div class="px-3 pt-1 text-left text-base z-10 relative" style:color={colors.descColor}>{description}</div>
 		<div
-			class="w-full h-5/6 rounded-xl border absolute bottom-0 left-0"
+			class="relative z-10 px-3 pt-3 text-left text-xl font-bold"
+			style:color={colors.titleColor}
+		>
+			{title}
+		</div>
+		<div class="relative z-10 px-3 pt-1 text-left text-base" style:color={colors.descColor}>
+			{description}
+		</div>
+		<div
+			class="absolute bottom-0 left-0 h-5/6 w-full rounded-xl border"
 			style:border-color={colors.borderColor}
 			style:background={colors.background}
 		></div>

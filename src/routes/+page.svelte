@@ -40,7 +40,7 @@
 			<div class="row-col-1 justify-self-center"><DomainSelect /></div>
 			<div class="row-col-1 justify-self-end"><LanguageSelect /></div>
 		</div>
-		<div class="fixed left-0 top-0 z-50 h-screen py-10 pl-6">
+		<div class="pointer-events-none fixed left-0 top-0 z-50 h-screen py-10 pl-6">
 			<MeasurementProvider>
 				<Watermark />
 			</MeasurementProvider>
