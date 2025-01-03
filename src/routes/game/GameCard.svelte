@@ -1,6 +1,6 @@
 <script>
 	import { gotoPage } from '$lib/utils';
-	import { onMount } from 'svelte';
+	import { getContext, onMount } from 'svelte';
 
 	/** @typedef {Object} ColorProps
 	 * @property {string} borderColor
@@ -21,6 +21,11 @@
 	/** @type {Props} */
 	const { title, description, image, previewVideo, link, colors } = $props();
 
+	/** @typedef {import("$lib/paraglide/runtime").AvailableLanguageTag} Lang */
+
+	/** @type {Lang} */
+	const lang = getContext('lang');
+
 	let hover = $state(false);
 	/** @type {HTMLVideoElement|null} */
 	let videoComponent = $state(null);
@@ -32,7 +37,7 @@
 </script>
 
 <button
-	class="flex h-72 w-64 flex-col transition-transform"
+	class="relative flex h-[340px] w-5/6 flex-col transition-transform sm:h-[450px] sm:w-64 md:w-72"
 	onclick={() => gotoPage(link)}
 	style:--hoverColor={colors.hoverColor}
 	onmouseenter={() => {
@@ -49,7 +54,7 @@
 	}}
 >
 	<div class="size-full">
-		<div class="relative z-10 h-32 w-full rounded-t-xl">
+		<div class="relative z-10 h-40 w-full rounded-t-xl">
 			<img src={image} alt="thumbnail" class="absolute size-full rounded-t-xl object-cover" />
 			{#if previewVideo}
 				<video
@@ -65,12 +70,15 @@
 			{/if}
 		</div>
 		<div
-			class="relative z-10 px-3 pt-3 text-left text-xl font-bold"
+			class="relative z-10 px-4 pt-5 text-left text-xl font-bold sm:pt-8 sm:text-[1.4rem]"
 			style:color={colors.titleColor}
 		>
 			{title}
 		</div>
-		<div class="relative z-10 px-3 pt-1 text-left text-base" style:color={colors.descColor}>
+		<div
+			class="relative z-10 px-4 pt-3 text-left text-base sm:pt-6 {lang == 'en' ? 'leading-5' : ''}"
+			style:color={colors.descColor}
+		>
 			{description}
 		</div>
 		<div

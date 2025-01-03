@@ -4,6 +4,9 @@
 	import PlayVideo from './PlayVideo.svelte';
 	import { fixBase, mobileAndTabletCheck } from '$lib/utils';
 	import { base } from '$app/paths';
+	import * as m from '$lib/paraglide/messages.js';
+	import ArrowDown from '../common/svg/ArrowDown.svelte';
+	import BackIcon from '../common/svg/BackIcon.svelte';
 
 	const ANIMATION_SCROLL_HEIGHT = 1000;
 	const totalHeight = $derived(
@@ -209,9 +212,45 @@
 	function even(x) {
 		return x % 2 === 0;
 	}
+
+	let knowScroll = $state(false);
+	$effect(() => {
+		if (scroll >= ANIMATION_SCROLL_HEIGHT * 2 && !knowScroll) {
+			knowScroll = true;
+		}
+	});
 </script>
 
 <div class="overflow-scroll-y h-screen w-full" style:height={totalHeight + 'px'}>
+	{/* SCROLL TIP */ null}
+	{#if !knowScroll && scroll < ANIMATION_SCROLL_HEIGHT * 2}
+		<div class="center-x fixed bottom-4 z-40 flex flex-col items-center gap-2 text-center">
+			<div class="select-none" style:color="#C4C4C4">{m.scroll()}</div>
+			<button
+				onclick={() => {
+					window.scrollTo(0, (scroll += ANIMATION_SCROLL_HEIGHT));
+				}}
+				class="animate-bounce rounded-full bg-white p-1 shadow-md"
+			>
+				<ArrowDown class="relative h-6 w-6" stroke="#C4C4C4" strokeWidth="6" />
+			</button>
+		</div>
+	{/if}
+
+	{/* BACK TO TOP */ null}
+	{#if scroll > ANIMATION_SCROLL_HEIGHT * (animationData.length - 1)}
+		<button
+			class="center-x fixed bottom-4 z-40 flex flex-col items-center gap-1 text-center"
+			onclick={() => {
+				window.scrollTo(0, (scroll = 0));
+			}}
+		>
+			<BackIcon class="relative h-6 w-6 rotate-90" color="#C4C4C4" />
+			<div class="select-none" style:color="#C4C4C4">{m.back_to_top()}</div>
+		</button>
+	{/if}
+
+	{/* ANIMATION CARDS */ null}
 	{#each animationData as data, i (i)}
 		<div
 			class={'card fixed right-[4.166667%] w-11/12 transition-transform duration-500 ease-[cubic-bezier(.77,0,.33,1)] sm:w-5/6 md:w-3/5' +

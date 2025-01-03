@@ -18,10 +18,13 @@
 				background: #000000;
 			}
 			::-webkit-scrollbar-thumb {
-				background-color: #000000;
+				background-color: #47418b;
 			}
 			::-webkit-scrollbar-thumb:hover {
-				background-color: #000000;
+				background-color: #403b82;
+			}
+			html {
+				scroll-behavior: smooth;
 			}
 		</style>
 	{:else if domain == 'animation'}
