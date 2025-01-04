@@ -18,7 +18,7 @@
 	const games = [
 		{
 			id: 'chameleon',
-			image: 'games/thumbnails/test.png',
+			image: 'games/thumbnails/test.webp',
 			previewVideo: 'games/thumbnails/test.webm',
 			colors: {
 				borderColor: '#9675A6',
@@ -30,7 +30,7 @@
 		},
 		{
 			id: 'pivot',
-			image: 'games/thumbnails/pivot_thumbnail.png',
+			image: 'games/thumbnails/pivot_thumbnail.webp',
 			colors: {
 				borderColor: '#75A69A',
 				background: 'linear-gradient(167deg, #192E22 0%, #314141 100%)',

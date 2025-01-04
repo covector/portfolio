@@ -22,6 +22,11 @@
 	});
 
 	const domain = $derived(getContext('domain').current);
+	$effect(() => {
+		if (domain === 'animation') {
+			window.scrollTo(0, scroll);
+		}
+	})
 
 	/**
 	 * @param {number} t current value
@@ -213,9 +218,13 @@
 		return x % 2 === 0;
 	}
 
+	let lowScroll = $derived(isMobile ? mobileViewingIndex < 2 : scroll < ANIMATION_SCROLL_HEIGHT * 2);
+	let maxScroll = $derived(
+		isMobile ? mobileViewingIndex > animationData.length - 2 : scroll > ANIMATION_SCROLL_HEIGHT * (animationData.length - 1)
+	);
 	let knowScroll = $state(false);
 	$effect(() => {
-		if (scroll >= ANIMATION_SCROLL_HEIGHT * 2 && !knowScroll) {
+		if (!lowScroll && !knowScroll) {
 			knowScroll = true;
 		}
 	});
@@ -223,12 +232,18 @@
 
 <div class="overflow-scroll-y h-screen w-full" style:height={totalHeight + 'px'}>
 	{/* SCROLL TIP */ null}
-	{#if !knowScroll && scroll < ANIMATION_SCROLL_HEIGHT * 2}
+	{#if !knowScroll && lowScroll}
 		<div class="center-x fixed bottom-4 z-40 flex flex-col items-center gap-2 text-center">
 			<div class="select-none" style:color="#C4C4C4">{m.scroll()}</div>
 			<button
-				onclick={() => {
-					window.scrollTo(0, (scroll += ANIMATION_SCROLL_HEIGHT));
+				onclick={(e) => {
+					e.stopPropagation();
+					if (isMobile) {
+						mobileViewingIndex++;
+						scroll = mobileScroll;
+					} else {
+						window.scrollTo(0, (scroll += ANIMATION_SCROLL_HEIGHT));
+					}
 				}}
 				class="animate-bounce rounded-full bg-white p-1 shadow-md"
 			>
@@ -238,11 +253,11 @@
 	{/if}
 
 	{/* BACK TO TOP */ null}
-	{#if scroll > ANIMATION_SCROLL_HEIGHT * (animationData.length - 1)}
+	{#if maxScroll}
 		<button
 			class="center-x fixed bottom-4 z-40 flex flex-col items-center gap-1 text-center"
 			onclick={() => {
-				window.scrollTo(0, (scroll = 0));
+				isMobile ? scroll = (mobileViewingIndex = 0) : window.scrollTo(0, (scroll = 0));
 			}}
 		>
 			<BackIcon class="relative h-6 w-6 rotate-90" color="#C4C4C4" />

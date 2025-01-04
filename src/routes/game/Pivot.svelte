@@ -36,10 +36,10 @@
 	let conceptArtScroll = $derived(scroll - conceptArtBox?.offsetTop);
 
 	const artImg = [
-		'games/pivot/axe_concept.png',
-		'games/pivot/cave_concept.png',
-		'games/pivot/animation_concept.mp4',
-		'games/pivot/monster_concept.png'
+		'games/pivot/axe_concept.webp',
+		'games/pivot/cave_concept.webp',
+		'games/pivot/animation_concept.webm',
+		'games/pivot/monster_concept.webp'
 	];
 	const aspect = [1.02985, 1.9879, 1, 2.14865];
 	let largerView = $state(-1);
@@ -75,7 +75,7 @@
 	//@ts-ignore
 	let useHeight = $derived(ratio > aspect[largerView]);
 	let pixelated = $derived(largerView == 3);
-	let isVideo = $derived(largerView >= 0 ? artImg[largerView].endsWith('.mp4') : false);
+	let isVideo = $derived(largerView >= 0 ? artImg[largerView].endsWith('.webm') : false);
 	let topCorner = $state({ x: 0, y: 0 });
 
 	let conceptArtsShow = $derived(
@@ -103,7 +103,7 @@
 		>
 			<img
 				class="center-y absolute h-full object-cover xl:object-contain"
-				src={image('games/pivot/banner_art.png')}
+				src={image('games/pivot/banner_art.webp')}
 				alt="banner art"
 			/>
 		</div>
@@ -117,9 +117,9 @@
 			{/* BANNER TEXT */ null}
 			<FlyIn class="absolute z-20 size-full" distance="100px">
 				<div
-					class="banner-text center-x absolute bottom-1/4 flex w-5/6 flex-col items-center gap-7 sm:w-1/2 xl:bottom-[20%] xl:left-28 xl:w-1/3 xl:translate-x-0"
+					class="banner-text center-x absolute bottom-[20%] flex w-5/6 flex-col items-center gap-7 sm:w-1/2 xl:left-28 xl:w-1/3 xl:translate-x-0"
 				>
-					<img class="w-full select-none" src={image('games/pivot/pivot_logo.png')} alt="logo" />
+					<img class="w-full select-none" src={image('games/pivot/pivot_logo.webp')} alt="logo" />
 					<HorizontalLine stroke="#649B9F" strokeWidth="2" width="90%" class="xl:translate-x-4" />
 
 					<div
@@ -290,7 +290,7 @@
 	>
 		{/* CONCEPT ARTS TITLE */ null}
 		<div
-			class="center-xy fixed z-10 select-none transition-transform duration-500"
+			class="center-xy fixed z-10 select-none pointer-events-none transition-transform duration-500"
 			style:filter="drop-shadow(0px 4px 0 rgb(74, 74, 74))"
 			style:transform="translate(-50%, {conceptArtScroll + (window?.innerHeight ?? 0) / 3 > 0
 				? -50
@@ -313,7 +313,7 @@
 			class="pointer-events-none absolute right-28 top-14 w-48"
 			style:transform="translateY({-conceptArtScroll / 10}px)"
 		>
-			<img class="w-full select-none" src={image('games/pivot/dots.png')} alt="poker dots" />
+			<img class="w-full select-none" src={image('games/pivot/dots.webp')} alt="poker dots" />
 		</div>
 
 		{/* WEAPON */ null}
@@ -468,9 +468,9 @@
 				{/if}
 			{/if}
 			<button
-				class="absolute size-8"
+				class="absolute size-8 -translate-y-12 sm:-translate-x-12"
 				style:top="{topCorner.y}px"
-				style:left="{topCorner.x - 48}px"
+				style:left="{topCorner.x}px"
 				onclick={(e) => {
 					e.stopPropagation();
 					largerView = -1;

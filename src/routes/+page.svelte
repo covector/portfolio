@@ -2,6 +2,7 @@
 	import { afterNavigate } from '$app/navigation';
 	import { getDomainFromUrl, getPath } from '$lib/domain';
 	import * as runtime from '$lib/paraglide/runtime';
+	import * as m from '$lib/paraglide/messages.js';
 	import DomainSelect from './common/DomainSelect.svelte';
 	import { setContext } from 'svelte';
 	import { i18n } from '$lib/i18n';
@@ -19,6 +20,7 @@
 	/** @typedef {import("$lib/domain.js").Domain} Domain */
 
 	let lang = $state(runtime.languageTag());
+	/** @type {{current: Domain}} */
 	let domain = $state({ current: getDomainFromUrl(i18n.route($page.url.pathname)) });
 	let subdomain = $state({ current: getPath(i18n.route($page.url.pathname)) });
 
@@ -31,6 +33,11 @@
 		subdomain.current = getPath(path);
 	});
 </script>
+
+<svelte:head>
+    <title>{m.title()}</title> 
+	<link rel="icon" href="/favicon_{domain.current}.png" />
+</svelte:head>
 
 <OverscrollProvider>
 	<ScrollColor>

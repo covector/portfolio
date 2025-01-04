@@ -1,5 +1,6 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"title": "CHAN Cheuk Kin | Game, Animation",
 	"game": "GAME",
 	"animation": "ANIMATION",
 	"quote": "“",
