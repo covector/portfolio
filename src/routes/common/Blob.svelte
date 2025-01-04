@@ -8,6 +8,9 @@
 		game: '#000000',
 		animation: '#F7F8FB'
 	};
+
+	/** @type {{animated: boolean}} */
+	const { animated = true } = $props();
 </script>
 
 <svg
@@ -20,6 +23,7 @@
 	<g filter="url(#filter0_f_319_4)">
 		<ellipse cx="189" cy="629" rx="357" ry="329" fill="#F9CCEA" fill-opacity="0.07" />
 		<ellipse cx="1459.5" cy="463.5" rx="393.5" ry="463.5" fill="#ABB6FF" fill-opacity="0.21">
+			{#if animated}
 			<animate
 				attributeName="cy"
 				dur="7s"
@@ -38,8 +42,10 @@
 				keyTimes="0; 0.5; 1"
 				keySplines="0.5 0 0.5 1; 0.5 0 0.5 1"
 			/>
+			{/if}
 		</ellipse>
 		<ellipse cx="495.5" cy="-85.5" rx="533.5" ry="343.5" fill="#E2CCF9" fill-opacity="0.27">
+			{#if animated}
 			<animate
 				attributeName="cy"
 				dur="9s"
@@ -49,6 +55,7 @@
 				keyTimes="0; 0.5; 1"
 				keySplines="0.5 0 0.5 1; 0.5 0 0.5 1"
 			/>
+			{/if}
 		</ellipse>
 		<ellipse cx="489" cy="1129" rx="357" ry="329" fill="#F9CCEA" fill-opacity="0.07" />
 	</g>

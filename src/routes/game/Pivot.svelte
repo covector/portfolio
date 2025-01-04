@@ -39,14 +39,15 @@
 		'games/pivot/axe_concept.webp',
 		'games/pivot/cave_concept.webp',
 		'games/pivot/animation_concept.webm',
-		'games/pivot/monster_concept.webp'
+		'games/pivot/monster_idea.webp'
 	];
-	const aspect = [1.02985, 1.9879, 1, 2.14865];
+	const aspect = [1.02985, 1.9879, 1, 1.106];
 	let largerView = $state(-1);
 	/** @type {HTMLDivElement|null} */
 	let largerContainer = $state(null);
 	let ratio = $state(1);
 	function onResize() {
+		scroll = window.scrollY;
 		ratio = (largerContainer?.clientWidth ?? 1) / (largerContainer?.clientHeight ?? 1);
 		topCorner = {
 			x: useHeight
@@ -74,7 +75,6 @@
 	});
 	//@ts-ignore
 	let useHeight = $derived(ratio > aspect[largerView]);
-	let pixelated = $derived(largerView == 3);
 	let isVideo = $derived(largerView >= 0 ? artImg[largerView].endsWith('.webm') : false);
 	let topCorner = $state({ x: 0, y: 0 });
 
@@ -91,6 +91,12 @@
 </script>
 
 <div class="w-full">
+	<button
+		class="fixed left-8 top-32 z-30 min-[400px]:top-10 sm:left-20 sm:top-20 lg:left-28"
+		onclick={() => gotoPage('game')}
+	>
+		<BackIcon color="#DFDDF9" class="size-6 sm:size-10" />
+	</button>
 	{/* BANNER SECTION */ null}
 	<div
 		class="banner h-screen w-full"
@@ -108,12 +114,6 @@
 			/>
 		</div>
 		<div class="placeholder size-full" style:background-color="#030708">
-			<button
-				class="absolute left-8 top-32 z-30 min-[400px]:top-10 sm:left-20 sm:top-20 lg:left-28"
-				onclick={() => gotoPage('game')}
-			>
-				<BackIcon color="#DFDDF9" class="size-6 sm:size-10" />
-			</button>
 			{/* BANNER TEXT */ null}
 			<FlyIn class="absolute z-20 size-full" distance="100px">
 				<div
@@ -283,7 +283,7 @@
 
 	{/* CONCEPT ARTS SECTION */ null}
 	<div
-		class="bg-attachment-fixed relative flex w-full flex-col gap-28 overflow-x-hidden pb-28 pt-14 sm:block sm:h-[1700px] sm:py-0 xl:h-[1300px]"
+		class="bg-attachment-fixed relative flex w-full flex-col gap-28 overflow-x-hidden pb-28 pt-14 sm:block sm:h-[1900px] sm:py-0 xl:h-[1500px]"
 		style:background="linear-gradient(0deg, #7CBCBE 0%, #649B9F 100%)"
 		style="-webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); clip-path: padding-box;"
 		bind:this={conceptArtBox}
@@ -406,7 +406,6 @@
 			<button class="clickable" onclick={() => (largerView = 3)}>
 				<img
 					class="relative w-full select-none rounded-xl transition-all duration-700"
-					style:image-rendering={pixelated ? 'pixelated' : 'auto'}
 					src={image(artImg[3])}
 					alt="monster"
 					style:transform="translateX({conceptArtsShow[3] ? 0 : 400}px)"
@@ -460,7 +459,6 @@
 						class:w-full={!useHeight}
 						class:h-full={useHeight}
 						class:hidden={isVideo}
-						style:image-rendering="pixelated"
 						src={image(artImg[largerView])}
 						alt="larger art"
 						onclick={(e) => e.stopPropagation()}

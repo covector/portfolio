@@ -9,7 +9,8 @@
 	"back_to_top": "返回最頂部",
 	"chameleon_title": "辨識龍",
 	"chameleon_description": "玩家會在被變形怪物追殺的同時收集物件。一款生存恐怖游戲。",
-	"chameleon_longdesc": "「玩家會在被<span style='color:#5D3CED'>變形怪物</span>追殺的同時收集物件。一款<span style='color:#D44141'>生存恐怖</span>游戲。」",
+	"play_now": "立即試玩",
+	"read_more": "閱讀更多",
 	"features": "特點",
 	"procedural_generation": "程序化生成",
 	"procedural_generation_description": "所有的環境素材都是由偽隨機數程序產生的。",
@@ -20,7 +21,7 @@
 	"gameplay": "遊戲片段",
 	"concept_arts": "概念設計",
 	"weapon_art_desc": "玩家斧頭武器設計",
-	"cave_art_desc": "洞穴背景",
+	"cave_art_desc": "洞穴背景設計",
 	"monster_anim_desc": "怪物草稿動畫",
 	"monster_art_desc": "怪物設計"
 }

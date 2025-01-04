@@ -17,6 +17,7 @@
 	import ScrollColor from './common/ScrollColor.svelte';
 	import Chameleon from './game/Chameleon.svelte';
 	import Pivot from './game/Pivot.svelte';
+	import { image } from '$lib/utils';
 	/** @typedef {import("$lib/domain.js").Domain} Domain */
 
 	let lang = $state(runtime.languageTag());
@@ -36,7 +37,7 @@
 
 <svelte:head>
     <title>{m.title()}</title> 
-	<link rel="icon" href="/favicon_{domain.current}.png" />
+	<link rel="icon" href={image(`favicon_${domain.current}.png`)} />
 </svelte:head>
 
 <OverscrollProvider>

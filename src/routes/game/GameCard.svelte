@@ -76,7 +76,7 @@
 			{title}
 		</div>
 		<div
-			class="relative z-10 px-4 pt-3 text-left text-base sm:pt-6 {lang == 'en' ? 'leading-5' : ''}"
+			class="relative z-10 px-4 pt-3 text-left text-base sm:pt-6 {lang == 'en' ? 'leading-[1.4rem]' : ''}"
 			style:color={colors.descColor}
 		>
 			{description}
