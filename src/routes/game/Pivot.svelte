@@ -77,15 +77,10 @@
 	let useHeight = $derived(ratio > aspect[largerView]);
 	let isVideo = $derived(largerView >= 0 ? artImg[largerView].endsWith('.webm') : false);
 	let topCorner = $state({ x: 0, y: 0 });
-
+	const conceptArtScrollPoint = [150, 650, 900, 1100];
 	let conceptArtsShow = $derived(
 		window
-			? [
-					conceptArtScroll + (window?.innerHeight ?? 0) > 150,
-					conceptArtScroll + (window?.innerHeight ?? 0) > 650,
-					conceptArtScroll + (window?.innerHeight ?? 0) > 900,
-					conceptArtScroll + (window?.innerHeight ?? 0) > 1100
-				]
+			? conceptArtScrollPoint.map(p => conceptArtScroll + (window?.innerHeight ?? 0) > p)
 			: [false, false, false, false]
 	);
 </script>
@@ -120,7 +115,7 @@
 					class="banner-text center-x absolute bottom-[20%] flex w-5/6 flex-col items-center gap-7 sm:w-1/2 xl:left-28 xl:w-1/3 xl:translate-x-0"
 				>
 					<img class="w-full select-none" src={image('games/pivot/pivot_logo.webp')} alt="logo" />
-					<HorizontalLine stroke="#649B9F" strokeWidth="2" width="90%" class="xl:translate-x-4" />
+					<HorizontalLine stroke="#649B9F" strokeWidth="2" width="90%" style="transform: translateX({16 + scroll/10}px)" />
 
 					<div
 						class="w-8/12 text-2xl {lang == 'en'
@@ -130,7 +125,7 @@
 					>
 						{m.quote()}{m.pivot_description()}{m.quote_end()}
 					</div>
-					<HorizontalLine stroke="#649B9F" strokeWidth="2" width="90%" class="xl:translate-x-20" />
+					<HorizontalLine stroke="#649B9F" strokeWidth="2" width="90%" style="transform: translateX({80 - scroll/10}px)" />
 
 					<button
 						type="button"
@@ -204,10 +199,12 @@
 				<div class="flex h-full items-center gap-4 md:gap-6 xl:gap-8">
 					<VerticalLine stroke="#649B9F" strokeWidth="2" height="100%" class="w-1 lg:w-[6px]" />
 					<div
-						class={lang == 'en'
+						class="overflow-hidden text-nowrap {lang == 'en'
 							? 'font-jersey text-4xl leading-6 md:text-6xl lg:text-8xl'
-							: 'font-dotgothic16 text-2xl md:text-4xl lg:text-6xl'}
+							: 'font-dotgothic16 text-2xl md:text-4xl lg:text-6xl'}"
 						style:color="#649B9F"
+						style:transition="width 0.7s"
+						style:width="{gameplayScroll + (window?.innerHeight ?? 0) / 2 > 0 ? '100%' : '0'}"
 					>
 						{m.gameplay()}
 					</div>
@@ -299,8 +296,8 @@
 			<div class="relative" style:transform="translateY({conceptArtScroll / 4}px)">
 				<div
 					class="text-center {lang == 'en'
-						? 'font-jersey text-4xl leading-6 md:text-6xl lg:text-8xl'
-						: 'font-dotgothic16 text-3xl md:text-5xl lg:text-7xl'} text-white"
+						? 'font-jersey text-4xl leading-6 sm:text-6xl lg:text-8xl'
+						: 'font-dotgothic16 text-3xl sm:text-5xl lg:text-7xl'} text-white"
 				>
 					{@html m.concept_arts()}
 				</div>
@@ -310,7 +307,7 @@
 
 		{/* POKER DOTS */ null}
 		<div
-			class="pointer-events-none absolute right-28 top-14 w-48"
+			class="hidden sm:block pointer-events-none absolute right-28 top-14 w-48"
 			style:transform="translateY({-conceptArtScroll / 10}px)"
 		>
 			<img class="w-full select-none" src={image('games/pivot/dots.webp')} alt="poker dots" />
@@ -332,6 +329,7 @@
 			<div
 				class="absolute -left-64 bottom-16 -z-10 h-[200px] w-[728px] rounded-xl"
 				style:background-color="#A2D7D2"
+				style:transform="translateY({-(conceptArtScroll - conceptArtScrollPoint[0])/10}px)"
 			></div>
 			<div
 				class="absolute -bottom-12 left-3 {lang == 'en'
@@ -358,6 +356,7 @@
 			<div
 				class="absolute -right-14 bottom-12 -z-10 h-[100px] w-[800px] rounded-xl"
 				style:background-color="#A2D7D2"
+				style:transform="translateY({-Math.min(conceptArtScroll - conceptArtScrollPoint[1])/8}px)"
 			></div>
 			<div
 				class="absolute -bottom-12 right-6 {lang == 'en'
@@ -389,6 +388,7 @@
 			<div
 				class="absolute -left-52 bottom-16 -z-10 h-[200px] w-[640px] rounded-xl"
 				style:background-color="#A2D7D2"
+				style:transform="translateY({-Math.min(conceptArtScroll - conceptArtScrollPoint[2])/11}px)"
 			></div>
 			<div
 				class="absolute -bottom-12 left-3 {lang == 'en'
@@ -415,6 +415,7 @@
 			<div
 				class="absolute -right-52 bottom-12 -z-10 h-[100px] w-[928px] rounded-xl"
 				style:background-color="#A2D7D2"
+				style:transform="translateY({-Math.min(0,conceptArtScroll - conceptArtScrollPoint[3])/7}px)"
 			></div>
 			<div
 				class="absolute -bottom-12 right-6 {lang == 'en'
