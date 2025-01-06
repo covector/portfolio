@@ -18,8 +18,8 @@
 	const games = [
 		{
 			id: 'chameleon',
-			image: 'games/thumbnails/test.webp',
-			previewVideo: 'games/thumbnails/test.webm',
+			image: 'games/thumbnails/chameleon_thumbnail.webp',
+			previewVideo: 'games/thumbnails/chameleon_preview.webm',
 			colors: {
 				borderColor: '#9675A6',
 				background: 'linear-gradient(167deg, rgba(34,25,46,1) 0%, rgba(63,49,65,1) 100%)',
@@ -31,6 +31,7 @@
 		{
 			id: 'pivot',
 			image: 'games/thumbnails/pivot_thumbnail.webp',
+			previewVideo: 'games/thumbnails/pivot_preview.webm',
 			colors: {
 				borderColor: '#75A69A',
 				background: 'linear-gradient(167deg, #192E22 0%, #314141 100%)',

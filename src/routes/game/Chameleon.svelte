@@ -412,7 +412,7 @@
 		</div>
 
 		{/* DEVICE */ null}
-		<div class="fixed w-full h-screen z-40 top-0 hidden xl:block transition-transform duration-700" style:transform="translateY({Math.abs(featureBoxScroll) < window.innerHeight/2 ? 0 : 50}%)">
+		<div class="fixed pointer-events-none w-full h-screen z-40 top-0 hidden xl:block transition-transform duration-700" style:transform="translateY({Math.abs(featureBoxScroll) < window.innerHeight/2 ? 0 : 50}%)">
 			<img
 				class="absolute center-x bottom-0 w-2/3 h-2/3 object-contain"
 				src={image(`games/chameleon/device/${deviceImgIndex}.webp`)}
