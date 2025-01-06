@@ -26,7 +26,7 @@
 		if (domain === 'animation') {
 			window.scrollTo(0, scroll);
 		}
-	})
+	});
 
 	/**
 	 * @param {number} t current value
@@ -218,9 +218,13 @@
 		return x % 2 === 0;
 	}
 
-	let lowScroll = $derived(isMobile ? mobileViewingIndex < 2 : scroll < ANIMATION_SCROLL_HEIGHT * 2);
+	let lowScroll = $derived(
+		isMobile ? mobileViewingIndex < 2 : scroll < ANIMATION_SCROLL_HEIGHT * 2
+	);
 	let maxScroll = $derived(
-		isMobile ? mobileViewingIndex > animationData.length - 2 : scroll > ANIMATION_SCROLL_HEIGHT * (animationData.length - 1)
+		isMobile
+			? mobileViewingIndex > animationData.length - 2
+			: scroll > ANIMATION_SCROLL_HEIGHT * (animationData.length - 1)
 	);
 	let knowScroll = $state(false);
 	$effect(() => {
@@ -257,7 +261,7 @@
 		<button
 			class="center-x fixed bottom-4 z-40 flex flex-col items-center gap-1 text-center"
 			onclick={() => {
-				isMobile ? scroll = (mobileViewingIndex = 0) : window.scrollTo(0, (scroll = 0));
+				isMobile ? (scroll = mobileViewingIndex = 0) : window.scrollTo(0, (scroll = 0));
 			}}
 		>
 			<BackIcon class="relative h-6 w-6 rotate-90" color="#C4C4C4" />

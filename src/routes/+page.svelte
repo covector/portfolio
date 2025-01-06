@@ -36,7 +36,7 @@
 </script>
 
 <svelte:head>
-    <title>{m.title()}</title> 
+	<title>{m.title()}</title>
 	<link rel="icon" href={image(`favicon_${domain.current}.png`)} />
 </svelte:head>
 
@@ -73,7 +73,10 @@
 			</MeasurementProvider>
 		</div>
 
-		<Blob />
+		<Blob
+			blobColor1={subdomain.current === 'chameleon' ? '#8855FF' : undefined}
+			blobColor2={subdomain.current === 'chameleon' ? '#8CFDBF' : undefined}
+		/>
 	</ScrollColor>
 </OverscrollProvider>
 

@@ -254,7 +254,7 @@
 		</div>
 		{/* GAMEPLAY VIDEO */ null}
 		<div
-			class="video-box center-x relative w-3/4 transition-transform duration-500 md:w-2/3"
+			class="video-box center-x relative w-3/4 transition-transform duration-700 md:w-2/3"
 			style:transform="translate(-50%, {gameplayScroll + (window?.innerHeight ?? 0) / 3 > 0
 				? 0
 				: 100}%)"
@@ -266,7 +266,7 @@
 					height="1080"
 					width="1920"
 					frameborder="0"
-					src="https://www.youtube.com/embed/cNu3ARoF3js?vq=hd720p;feature=oembed&amp;hd=1&amp;modestbranding=1&amp;autohide=1&amp;showinfo=0&&amp;autoplay=0"
+					src="https://www.youtube.com/embed/_vjhPJdsp3E?vq=hd720p;feature=oembed&amp;hd=1&amp;modestbranding=1&amp;autohide=1&amp;showinfo=0&&amp;autoplay=0"
 					allow="autoplay; encrypted-media"
 					allowfullscreen
 				></iframe>
@@ -290,7 +290,7 @@
 	>
 		{/* CONCEPT ARTS TITLE */ null}
 		<div
-			class="center-xy fixed z-10 select-none pointer-events-none transition-transform duration-500"
+			class="center-xy pointer-events-none fixed z-10 select-none transition-transform duration-500"
 			style:filter="drop-shadow(0px 4px 0 rgb(74, 74, 74))"
 			style:transform="translate(-50%, {conceptArtScroll + (window?.innerHeight ?? 0) / 3 > 0
 				? -50

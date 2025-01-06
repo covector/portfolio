@@ -9,8 +9,13 @@
 		animation: '#F7F8FB'
 	};
 
-	/** @type {{animated: boolean}} */
-	const { animated = true } = $props();
+	/** @type {{animated?: boolean, blobColor1?: string, blobColor2?: string, blobColor3?: string}} */
+	const {
+		animated = true,
+		blobColor1 = '#ABB6FF',
+		blobColor2 = '#E2CCF9',
+		blobColor3 = '#F9CCEA'
+	} = $props();
 </script>
 
 <svg
@@ -21,43 +26,43 @@
 	xmlns="http://www.w3.org/2000/svg"
 >
 	<g filter="url(#filter0_f_319_4)">
-		<ellipse cx="189" cy="629" rx="357" ry="329" fill="#F9CCEA" fill-opacity="0.07" />
-		<ellipse cx="1459.5" cy="463.5" rx="393.5" ry="463.5" fill="#ABB6FF" fill-opacity="0.21">
+		<ellipse cx="189" cy="629" rx="357" ry="329" fill={blobColor3} fill-opacity="0.07" />
+		<ellipse cx="1459.5" cy="463.5" rx="393.5" ry="463.5" fill={blobColor1} fill-opacity="0.21">
 			{#if animated}
-			<animate
-				attributeName="cy"
-				dur="7s"
-				repeatCount="indefinite"
-				calcMode="spline"
-				values="403.5; 200; 403.5"
-				keyTimes="0; 0.5; 1"
-				keySplines="0.5 0 0.5 1; 0.5 0 0.5 1"
-			/>
-			<animate
-				attributeName="rx"
-				dur="13s"
-				repeatCount="indefinite"
-				calcMode="spline"
-				values="393.5; 500; 393.5"
-				keyTimes="0; 0.5; 1"
-				keySplines="0.5 0 0.5 1; 0.5 0 0.5 1"
-			/>
+				<animate
+					attributeName="cy"
+					dur="7s"
+					repeatCount="indefinite"
+					calcMode="spline"
+					values="403.5; 200; 403.5"
+					keyTimes="0; 0.5; 1"
+					keySplines="0.5 0 0.5 1; 0.5 0 0.5 1"
+				/>
+				<animate
+					attributeName="rx"
+					dur="13s"
+					repeatCount="indefinite"
+					calcMode="spline"
+					values="393.5; 500; 393.5"
+					keyTimes="0; 0.5; 1"
+					keySplines="0.5 0 0.5 1; 0.5 0 0.5 1"
+				/>
 			{/if}
 		</ellipse>
-		<ellipse cx="495.5" cy="-85.5" rx="533.5" ry="343.5" fill="#E2CCF9" fill-opacity="0.27">
+		<ellipse cx="495.5" cy="-85.5" rx="533.5" ry="343.5" fill={blobColor2} fill-opacity="0.27">
 			{#if animated}
-			<animate
-				attributeName="cy"
-				dur="9s"
-				repeatCount="indefinite"
-				calcMode="spline"
-				values="-85.5; 0; -85.5"
-				keyTimes="0; 0.5; 1"
-				keySplines="0.5 0 0.5 1; 0.5 0 0.5 1"
-			/>
+				<animate
+					attributeName="cy"
+					dur="9s"
+					repeatCount="indefinite"
+					calcMode="spline"
+					values="-85.5; 0; -85.5"
+					keyTimes="0; 0.5; 1"
+					keySplines="0.5 0 0.5 1; 0.5 0 0.5 1"
+				/>
 			{/if}
 		</ellipse>
-		<ellipse cx="489" cy="1129" rx="357" ry="329" fill="#F9CCEA" fill-opacity="0.07" />
+		<ellipse cx="489" cy="1129" rx="357" ry="329" fill={blobColor3} fill-opacity="0.07" />
 	</g>
 	<defs>
 		<filter
