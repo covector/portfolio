@@ -178,7 +178,7 @@
 					xmlns="http://www.w3.org/2000/svg"
 					preserveAspectRatio="none"
 					class="h-12 w-20 translate-y-5 md:h-20 md:w-32 xl:h-24 xl:w-64"
-					stroke-dashoffset={gameplayScroll + (window?.innerHeight ?? 0) / 2 > 0 ? 0 : 100}
+					stroke-dashoffset={gameplayScroll + (window?.innerHeight ?? 0) > 0 ? 0 : 100}
 					style:transition="stroke-dashoffset 0.5s"
 				>
 					<line
@@ -217,7 +217,7 @@
 							: 'font-dotgothic16 text-2xl md:text-4xl lg:text-6xl'}"
 						style:color="#649B9F"
 						style:transition="width 0.7s"
-						style:width={gameplayScroll + (window?.innerHeight ?? 0) / 2 > 0 ? '100%' : '0'}
+						style:width={gameplayScroll + (window?.innerHeight ?? 0) > 0 ? '100%' : '0'}
 					>
 						{m.gameplay()}
 					</div>
@@ -229,7 +229,7 @@
 					xmlns="http://www.w3.org/2000/svg"
 					preserveAspectRatio="none"
 					class="h-12 w-20 translate-y-5 md:h-20 md:w-32 xl:h-24 xl:w-64"
-					stroke-dashoffset={gameplayScroll + (window?.innerHeight ?? 0) / 2 > 0 ? 0 : 100}
+					stroke-dashoffset={gameplayScroll + (window?.innerHeight ?? 0) > 0 ? 0 : 100}
 					style:transition="stroke-dashoffset 0.5s"
 				>
 					<line
