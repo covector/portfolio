@@ -6,6 +6,7 @@
 	style:animation={`flyIn${vertical ? 'Y' : 'X'} ${duration}s ease-out ${delay}s forwards`}
 	style:--distance={distance}
 	style:transform={vertical ? 'translateY(var(--distance))' : 'translateX(var(--distance))'}
+	style:overflow="hidden"
 	style:opacity={0}
 	{...p}
 >

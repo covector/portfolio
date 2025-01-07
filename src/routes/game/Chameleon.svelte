@@ -45,11 +45,9 @@
 
 	const gameplayTextLength = 100;
 	let duplicateCount = $state(0);
-	let widthFactor = $state(1);
 	onMount(() => {
 		function onResize() {
 			duplicateCount = Math.ceil((window?.innerWidth ?? 0) / gameplayTextLength) + 1;
-			widthFactor = (window?.innerWidth ?? 0) / 1920;
 		}
 		onResize();
 		window.addEventListener('resize', onResize);
@@ -91,6 +89,7 @@
 	let forwardRun = $state(true);
 	onMount(() => {
 		function playAnimation() {
+			const duration = 500 * (window?.innerWidth ?? 0) / runVideo.clientWidth;
 			runVideo?.animate(forwardRun ? [
 				{ transform: "translate(-100%, 0%)", left: 0 },
 				{ transform: "translate(0%, 0%)", left: "100%" }] :
@@ -100,7 +99,7 @@
 				]
 				, {
 				fill: "forwards",
-				duration: 1000 * widthFactor,
+				duration: duration,
 				easing: 'linear',
 				iterations: 1
 			}).play();
@@ -233,7 +232,7 @@
 		{/* GAMEPLAY VIDEO */ null}
 		<div
 			class="video-box center-x relative z-10 mt-14 w-3/4 transition-transform duration-700 md:w-2/3 lg:mt-20"
-			style:transform="translate(-50%, {gameplayScroll + (window?.innerHeight ?? 0) / 3 > 0
+			style:transform="translate(-50%, {gameplayScroll + (window?.innerHeight ?? 0) * 0.6 > 0
 				? 0
 				: 100}%)"
 		>

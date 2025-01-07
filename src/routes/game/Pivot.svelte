@@ -256,7 +256,7 @@
 		{/* GAMEPLAY VIDEO */ null}
 		<div
 			class="video-box center-x relative w-3/4 transition-transform duration-700 md:w-2/3"
-			style:transform="translate(-50%, {gameplayScroll + (window?.innerHeight ?? 0) / 3 > 0
+			style:transform="translate(-50%, {gameplayScroll + (window?.innerHeight ?? 0) * 0.6 > 0
 				? 0
 				: 100}%)"
 		>
