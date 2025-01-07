@@ -186,7 +186,11 @@
 							}}
 						>
 							<PlayIcon color="white" class="ml-2 size-6 hmd:size-8" />
-							<div class="my-2 ml-1 mr-3 text-xl text-white hmd:my-3 hmd:text-2xl">
+							<div
+								class="my-2 ml-1 mr-3 text-white hmd:my-3 {lang == 'en'
+									? 'text-xl hmd:text-2xl'
+									: 'text-lg hmd:text-lg'}"
+							>
 								{m.play_now()}
 							</div>
 						</CoolButton>
@@ -198,7 +202,11 @@
 							}}
 						>
 							<ArrowDown stroke="white" class="ml-2 size-6 hmd:size-8" />
-							<div class="my-2 ml-1 mr-3 text-xl text-white hmd:my-3 hmd:text-2xl">
+							<div
+								class="my-2 ml-1 mr-3 text-white hmd:my-3 {lang == 'en'
+									? 'text-xl hmd:text-2xl'
+									: 'text-lg hmd:text-lg'}"
+							>
 								{m.read_more()}
 							</div>
 						</CoolButton>
