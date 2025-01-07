@@ -80,7 +80,7 @@
 	const conceptArtScrollPoint = [150, 650, 900, 1100];
 	let conceptArtsShow = $derived(
 		window
-			? conceptArtScrollPoint.map(p => conceptArtScroll + (window?.innerHeight ?? 0) > p)
+			? conceptArtScrollPoint.map((p) => conceptArtScroll + (window?.innerHeight ?? 0) > p)
 			: [false, false, false, false]
 	);
 </script>
@@ -104,7 +104,7 @@
 			style:transform="translateY(-{scroll / 4}px)"
 		>
 			<img
-				class="center-y absolute h-full object-cover xl:object-contain select-none pointer-events-none"
+				class="center-y pointer-events-none absolute h-full select-none object-cover xl:object-contain"
 				src={image('games/pivot/banner_art.webp')}
 				alt="banner art"
 			/>
@@ -116,7 +116,12 @@
 					class="banner-text center-x absolute bottom-[20%] flex w-5/6 flex-col items-center gap-7 sm:w-1/2 xl:left-28 xl:w-1/3 xl:translate-x-0"
 				>
 					<img class="w-full select-none" src={image('games/pivot/pivot_logo.webp')} alt="logo" />
-					<HorizontalLine stroke="#649B9F" strokeWidth="2" width="90%" style="transform: translateX({scroll/10}px)" />
+					<HorizontalLine
+						stroke="#649B9F"
+						strokeWidth="2"
+						width="90%"
+						style="transform: translateX({scroll / 10}px)"
+					/>
 
 					<div
 						class="w-8/12 text-2xl {lang == 'en'
@@ -126,10 +131,14 @@
 					>
 						{m.quote()}{m.pivot_description()}{m.quote_end()}
 					</div>
-					<div class="w-full xl:translate-x-20 flex justify-center">
-						<HorizontalLine stroke="#649B9F" strokeWidth="2" width="90%" style="transform: translateX({-scroll/10}px)" />
+					<div class="flex w-full justify-center xl:translate-x-20">
+						<HorizontalLine
+							stroke="#649B9F"
+							strokeWidth="2"
+							width="90%"
+							style="transform: translateX({-scroll / 10}px)"
+						/>
 					</div>
-					
 
 					<button
 						type="button"
@@ -208,7 +217,7 @@
 							: 'font-dotgothic16 text-2xl md:text-4xl lg:text-6xl'}"
 						style:color="#649B9F"
 						style:transition="width 0.7s"
-						style:width="{gameplayScroll + (window?.innerHeight ?? 0) / 2 > 0 ? '100%' : '0'}"
+						style:width={gameplayScroll + (window?.innerHeight ?? 0) / 2 > 0 ? '100%' : '0'}
 					>
 						{m.gameplay()}
 					</div>
@@ -311,7 +320,7 @@
 
 		{/* POKER DOTS */ null}
 		<div
-			class="hidden sm:block pointer-events-none absolute right-28 top-14 w-48"
+			class="pointer-events-none absolute right-28 top-14 hidden w-48 sm:block"
 			style:transform="translateY({-conceptArtScroll / 10}px)"
 		>
 			<img class="w-full select-none" src={image('games/pivot/dots.webp')} alt="poker dots" />
@@ -333,7 +342,7 @@
 			<div
 				class="absolute -left-64 bottom-16 -z-10 h-[200px] w-[728px] rounded-xl"
 				style:background-color="#A2D7D2"
-				style:transform="translateY({-(conceptArtScroll - conceptArtScrollPoint[0])/10}px)"
+				style:transform="translateY({-(conceptArtScroll - conceptArtScrollPoint[0]) / 10}px)"
 			></div>
 			<div
 				class="absolute -bottom-12 left-3 {lang == 'en'
@@ -360,7 +369,7 @@
 			<div
 				class="absolute -right-14 bottom-12 -z-10 h-[100px] w-[800px] rounded-xl"
 				style:background-color="#A2D7D2"
-				style:transform="translateY({-Math.min(conceptArtScroll - conceptArtScrollPoint[1])/8}px)"
+				style:transform="translateY({-Math.min(conceptArtScroll - conceptArtScrollPoint[1]) / 8}px)"
 			></div>
 			<div
 				class="absolute -bottom-12 right-6 {lang == 'en'
@@ -392,7 +401,8 @@
 			<div
 				class="absolute -left-52 bottom-16 -z-10 h-[200px] w-[640px] rounded-xl"
 				style:background-color="#A2D7D2"
-				style:transform="translateY({-Math.min(conceptArtScroll - conceptArtScrollPoint[2])/11}px)"
+				style:transform="translateY({-Math.min(conceptArtScroll - conceptArtScrollPoint[2]) /
+					11}px)"
 			></div>
 			<div
 				class="absolute -bottom-12 left-3 {lang == 'en'
@@ -419,7 +429,8 @@
 			<div
 				class="absolute -right-52 bottom-12 -z-10 h-[100px] w-[928px] rounded-xl"
 				style:background-color="#A2D7D2"
-				style:transform="translateY({-Math.min(0,conceptArtScroll - conceptArtScrollPoint[3])/7}px)"
+				style:transform="translateY({-Math.min(0, conceptArtScroll - conceptArtScrollPoint[3]) /
+					7}px)"
 			></div>
 			<div
 				class="absolute -bottom-12 right-6 {lang == 'en'

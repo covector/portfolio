@@ -37,7 +37,7 @@
 </script>
 
 <button
-	class="relative flex h-[340px] w-5/6 flex-col transition-transform sm:min-h-[450px] sm:h-[65vh] sm:w-64 md:w-72"
+	class="relative flex h-[340px] w-5/6 flex-col transition-transform sm:h-[65vh] sm:min-h-[450px] sm:w-64 md:w-72"
 	onclick={() => gotoPage(link)}
 	style:--hoverColor={colors.hoverColor}
 	onmouseenter={() => {
@@ -54,7 +54,7 @@
 	}}
 >
 	<div class="size-full">
-		<div class="relative z-10 h-40 sm:h-[65%] w-full rounded-t-xl">
+		<div class="relative z-10 h-40 w-full rounded-t-xl sm:h-[65%]">
 			<img src={image} alt="thumbnail" class="absolute size-full rounded-t-xl object-cover" />
 			{#if previewVideo}
 				<video

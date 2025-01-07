@@ -25,8 +25,7 @@
 				setTimeout(() => {
 					if (jumpscareVideo.getBoundingClientRect().top < 10) {
 						jumpscareVideo.play();
-					}
-					else {
+					} else {
 						jumpscareLock = false;
 					}
 				}, 1000);
@@ -66,7 +65,7 @@
 		/** @param {MouseEvent} e */
 		function onMouseMove(e) {
 			mouse = { x: e.clientX, y: e.clientY };
-			deviceImgIndex = Math.round(mouse.x / window.innerWidth * 10)+1;
+			deviceImgIndex = Math.round((mouse.x / window.innerWidth) * 10) + 1;
 		}
 		window.addEventListener('mousemove', onMouseMove);
 		return () => {
@@ -89,23 +88,29 @@
 	let forwardRun = $state(true);
 	onMount(() => {
 		function playAnimation() {
-			const duration = 500 * (window?.innerWidth ?? 0) / runVideo.clientWidth;
-			runVideo?.animate(forwardRun ? [
-				{ transform: "translate(-100%, 0%)", left: 0 },
-				{ transform: "translate(0%, 0%)", left: "100%" }] :
-				[
-					{ transform: "translate(0%, 0%) scaleX(-1)", left: "100%" },
-					{ transform: "translate(-100%, 0%) scaleX(-1)", left: 0 }
-				]
-				, {
-				fill: "forwards",
-				duration: duration,
-				easing: 'linear',
-				iterations: 1
-			}).play();
+			const duration = (500 * (window?.innerWidth ?? 0)) / runVideo.clientWidth;
+			runVideo
+				?.animate(
+					forwardRun
+						? [
+								{ transform: 'translate(-100%, 0%)', left: 0 },
+								{ transform: 'translate(0%, 0%)', left: '100%' }
+							]
+						: [
+								{ transform: 'translate(0%, 0%) scaleX(-1)', left: '100%' },
+								{ transform: 'translate(-100%, 0%) scaleX(-1)', left: 0 }
+							],
+					{
+						fill: 'forwards',
+						duration: duration,
+						easing: 'linear',
+						iterations: 1
+					}
+				)
+				.play();
 			forwardRun = !forwardRun;
 		}
-    
+
 		const interval = setInterval(playAnimation, 10000);
 		playAnimation();
 		return () => clearInterval(interval);
@@ -212,7 +217,7 @@
 		</div>
 	</div>
 	<div
-		class="text-nowrap relative w-full pb-20 pt-12"
+		class="relative w-full text-nowrap pb-20 pt-12"
 		style="clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); clip-path: padding-box;"
 		bind:this={gameplayBox}
 	>
@@ -220,7 +225,7 @@
 		<div
 			class="title-box center-x absolute z-20 px-24 {lang == 'en'
 				? 'py-2 font-jersey text-4xl leading-6 md:text-6xl lg:text-8xl'
-				: 'py-2 lg:py-4 font-dotgothic16 text-2xl md:text-4xl lg:text-6xl'}"
+				: 'py-2 font-dotgothic16 text-2xl md:text-4xl lg:py-4 lg:text-6xl'}"
 			style:background-color="#51418B"
 			style:transition="clip-path 0.7s"
 			style:clip-path={gameplayScroll + (window?.innerHeight ?? 0) > 0
@@ -251,12 +256,12 @@
 				<img
 					src={image('games/chameleon/bush_1.webp')}
 					alt="bush decoration"
-					class="absolute right-0 top-0 z-10 w-3/12 translate-x-1/2 select-none pointer-events-none"
+					class="pointer-events-none absolute right-0 top-0 z-10 w-3/12 translate-x-1/2 select-none"
 				/>
 				<img
 					src={image('games/chameleon/bush_2.webp')}
 					alt="bush decoration"
-					class="absolute left-0 top-0 z-10 w-3/12 select-none pointer-events-none"
+					class="pointer-events-none absolute left-0 top-0 z-10 w-3/12 select-none"
 					style:transform="translate(-50%, -30%)"
 				/>
 			</div>
@@ -362,185 +367,240 @@
 	</div>
 
 	{/* FEATURES SECTION */ null}
-	<div class="bg-black h-4 w-full overflow-hidden" bind:this={featureBox}></div>
+	<div class="h-4 w-full overflow-hidden bg-black" bind:this={featureBox}></div>
 	<div
-		class="relative h-screen sm:h-[120vh] w-full min-h-[1500px] sm:min-h-[1800px] xl:min-h-[900px] overflow-hidden"
+		class="relative h-screen min-h-[1500px] w-full overflow-hidden sm:h-[120vh] sm:min-h-[1800px] xl:min-h-[900px]"
 		style:background="linear-gradient(247deg, rgba(32,50,48,1) 0%, rgba(13,17,34,1) 100%)"
 	>
 		{/* FEATURES TITLE */ null}
-		<div class="relative w-full h-24 md:h-32 lg:h-48 z-10" style:background="linear-gradient(70deg, rgba(77,141,150,1) 0%, rgba(54,164,115,1) 100%)">
-			<div class="absolute center-xy {lang == 'en'
-				? 'py-2 font-jersey text-4xl leading-6 md:text-6xl lg:text-8xl'
-				: 'py-4 font-dotgothic16 text-3xl md:text-5xl lg:text-7xl'}"
+		<div
+			class="relative z-10 h-24 w-full md:h-32 lg:h-48"
+			style:background="linear-gradient(70deg, rgba(77,141,150,1) 0%, rgba(54,164,115,1) 100%)"
+		>
+			<div
+				class="center-xy absolute {lang == 'en'
+					? 'py-2 font-jersey text-4xl leading-6 md:text-6xl lg:text-8xl'
+					: 'py-4 font-dotgothic16 text-3xl md:text-5xl lg:text-7xl'}"
 				style:color="#A2D2BA"
 			>
 				{m.features()}
 			</div>
-			<div class="absolute bottom-0 w-full h-2 md:h-4" style:background-color="#A2D2BA"></div>
+			<div class="absolute bottom-0 h-2 w-full md:h-4" style:background-color="#A2D2BA"></div>
 		</div>
 
 		{/* FEATURES CONTENT */ null}
-		<div class="absolute w-full flex-col xl:flex-row flex justify-center items-center top-40 gap-y-16 sm:gap-y-24 gap-x-36 z-30 overflow-hidden">
+		<div
+			class="absolute top-40 z-30 flex w-full flex-col items-center justify-center gap-x-36 gap-y-16 overflow-hidden sm:gap-y-24 xl:flex-row"
+		>
 			<div
-				class="relative rounded-xl border w-5/6 sm:w-[550px] h-[550px] sm:h-[660px] transition-transform duration-700"
+				class="relative h-[550px] w-5/6 rounded-xl border transition-transform duration-700 sm:h-[660px] sm:w-[550px]"
 				style:background-color="#241D2F"
 				style:border-color="#40305F"
-				style:transform="translateX({featureBoxScroll + (window?.innerHeight ?? 0) / 2 > 0 ? 0 : "-200%"})"
+				style:transform="translateX({featureBoxScroll + (window?.innerHeight ?? 0) / 2 > 0
+					? 0
+					: '-200%'})"
 			>
-				<div class="w-full h-3/4 p-3 sm:p-6">
-					<video
-						class="size-full object-cover"
-						autoplay
-						loop
-						playsinline
-						muted
-					>
+				<div class="h-3/4 w-full p-3 sm:p-6">
+					<video class="size-full object-cover" autoplay loop playsinline muted>
 						<source src={image('games/chameleon/features_1.webm')} type="video/webm" />
 					</video>
 				</div>
-				<div class="relative w-full h-1/4 flex items-center gap-3 sm:gap-4">
-					<div class="w-4 h-5/6 ml-4 sm:ml-8 rounded-3xl -translate-y-2 sm:-translate-y-3" style:background="linear-gradient(0deg, rgba(53,75,165,1) 0%, rgba(107,80,154,1) 100%)"></div>
-					<div class="h-full flex flex-col gap-2 sm:gap-4 mr-2">
-						<div class="{lang == 'en'
-						? 'text-2xl sm:text-3xl lg:text-4xl'
-						: 'text-xl sm:text-2xl lg:text-3xl'}" style:color="#C69EF6">{m.model_assets()}</div>
-						<div class="{lang == 'en'
-						? 'text-xl sm:text-2xl lg:text-2xl leading-6 sm:leading-7'
-						: 'text-md sm:text-lg lg:text-xl leading-6 sm:leading-7'}" style:color="#8D809B">{m.model_assets_description()}</div>
+				<div class="relative flex h-1/4 w-full items-center gap-3 sm:gap-4">
+					<div
+						class="ml-4 h-5/6 w-4 -translate-y-2 rounded-3xl sm:ml-8 sm:-translate-y-3"
+						style:background="linear-gradient(0deg, rgba(53,75,165,1) 0%, rgba(107,80,154,1) 100%)"
+					></div>
+					<div class="mr-2 flex h-full flex-col gap-2 sm:gap-4">
+						<div
+							class={lang == 'en'
+								? 'text-2xl sm:text-3xl lg:text-4xl'
+								: 'text-xl sm:text-2xl lg:text-3xl'}
+							style:color="#C69EF6"
+						>
+							{m.model_assets()}
+						</div>
+						<div
+							class={lang == 'en'
+								? 'text-xl leading-6 sm:text-2xl sm:leading-7 lg:text-2xl'
+								: 'text-md leading-6 sm:text-lg sm:leading-7 lg:text-xl'}
+							style:color="#8D809B"
+						>
+							{m.model_assets_description()}
+						</div>
 					</div>
 				</div>
 			</div>
 			<div
-				class="relative rounded-xl border w-5/6 sm:w-[550px] h-[550px] sm:h-[660px] transition-transform duration-700"
+				class="relative h-[550px] w-5/6 rounded-xl border transition-transform duration-700 sm:h-[660px] sm:w-[550px]"
 				style:background-color="#1A2824"
 				style:border-color="#2C4D43"
-				style:transform="translateX({featureBoxScroll + (window?.innerHeight ?? 0) / 2 - (window?.innerWidth < 1280 ? 600 : 0) > 0 ? 0 : "200%"})"
+				style:transform="translateX({featureBoxScroll +
+					(window?.innerHeight ?? 0) / 2 -
+					(window?.innerWidth < 1280 ? 600 : 0) >
+				0
+					? 0
+					: '200%'})"
 			>
-				<div class="w-full h-3/4 p-3 sm:p-6">
-					<video
-						class="size-full object-cover"
-						autoplay
-						loop
-						playsinline
-						muted
-					>
+				<div class="h-3/4 w-full p-3 sm:p-6">
+					<video class="size-full object-cover" autoplay loop playsinline muted>
 						<source src={image('games/chameleon/features_2.webm')} type="video/webm" />
 					</video>
 				</div>
-				<div class="relative w-full h-1/4 flex items-center gap-3 sm:gap-4">
-					<div class="w-4 h-5/6 ml-4 sm:ml-8 rounded-3xl -translate-y-2 sm:-translate-y-3" style:background="linear-gradient(0deg, rgba(53,165,113,1) 0%, rgba(80,138,154,1) 100%)"></div>
-					<div class="h-full flex flex-col gap-2 sm:gap-4 mr-2">
-						<div class="{lang == 'en'
-						? 'text-2xl sm:text-3xl lg:text-4xl'
-						: 'text-xl sm:text-2xl lg:text-3xl'}" style:color="#88DED4">{m.procedural_generation()}</div>
-						<div class="{lang == 'en'
-						? 'text-xl sm:text-2xl lg:text-2xl leading-6 sm:leading-7'
-						: 'text-md sm:text-lg lg:text-xl leading-6 sm:leading-7'}" style:color="#809B99">{m.procedural_generation_description()}</div>
+				<div class="relative flex h-1/4 w-full items-center gap-3 sm:gap-4">
+					<div
+						class="ml-4 h-5/6 w-4 -translate-y-2 rounded-3xl sm:ml-8 sm:-translate-y-3"
+						style:background="linear-gradient(0deg, rgba(53,165,113,1) 0%, rgba(80,138,154,1) 100%)"
+					></div>
+					<div class="mr-2 flex h-full flex-col gap-2 sm:gap-4">
+						<div
+							class={lang == 'en'
+								? 'text-2xl sm:text-3xl lg:text-4xl'
+								: 'text-xl sm:text-2xl lg:text-3xl'}
+							style:color="#88DED4"
+						>
+							{m.procedural_generation()}
+						</div>
+						<div
+							class={lang == 'en'
+								? 'text-xl leading-6 sm:text-2xl sm:leading-7 lg:text-2xl'
+								: 'text-md leading-6 sm:text-lg sm:leading-7 lg:text-xl'}
+							style:color="#809B99"
+						>
+							{m.procedural_generation_description()}
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
 		{/* FEATURES BACKGROUND */ null}
-		<div class="absolute w-full h-screen top-0" style:transform="translateY({Math.max(0, featureBoxScroll)}px)">
+		<div
+			class="absolute top-0 h-screen w-full"
+			style:transform="translateY({Math.max(0, featureBoxScroll)}px)"
+		>
 			<Grid />
 		</div>
 
 		{/* DEVICE */ null}
-		<div class="fixed select-none pointer-events-none w-full h-screen z-40 top-0 hidden xl:block transition-transform duration-700" style:transform="translateY({Math.abs(featureBoxScroll) < window.innerHeight/2 ? 0 : 50}%)">
+		<div
+			class="pointer-events-none fixed top-0 z-40 hidden h-screen w-full select-none transition-transform duration-700 xl:block"
+			style:transform="translateY({Math.abs(featureBoxScroll) < window.innerHeight / 2 ? 0 : 50}%)"
+		>
 			<img
-				class="absolute center-x bottom-0 w-2/3 h-2/3 object-contain"
+				class="center-x absolute bottom-0 h-2/3 w-2/3 object-contain"
 				src={image(`games/chameleon/device/${deviceImgIndex}.webp`)}
 				alt="device"
 			/>
 		</div>
 
-		<div class="fade w-full h-[10vh] sm:h-[20vh] z-20 absolute bottom-0" style:background="linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)"></div>
-	</div> 
+		<div
+			class="fade absolute bottom-0 z-20 h-[10vh] w-full sm:h-[20vh]"
+			style:background="linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)"
+		></div>
+	</div>
 	{/* MONSTER SECTION */ null}
-	<div class="relative w-full min-h-screen bg-black overflow-hidden h-[1380px] md:h-[1500px]" bind:this={monsterSection}>
+	<div
+		class="relative h-[1380px] min-h-screen w-full overflow-hidden bg-black md:h-[1500px]"
+		bind:this={monsterSection}
+	>
 		<img
-			class="absolute select-none transition-opacity duration-1000 object-cover top-[100px] right-0 h-[300px] md:h-[400px]" src={image('games/chameleon/monster_1.webp')} 
+			class="absolute right-0 top-[100px] h-[300px] select-none object-cover transition-opacity duration-1000 md:h-[400px]"
+			src={image('games/chameleon/monster_1.webp')}
 			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 > 0 ? false : true}
-			alt="monster concept art" 
+			alt="monster concept art"
 		/>
 		<div
-			class="absolute bg-black lg:bg-transparent transition-opacity duration-1000 top-[200px] left-12 sm:left-[100px] xl:left-[unset] xl:right-[600px] 2xl:right-[800px] sm:w-[500px] {lang == 'en'
+			class="absolute left-12 top-[200px] bg-black transition-opacity duration-1000 sm:left-[100px] sm:w-[500px] lg:bg-transparent xl:left-[unset] xl:right-[600px] 2xl:right-[800px] {lang ==
+			'en'
 				? 'text-2xl sm:text-3xl lg:text-[2.25rem]'
 				: 'text-xl sm:text-2xl lg:text-[1.875rem]'}"
-			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 + 100  > 0 ? false : true}
-			style:transform="translateY({-(monsterSectionScroll)/3}px)"
+			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 + 100 > 0
+				? false
+				: true}
+			style:transform="translateY({-monsterSectionScroll / 3}px)"
 			style:color="#7C7C7C"
-		>{m.monster_lore_a()}</div>
+		>
+			{m.monster_lore_a()}
+		</div>
 		<img
-			class="absolute select-none transition-opacity duration-1000 object-cover top-[450px] left-[-10px] h-[400px] md:h-[500px]"
+			class="absolute left-[-10px] top-[450px] h-[400px] select-none object-cover transition-opacity duration-1000 md:h-[500px]"
 			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 > 450 ? false : true}
-			style:transform="translateY({-(monsterSectionScroll - 400)/3.6}px)"
+			style:transform="translateY({-(monsterSectionScroll - 400) / 3.6}px)"
 			src={image('games/chameleon/monster_2.webp')}
 			alt="monster sighting 1"
-			/>
+		/>
 		<div
-			class="absolute bg-black lg:bg-transparent transition-opacity duration-1000 top-[650px] right-12 sm:right-[100px] xl:right-[unset] xl:left-[800px] sm:w-[350px] {lang == 'en'
+			class="absolute right-12 top-[650px] bg-black transition-opacity duration-1000 sm:right-[100px] sm:w-[350px] lg:bg-transparent xl:left-[800px] xl:right-[unset] {lang ==
+			'en'
 				? 'text-2xl sm:text-[1.8rem] lg:text-[2rem]'
 				: 'text-xl sm:text-2xl lg:text-[1.8rem]'}"
 			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 > 500 ? false : true}
 			style:color="#7C7C7C"
-		>{m.monster_lore_b()}</div>
+		>
+			{m.monster_lore_b()}
+		</div>
 		<img
-			class="absolute select-none transition-opacity duration-1000 object-cover top-[900px] -right-8 md:left-1/2 md:-translate-x-1/4 h-[230px] md:h-[300px]"
+			class="absolute -right-8 top-[900px] h-[230px] select-none object-cover transition-opacity duration-1000 md:left-1/2 md:h-[300px] md:-translate-x-1/4"
 			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 > 830 ? false : true}
 			src={image('games/chameleon/monster_3.webp')}
 			alt="monster sighting 2"
-			/>
+		/>
 		<div
-			class="absolute bg-black lg:bg-transparent transition-opacity duration-1000 top-[950px] left-12 xl:left-[unset] xl:right-[580px] 2xl:right-[700px] md:w-[650px] {lang == 'en'
+			class="absolute left-12 top-[950px] bg-black transition-opacity duration-1000 md:w-[650px] lg:bg-transparent xl:left-[unset] xl:right-[580px] 2xl:right-[700px] {lang ==
+			'en'
 				? 'text-2xl sm:text-3xl lg:text-[2.5rem]'
 				: 'text-xl sm:text-2xl lg:text-[2rem]'}"
 			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 > 650 ? false : true}
-			style:transform="translateY({-(monsterSectionScroll-650)/2}px)"
+			style:transform="translateY({-(monsterSectionScroll - 650) / 2}px)"
 			style:color="#7C7C7C"
-		>{m.monster_lore_c()}</div>
+		>
+			{m.monster_lore_c()}
+		</div>
 		<div
-			class="absolute bg-black transition-opacity duration-1000 top-[1200px] md:top-[1350px] center-x text-nowrap {lang == 'en'
+			class="center-x absolute top-[1200px] text-nowrap bg-black transition-opacity duration-1000 md:top-[1350px] {lang ==
+			'en'
 				? 'text-3xl sm:text-4xl lg:text-5xl'
 				: 'text-2xl sm:text-3xl lg:text-4xl'}"
 			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 > 1150 ? false : true}
-			style:transform="translate(-50%,{-(monsterSectionScroll - 900)/1.6}px)"
+			style:transform="translate(-50%,{-(monsterSectionScroll - 900) / 1.6}px)"
 			style:color="#7C7C7C"
-		>{m.monster_lore_d()}</div>
+		>
+			{m.monster_lore_d()}
+		</div>
 
-		<div class="absolute top-0 w-full h-full pointer-events-none">
+		<div class="pointer-events-none absolute top-0 h-full w-full">
 			<video
-			class="absolute top-1/2 left-0 md:w-1/2 h-1/2 object-contain"
-			bind:this={runVideo}
-			autoplay
-			loop
-			playsinline
-			muted>
+				class="absolute left-0 top-1/2 h-1/2 object-contain md:w-1/2"
+				bind:this={runVideo}
+				autoplay
+				loop
+				playsinline
+				muted
+			>
 				<source src={image('games/chameleon/run.webm')} type="video/webm" />
 			</video>
 		</div>
 	</div>
 
 	{/* JUMPSCARE SECTION */ null}
-	<div class="relative w-full h-screen bg-black">
-			<video
+	<div class="relative h-screen w-full bg-black">
+		<video
 			bind:this={jumpscareVideo}
-			class="size-full object-cover pointer-events-none"
+			class="pointer-events-none size-full object-cover"
 			muted
 			playsinline
 			onended={() => {
-					window.scrollTo(0, scroll = featureBox.offsetTop);
-					jumpscareVideo.pause();
-					jumpscareVideo.currentTime = 0;
-					setTimeout(() => {
-						jumpscareLock = false;
-					}, 1000);
-				}}
-			>
-				<source src={image('games/chameleon/jumpscare.webm')} type="video/webm" />
-			</video>
-	</div>	
+				window.scrollTo(0, (scroll = featureBox.offsetTop));
+				jumpscareVideo.pause();
+				jumpscareVideo.currentTime = 0;
+				setTimeout(() => {
+					jumpscareLock = false;
+				}, 1000);
+			}}
+		>
+			<source src={image('games/chameleon/jumpscare.webm')} type="video/webm" />
+		</video>
+	</div>
 </div>
 
 <style>

@@ -48,7 +48,12 @@
 	style:transform={`translateY(${getContext('overscroll').current}px)`}
 >
 	{#each games as game, i (i)}
-		<FlyIn delay={i * 0.1} class="flex justify-center">
+		<FlyIn
+			delay={i * 0.1}
+			class="flex justify-center"
+			overflowFix={false}
+			style="max-width: -webkit-fill-available"
+		>
 			{/* @ts-ignore */ null}
 			<GameCard
 				title={m[`${game.id}_title`]()}
