@@ -89,6 +89,7 @@
 	<button
 		class="fixed left-8 top-32 z-30 min-[400px]:top-10 sm:left-20 sm:top-20 lg:left-28"
 		onclick={() => gotoPage('game')}
+		aria-label="Back to games"
 	>
 		<BackIcon color="#DFDDF9" class="size-6 sm:size-10" />
 	</button>
@@ -115,7 +116,7 @@
 					class="banner-text center-x absolute bottom-[20%] flex w-5/6 flex-col items-center gap-7 sm:w-1/2 xl:left-28 xl:w-1/3 xl:translate-x-0"
 				>
 					<img class="w-full select-none" src={image('games/pivot/pivot_logo.webp')} alt="logo" />
-					<HorizontalLine stroke="#649B9F" strokeWidth="2" width="90%" style="transform: translateX({16 + scroll/10}px)" />
+					<HorizontalLine stroke="#649B9F" strokeWidth="2" width="90%" style="transform: translateX({scroll/10}px)" />
 
 					<div
 						class="w-8/12 text-2xl {lang == 'en'
@@ -125,7 +126,10 @@
 					>
 						{m.quote()}{m.pivot_description()}{m.quote_end()}
 					</div>
-					<HorizontalLine stroke="#649B9F" strokeWidth="2" width="90%" style="transform: translateX({80 - scroll/10}px)" />
+					<div class="w-full xl:translate-x-20 flex justify-center">
+						<HorizontalLine stroke="#649B9F" strokeWidth="2" width="90%" style="transform: translateX({-scroll/10}px)" />
+					</div>
+					
 
 					<button
 						type="button"

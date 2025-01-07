@@ -117,6 +117,7 @@
 	<button
 		class="fixed left-8 top-32 z-30 min-[400px]:top-10 sm:left-20 sm:top-20 lg:left-28"
 		onclick={() => gotoPage('game')}
+		aria-label="Back to games"
 	>
 		<BackIcon color="#DFDDF9" class="size-6 sm:size-10" />
 	</button>
