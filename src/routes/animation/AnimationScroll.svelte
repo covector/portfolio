@@ -224,7 +224,7 @@
 	let maxScroll = $derived(
 		isMobile
 			? mobileViewingIndex > animationData.length - 2
-			: scroll > ANIMATION_SCROLL_HEIGHT * (animationData.length - 1)
+			: scroll > ANIMATION_SCROLL_HEIGHT * (animationData.length - 1) - 10
 	);
 	let knowScroll = $state(false);
 	$effect(() => {
@@ -236,7 +236,8 @@
 
 <div class="overflow-scroll-y h-screen w-full" style:height={totalHeight + 'px'}>
 	{/* SCROLL TIP */ null}
-	{#if !knowScroll && lowScroll}
+	<!-- {#if !knowScroll && lowScroll} -->
+	{#if !maxScroll}
 		<div class="center-x fixed bottom-4 z-40 flex flex-col items-center gap-2 text-center">
 			<div class="select-none" style:color="#C4C4C4">{m.scroll()}</div>
 			<button

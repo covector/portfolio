@@ -24,3 +24,11 @@ vite.config.ts.timestamp-*
 
 # Paraglide
 src/lib/paraglide
+
+# Optimization
+**/*.mp4
+**/*.png
+
+# Utils
+**/*.sh
+**/*.bat

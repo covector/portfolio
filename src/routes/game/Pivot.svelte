@@ -103,7 +103,7 @@
 			style:transform="translateY(-{scroll / 4}px)"
 		>
 			<img
-				class="center-y absolute h-full object-cover xl:object-contain"
+				class="center-y absolute h-full object-cover xl:object-contain select-none pointer-events-none"
 				src={image('games/pivot/banner_art.webp')}
 				alt="banner art"
 			/>
@@ -280,7 +280,7 @@
 
 	{/* CONCEPT ARTS SECTION */ null}
 	<div
-		class="bg-attachment-fixed relative flex w-full flex-col gap-28 overflow-x-hidden pb-28 pt-14 sm:block sm:h-[1900px] sm:py-0 xl:h-[1500px]"
+		class="bg-attachment-fixed relative flex w-full flex-col gap-28 overflow-hidden pb-28 pt-14 sm:block sm:h-[1900px] sm:py-0 xl:h-[1500px]"
 		style:background="linear-gradient(0deg, #7CBCBE 0%, #649B9F 100%)"
 		style="-webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); clip-path: padding-box;"
 		bind:this={conceptArtBox}

@@ -251,12 +251,12 @@
 				<img
 					src={image('games/chameleon/bush_1.webp')}
 					alt="bush decoration"
-					class="absolute right-0 top-0 z-10 w-3/12 translate-x-1/2"
+					class="absolute right-0 top-0 z-10 w-3/12 translate-x-1/2 select-none pointer-events-none"
 				/>
 				<img
 					src={image('games/chameleon/bush_2.webp')}
 					alt="bush decoration"
-					class="absolute left-0 top-0 z-10 w-3/12"
+					class="absolute left-0 top-0 z-10 w-3/12 select-none pointer-events-none"
 					style:transform="translate(-50%, -30%)"
 				/>
 			</div>
@@ -447,7 +447,7 @@
 		</div>
 
 		{/* DEVICE */ null}
-		<div class="fixed pointer-events-none w-full h-screen z-40 top-0 hidden xl:block transition-transform duration-700" style:transform="translateY({Math.abs(featureBoxScroll) < window.innerHeight/2 ? 0 : 50}%)">
+		<div class="fixed select-none pointer-events-none w-full h-screen z-40 top-0 hidden xl:block transition-transform duration-700" style:transform="translateY({Math.abs(featureBoxScroll) < window.innerHeight/2 ? 0 : 50}%)">
 			<img
 				class="absolute center-x bottom-0 w-2/3 h-2/3 object-contain"
 				src={image(`games/chameleon/device/${deviceImgIndex}.webp`)}
@@ -460,7 +460,7 @@
 	{/* MONSTER SECTION */ null}
 	<div class="relative w-full min-h-screen bg-black overflow-hidden h-[1380px] md:h-[1500px]" bind:this={monsterSection}>
 		<img
-			class="absolute transition-opacity duration-1000 object-cover top-[100px] right-0 h-[300px] md:h-[400px]" src={image('games/chameleon/monster_1.webp')} 
+			class="absolute select-none transition-opacity duration-1000 object-cover top-[100px] right-0 h-[300px] md:h-[400px]" src={image('games/chameleon/monster_1.webp')} 
 			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 > 0 ? false : true}
 			alt="monster concept art" 
 		/>
@@ -473,7 +473,7 @@
 			style:color="#7C7C7C"
 		>{m.monster_lore_a()}</div>
 		<img
-			class="absolute transition-opacity duration-1000 object-cover top-[450px] left-[-10px] h-[400px] md:h-[500px]"
+			class="absolute select-none transition-opacity duration-1000 object-cover top-[450px] left-[-10px] h-[400px] md:h-[500px]"
 			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 > 450 ? false : true}
 			style:transform="translateY({-(monsterSectionScroll - 400)/3.6}px)"
 			src={image('games/chameleon/monster_2.webp')}
@@ -487,7 +487,7 @@
 			style:color="#7C7C7C"
 		>{m.monster_lore_b()}</div>
 		<img
-			class="absolute transition-opacity duration-1000 object-cover top-[900px] -right-8 md:left-1/2 md:-translate-x-1/4 h-[230px] md:h-[300px]"
+			class="absolute select-none transition-opacity duration-1000 object-cover top-[900px] -right-8 md:left-1/2 md:-translate-x-1/4 h-[230px] md:h-[300px]"
 			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 > 830 ? false : true}
 			src={image('games/chameleon/monster_3.webp')}
 			alt="monster sighting 2"
@@ -526,7 +526,7 @@
 	<div class="relative w-full h-screen bg-black">
 			<video
 			bind:this={jumpscareVideo}
-			class="size-full object-cover"
+			class="size-full object-cover pointer-events-none"
 			muted
 			playsinline
 			onended={() => {
