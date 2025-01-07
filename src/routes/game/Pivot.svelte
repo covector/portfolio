@@ -87,7 +87,7 @@
 
 <div class="w-full">
 	<button
-		class="fixed left-8 top-32 z-30 min-[400px]:top-10 sm:left-20 sm:top-20 lg:left-28"
+		class="min-[400px]:top-10 fixed left-8 top-32 z-30 sm:left-20 sm:top-20 lg:left-28"
 		onclick={() => gotoPage('game')}
 		aria-label="Back to games"
 	>
@@ -113,7 +113,7 @@
 			{/* BANNER TEXT */ null}
 			<FlyIn class="absolute z-20 size-full" distance="100px">
 				<div
-					class="banner-text center-x absolute bottom-[20%] flex w-5/6 flex-col items-center gap-7 sm:w-1/2 xl:left-28 xl:w-1/3 xl:translate-x-0"
+					class="banner-text center-x absolute bottom-[5%] flex w-5/6 flex-col items-center gap-4 sm:w-1/2 xl:left-28 xl:w-1/3 xl:translate-x-0 hmd:bottom-[10%] hmd:gap-7 [@media_(min-height:700px)]:bottom-[20%]"
 				>
 					<img class="w-full select-none" src={image('games/pivot/pivot_logo.webp')} alt="logo" />
 					<HorizontalLine
@@ -126,7 +126,7 @@
 					<div
 						class="w-8/12 text-2xl {lang == 'en'
 							? 'font-jersey leading-6'
-							: 'font-dotgothic16 leading-9'} lg:text-[1.6rem] xl:translate-x-8"
+							: 'font-dotgothic16 leading-9'} text-xl xl:translate-x-8 hmd:text-2xl [@media_((min-height:594px)_and_(min-width:1025px))]:text-[1.6rem]"
 						style:color="#649B9F"
 					>
 						{m.quote()}{m.pivot_description()}{m.quote_end()}
@@ -147,7 +147,7 @@
 							window.scrollTo(0, window.innerHeight);
 						}}
 					>
-						<ArrowDown stroke="#A46B6C" class="size-16 animate-bounce" />
+						<ArrowDown stroke="#A46B6C" class="size-12 animate-bounce hmd:size-16" />
 					</button>
 				</div>
 			</FlyIn>
@@ -306,7 +306,7 @@
 				? -50
 				: -200}%)"
 		>
-			<div class="relative" style:transform="translateY({conceptArtScroll / 4}px)">
+			<div class="relative" style:transform="translateY({conceptArtScroll / 8}px)">
 				<div
 					class="text-center {lang == 'en'
 						? 'font-jersey text-4xl leading-6 sm:text-6xl lg:text-8xl'
@@ -482,7 +482,7 @@
 				{/if}
 			{/if}
 			<button
-				class="absolute size-8 -translate-y-12 sm:-translate-x-12"
+				class="absolute size-8 -translate-y-12 sm:-translate-x-12 sm:translate-y-0"
 				style:top="{topCorner.y}px"
 				style:left="{topCorner.x}px"
 				onclick={(e) => {

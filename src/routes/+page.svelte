@@ -42,11 +42,11 @@
 
 <OverscrollProvider>
 	<ScrollColor>
+		<div class="center-x fixed top-[24px] z-50"><DomainSelect /></div>
 		<div
-			class="fixed left-0 top-0 z-50 flex h-12 w-full flex-col items-center gap-4 px-6 pb-2 pt-6 md:grid"
+			class="center-x fixed top-[80px] z-50 md:left-[unset] md:right-6 md:top-[26px] md:translate-x-0"
 		>
-			<div class="row-col-1 justify-self-center"><DomainSelect /></div>
-			<div class="row-col-1 justify-self-end"><LanguageSelect /></div>
+			<LanguageSelect />
 		</div>
 		<div class="pointer-events-none fixed left-0 top-0 z-50 h-screen py-10 pl-6">
 			<MeasurementProvider>

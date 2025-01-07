@@ -37,7 +37,7 @@
 </script>
 
 <button
-	class="relative flex h-[340px] w-5/6 flex-col transition-transform sm:h-[65vh] sm:min-h-[450px] sm:w-64 md:w-72"
+	class="relative flex h-[340px] w-5/6 flex-col transition-transform sm:h-[65vh] sm:min-h-[550px] sm:w-64 md:w-72"
 	onclick={() => gotoPage(link)}
 	style:--hoverColor={colors.hoverColor}
 	onmouseenter={() => {

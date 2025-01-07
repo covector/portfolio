@@ -22,13 +22,10 @@
 			// jumpscare detect
 			if (jumpscareVideo && !jumpscareLock && jumpscareVideo.getBoundingClientRect().top < 10) {
 				jumpscareLock = true;
+				scrollLock = true;
 				setTimeout(() => {
-					if (jumpscareVideo.getBoundingClientRect().top < 10) {
-						jumpscareVideo.play();
-					} else {
-						jumpscareLock = false;
-					}
-				}, 1000);
+					jumpscareVideo.play();
+				}, 500);
 			}
 		}
 		window.addEventListener('scroll', onScroll);
@@ -73,6 +70,28 @@
 		};
 	});
 	let deviceImgIndex = $state(6);
+	let scrollLock = $state(false);
+	onMount(() => {
+		/** @param {Event} e */
+		function onScrollInput(e) {
+			if (scrollLock) {
+				e.preventDefault();
+				e.stopPropagation();
+			}
+		}
+		window.addEventListener('DOMMouseScroll', onScrollInput, { passive: false });
+		window.addEventListener('mousewheel', onScrollInput, { passive: false });
+		window.addEventListener('wheel', onScrollInput, { passive: false });
+		window.addEventListener('touchmove', onScrollInput, { passive: false });
+		window.addEventListener('keydown', onScrollInput, { passive: false });
+		return () => {
+			window.removeEventListener('DOMMouseScroll', onScrollInput);
+			window.removeEventListener('mousewheel', onScrollInput);
+			window.removeEventListener('wheel', onScrollInput);
+			window.removeEventListener('touchmove', onScrollInput);
+			window.removeEventListener('keydown', onScrollInput);
+		};
+	});
 
 	/** @type {HTMLDivElement} */
 	let monsterSection;
@@ -119,7 +138,7 @@
 
 <div class={lang == 'en' ? 'font-jersey text-2xl leading-6' : 'font-dotgothic16 leading-9'}>
 	<button
-		class="fixed left-8 top-32 z-30 min-[400px]:top-10 sm:left-20 sm:top-20 lg:left-28"
+		class="min-[400px]:top-10 fixed left-8 top-32 z-30 sm:left-20 sm:top-20 lg:left-28"
 		onclick={() => gotoPage('game')}
 		aria-label="Back to games"
 	>
@@ -146,14 +165,14 @@
 			{/* BANNER TEXT */ null}
 			<FlyIn class="absolute size-full" duration={1} distance="30%">
 				<div
-					class="banner-text center-x absolute bottom-1/4 flex w-5/6 flex-col items-center gap-7 sm:w-1/2 xl:w-1/3"
+					class="banner-text center-x absolute bottom-[15%] flex w-5/6 flex-col items-center gap-4 sm:w-1/2 xl:w-1/3 hmd:bottom-1/4 hmd:gap-7"
 				>
 					<img class="w-full select-none" src={image('games/chameleon/banner.webp')} alt="logo" />
 
 					<div
-						class="w-10/12 text-2xl {lang == 'en'
+						class="w-10/12 {lang == 'en'
 							? 'font-jersey leading-6'
-							: 'font-dotgothic16 leading-9'} lg:text-[1.6rem]"
+							: 'font-dotgothic16 leading-9'} text-lg hmd:text-2xl [@media_((min-height:594px)_and_(min-width:1025px))]:text-[1.6rem]"
 						style:color="#8781b9"
 					>
 						{m.quote()}{m.chameleon_description()}{m.quote_end()}
@@ -166,8 +185,10 @@
 								window.open('https://covector.github.io/Chameleon/', '_blank');
 							}}
 						>
-							<PlayIcon color="white" class="ml-2 size-8" />
-							<div class="my-3 ml-1 mr-3 text-white">{m.play_now()}</div>
+							<PlayIcon color="white" class="ml-2 size-6 hmd:size-8" />
+							<div class="my-2 ml-1 mr-3 text-xl text-white hmd:my-3 hmd:text-2xl">
+								{m.play_now()}
+							</div>
 						</CoolButton>
 						<CoolButton
 							normalColor="#6953CB"
@@ -176,8 +197,10 @@
 								window.scrollTo(0, window.innerHeight);
 							}}
 						>
-							<ArrowDown stroke="white" class="ml-2 size-8" />
-							<div class="my-3 ml-1 mr-3 text-white">{m.read_more()}</div>
+							<ArrowDown stroke="white" class="ml-2 size-6 hmd:size-8" />
+							<div class="my-2 ml-1 mr-3 text-xl text-white hmd:my-3 hmd:text-2xl">
+								{m.read_more()}
+							</div>
 						</CoolButton>
 					</div>
 				</div>
@@ -369,7 +392,7 @@
 	{/* FEATURES SECTION */ null}
 	<div class="h-4 w-full overflow-hidden bg-black" bind:this={featureBox}></div>
 	<div
-		class="relative h-screen min-h-[1650px] w-full overflow-hidden sm:h-[120vh] sm:min-h-[1800px] xl:min-h-[900px]"
+		class="relative h-screen min-h-[1150px] w-full overflow-hidden sm:h-[120vh] sm:min-h-[800px] xl:min-h-[900px]"
 		style:background="linear-gradient(247deg, rgba(32,50,48,1) 0%, rgba(13,17,34,1) 100%)"
 	>
 		{/* FEATURES TITLE */ null}
@@ -390,17 +413,17 @@
 
 		{/* FEATURES CONTENT */ null}
 		<div
-			class="absolute top-40 z-30 flex w-full flex-col items-center justify-center gap-x-36 gap-y-16 overflow-hidden sm:gap-y-24 xl:flex-row"
+			class="absolute top-40 z-30 flex w-full flex-col items-center justify-center gap-x-12 gap-y-16 overflow-hidden sm:gap-y-24 md:flex-row lg:gap-x-20 xl:gap-x-36"
 		>
 			<div
-				class="relative h-[680px] w-11/12 rounded-xl border transition-transform duration-700 sm:h-[710px] sm:w-[550px]"
+				class="relative h-[400px] w-11/12 rounded-xl border transition-transform duration-700 sm:h-[520px] sm:w-[550px] md:w-[400px] lg:w-[450px] xl:h-[680px] xl:w-[550px]"
 				style:background-color="#1A2824"
 				style:border-color="#2C4D43"
 				style:transform="translateX({featureBoxScroll + (window?.innerHeight ?? 0) / 2 > 0
 					? 0
 					: '-200%'})"
 			>
-				<div class="h-3/4 w-full p-3 sm:p-6">
+				<div class="h-1/2 w-full p-3 sm:p-6 xl:h-3/4">
 					<video class="size-full object-cover" autoplay loop playsinline muted>
 						<source src={image('games/chameleon/features_2.webm')} type="video/webm" />
 					</video>
@@ -431,17 +454,17 @@
 				</div>
 			</div>
 			<div
-				class="relative h-[680px] w-11/12 rounded-xl border transition-transform duration-700 sm:h-[710px] sm:w-[550px]"
+				class="relative h-[400px] w-11/12 rounded-xl border transition-transform duration-700 sm:h-[520px] sm:w-[550px] md:w-[400px] lg:w-[450px] xl:h-[680px] xl:w-[550px]"
 				style:background-color="#241D2F"
 				style:border-color="#40305F"
 				style:transform="translateX({featureBoxScroll +
 					(window?.innerHeight ?? 0) / 2 -
-					(window?.innerWidth < 1280 ? 600 : 0) >
+					(window?.innerWidth < 768 ? 400 : 0) >
 				0
 					? 0
 					: '200%'})"
 			>
-				<div class="h-3/4 w-full p-3 sm:p-6">
+				<div class="h-1/2 w-full p-3 sm:p-6 xl:h-3/4">
 					<video class="size-full object-cover" autoplay loop playsinline muted>
 						<source src={image('games/chameleon/features_1.webm')} type="video/webm" />
 					</video>
@@ -483,7 +506,7 @@
 
 		{/* DEVICE */ null}
 		<div
-			class="pointer-events-none fixed top-0 z-40 hidden h-screen w-full select-none transition-transform duration-700 xl:block"
+			class="pointer-events-none fixed top-0 z-40 hidden h-screen w-full select-none transition-transform duration-700 md:block"
 			style:transform="translateY({Math.abs(featureBoxScroll) < window.innerHeight / 2 ? 0 : 50}%)"
 		>
 			<img
@@ -593,6 +616,7 @@
 				window.scrollTo(0, (scroll = featureBox.offsetTop));
 				jumpscareVideo.pause();
 				jumpscareVideo.currentTime = 0;
+				scrollLock = false;
 				setTimeout(() => {
 					jumpscareLock = false;
 				}, 1000);
