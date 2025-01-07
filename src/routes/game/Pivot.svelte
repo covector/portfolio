@@ -126,7 +126,7 @@
 					<div
 						class="w-8/12 text-2xl {lang == 'en'
 							? 'font-jersey leading-6'
-							: 'font-dotgothic16 leading-9'} text-xl xl:translate-x-8 hmd:text-2xl [@media_((min-height:594px)_and_(min-width:1025px))]:text-[1.6rem]"
+							: 'font-dotgothic16'} text-xl xl:translate-x-8 hmd:text-2xl [@media_((min-height:594px)_and_(min-width:1025px))]:text-[1.6rem]"
 						style:color="#649B9F"
 					>
 						{m.quote()}{m.pivot_description()}{m.quote_end()}

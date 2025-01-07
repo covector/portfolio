@@ -172,7 +172,7 @@
 					<div
 						class="w-10/12 {lang == 'en'
 							? 'font-jersey leading-6'
-							: 'font-dotgothic16 leading-9'} text-lg hmd:text-2xl [@media_((min-height:594px)_and_(min-width:1025px))]:text-[1.6rem]"
+							: 'font-dotgothic16'} text-lg hmd:text-2xl [@media_((min-height:594px)_and_(min-width:1025px))]:text-[1.6rem]"
 						style:color="#8781b9"
 					>
 						{m.quote()}{m.chameleon_description()}{m.quote_end()}
