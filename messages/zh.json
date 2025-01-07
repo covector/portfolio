@@ -13,7 +13,7 @@
 	"read_more": "閱讀更多",
 	"features": "特點",
 	"procedural_generation": "程序化生成",
-	"procedural_generation_description": "所有的環境素材都是由偽隨機數程序產生的。",
+	"procedural_generation_description": "所有環境素材的形狀和位置都是隨機地程序產生的。（紋理是從網上下載的）",
 	"model_assets": "模型素材",
 	"model_assets_description": "其他素材由我在Blender裏建模和動畫的。",
 	"monster_lore_a": "在森林深處住了一隻變形怪物...",

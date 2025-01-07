@@ -369,7 +369,7 @@
 	{/* FEATURES SECTION */ null}
 	<div class="h-4 w-full overflow-hidden bg-black" bind:this={featureBox}></div>
 	<div
-		class="relative h-screen min-h-[1500px] w-full overflow-hidden sm:h-[120vh] sm:min-h-[1800px] xl:min-h-[900px]"
+		class="relative h-screen min-h-[1650px] w-full overflow-hidden sm:h-[120vh] sm:min-h-[1800px] xl:min-h-[900px]"
 		style:background="linear-gradient(247deg, rgba(32,50,48,1) 0%, rgba(13,17,34,1) 100%)"
 	>
 		{/* FEATURES TITLE */ null}
@@ -393,53 +393,12 @@
 			class="absolute top-40 z-30 flex w-full flex-col items-center justify-center gap-x-36 gap-y-16 overflow-hidden sm:gap-y-24 xl:flex-row"
 		>
 			<div
-				class="relative h-[550px] w-5/6 rounded-xl border transition-transform duration-700 sm:h-[660px] sm:w-[550px]"
-				style:background-color="#241D2F"
-				style:border-color="#40305F"
+				class="relative h-[680px] w-11/12 rounded-xl border transition-transform duration-700 sm:h-[710px] sm:w-[550px]"
+				style:background-color="#1A2824"
+				style:border-color="#2C4D43"
 				style:transform="translateX({featureBoxScroll + (window?.innerHeight ?? 0) / 2 > 0
 					? 0
 					: '-200%'})"
-			>
-				<div class="h-3/4 w-full p-3 sm:p-6">
-					<video class="size-full object-cover" autoplay loop playsinline muted>
-						<source src={image('games/chameleon/features_1.webm')} type="video/webm" />
-					</video>
-				</div>
-				<div class="relative flex h-1/4 w-full items-center gap-3 sm:gap-4">
-					<div
-						class="ml-4 h-5/6 w-4 -translate-y-2 rounded-3xl sm:ml-8 sm:-translate-y-3"
-						style:background="linear-gradient(0deg, rgba(53,75,165,1) 0%, rgba(107,80,154,1) 100%)"
-					></div>
-					<div class="mr-2 flex h-full flex-col gap-2 sm:gap-4">
-						<div
-							class={lang == 'en'
-								? 'text-2xl sm:text-3xl lg:text-4xl'
-								: 'text-xl sm:text-2xl lg:text-3xl'}
-							style:color="#C69EF6"
-						>
-							{m.model_assets()}
-						</div>
-						<div
-							class={lang == 'en'
-								? 'text-xl leading-6 sm:text-2xl sm:leading-7 lg:text-2xl'
-								: 'text-md leading-6 sm:text-lg sm:leading-7 lg:text-xl'}
-							style:color="#8D809B"
-						>
-							{m.model_assets_description()}
-						</div>
-					</div>
-				</div>
-			</div>
-			<div
-				class="relative h-[550px] w-5/6 rounded-xl border transition-transform duration-700 sm:h-[660px] sm:w-[550px]"
-				style:background-color="#1A2824"
-				style:border-color="#2C4D43"
-				style:transform="translateX({featureBoxScroll +
-					(window?.innerHeight ?? 0) / 2 -
-					(window?.innerWidth < 1280 ? 600 : 0) >
-				0
-					? 0
-					: '200%'})"
 			>
 				<div class="h-3/4 w-full p-3 sm:p-6">
 					<video class="size-full object-cover" autoplay loop playsinline muted>
@@ -467,6 +426,47 @@
 							style:color="#809B99"
 						>
 							{m.procedural_generation_description()}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div
+				class="relative h-[680px] w-11/12 rounded-xl border transition-transform duration-700 sm:h-[710px] sm:w-[550px]"
+				style:background-color="#241D2F"
+				style:border-color="#40305F"
+				style:transform="translateX({featureBoxScroll +
+					(window?.innerHeight ?? 0) / 2 -
+					(window?.innerWidth < 1280 ? 600 : 0) >
+				0
+					? 0
+					: '200%'})"
+			>
+				<div class="h-3/4 w-full p-3 sm:p-6">
+					<video class="size-full object-cover" autoplay loop playsinline muted>
+						<source src={image('games/chameleon/features_1.webm')} type="video/webm" />
+					</video>
+				</div>
+				<div class="relative flex h-1/4 w-full items-center gap-3 sm:gap-4">
+					<div
+						class="ml-4 h-5/6 w-4 -translate-y-2 rounded-3xl sm:ml-8 sm:-translate-y-3"
+						style:background="linear-gradient(0deg, rgba(53,75,165,1) 0%, rgba(107,80,154,1) 100%)"
+					></div>
+					<div class="mr-2 flex h-full flex-col gap-2 sm:gap-4">
+						<div
+							class={lang == 'en'
+								? 'text-2xl sm:text-3xl lg:text-4xl'
+								: 'text-xl sm:text-2xl lg:text-3xl'}
+							style:color="#C69EF6"
+						>
+							{m.model_assets()}
+						</div>
+						<div
+							class={lang == 'en'
+								? 'text-xl leading-6 sm:text-2xl sm:leading-7 lg:text-2xl'
+								: 'text-md leading-6 sm:text-lg sm:leading-7 lg:text-xl'}
+							style:color="#8D809B"
+						>
+							{m.model_assets_description()}
 						</div>
 					</div>
 				</div>
