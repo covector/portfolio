@@ -23,7 +23,12 @@
 			if (jumpscareVideo && !jumpscareLock && jumpscareVideo.getBoundingClientRect().top < 10) {
 				jumpscareLock = true;
 				setTimeout(() => {
-					jumpscareVideo.play();
+					if (jumpscareVideo.getBoundingClientRect().top < 10) {
+						jumpscareVideo.play();
+					}
+					else {
+						jumpscareLock = false;
+					}
 				}, 1000);
 			}
 		}
@@ -72,10 +77,40 @@
 	});
 	let deviceImgIndex = $state(6);
 
+	/** @type {HTMLDivElement} */
+	let monsterSection;
+	//@ts-ignore
+	let monsterSectionScroll = $derived(scroll - monsterSection?.offsetTop);
 
 	/** @type {HTMLVideoElement} */
 	let jumpscareVideo;
 	let jumpscareLock = $state(false);
+
+	/** @type {HTMLVideoElement} */
+	let runVideo;
+	let forwardRun = $state(true);
+	onMount(() => {
+		function playAnimation() {
+			runVideo?.animate(forwardRun ? [
+				{ transform: "translate(-100%, 0%)", left: 0 },
+				{ transform: "translate(0%, 0%)", left: "100%" }] :
+				[
+					{ transform: "translate(0%, 0%) scaleX(-1)", left: "100%" },
+					{ transform: "translate(-100%, 0%) scaleX(-1)", left: 0 }
+				]
+				, {
+				fill: "forwards",
+				duration: 1000 * widthFactor,
+				easing: 'linear',
+				iterations: 1
+			}).play();
+			forwardRun = !forwardRun;
+		}
+    
+		const interval = setInterval(playAnimation, 10000);
+		playAnimation();
+		return () => clearInterval(interval);
+	});
 </script>
 
 <div class={lang == 'en' ? 'font-jersey text-2xl leading-6' : 'font-dotgothic16 leading-9'}>
@@ -423,11 +458,61 @@
 		<div class="fade w-full h-[10vh] sm:h-[20vh] z-20 absolute bottom-0" style:background="linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)"></div>
 	</div> 
 	{/* MONSTER SECTION */ null}
-	<div class="relative w-full h-screen bg-black overflow-hidden">
-		<div class="top-0 w-full h-full">
+	<div class="relative w-full min-h-screen bg-black overflow-hidden h-[1380px] md:h-[1500px]" bind:this={monsterSection}>
+		<img
+			class="absolute transition-opacity duration-1000 object-cover top-[100px] right-0 h-[300px] md:h-[400px]" src={image('games/chameleon/monster_1.webp')} 
+			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 > 0 ? false : true}
+			alt="monster concept art" 
+		/>
+		<div
+			class="absolute bg-black lg:bg-transparent transition-opacity duration-1000 top-[200px] left-12 sm:left-[100px] xl:left-[unset] xl:right-[600px] 2xl:right-[800px] sm:w-[500px] {lang == 'en'
+				? 'text-2xl sm:text-3xl lg:text-[2.25rem]'
+				: 'text-xl sm:text-2xl lg:text-[1.875rem]'}"
+			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 + 100  > 0 ? false : true}
+			style:transform="translateY({-(monsterSectionScroll)/3}px)"
+			style:color="#7C7C7C"
+		>{m.monster_lore_a()}</div>
+		<img
+			class="absolute transition-opacity duration-1000 object-cover top-[450px] left-[-10px] h-[400px] md:h-[500px]"
+			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 > 450 ? false : true}
+			style:transform="translateY({-(monsterSectionScroll - 400)/3.6}px)"
+			src={image('games/chameleon/monster_2.webp')}
+			alt="monster sighting 1"
+			/>
+		<div
+			class="absolute bg-black lg:bg-transparent transition-opacity duration-1000 top-[650px] right-12 sm:right-[100px] xl:right-[unset] xl:left-[800px] sm:w-[350px] {lang == 'en'
+				? 'text-2xl sm:text-[1.8rem] lg:text-[2rem]'
+				: 'text-xl sm:text-2xl lg:text-[1.8rem]'}"
+			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 > 500 ? false : true}
+			style:color="#7C7C7C"
+		>{m.monster_lore_b()}</div>
+		<img
+			class="absolute transition-opacity duration-1000 object-cover top-[900px] -right-8 md:left-1/2 md:-translate-x-1/4 h-[230px] md:h-[300px]"
+			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 > 830 ? false : true}
+			src={image('games/chameleon/monster_3.webp')}
+			alt="monster sighting 2"
+			/>
+		<div
+			class="absolute bg-black lg:bg-transparent transition-opacity duration-1000 top-[950px] left-12 xl:left-[unset] xl:right-[580px] 2xl:right-[700px] md:w-[650px] {lang == 'en'
+				? 'text-2xl sm:text-3xl lg:text-[2.5rem]'
+				: 'text-xl sm:text-2xl lg:text-[2rem]'}"
+			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 > 650 ? false : true}
+			style:transform="translateY({-(monsterSectionScroll-650)/2}px)"
+			style:color="#7C7C7C"
+		>{m.monster_lore_c()}</div>
+		<div
+			class="absolute bg-black transition-opacity duration-1000 top-[1200px] md:top-[1350px] center-x text-nowrap {lang == 'en'
+				? 'text-3xl sm:text-4xl lg:text-5xl'
+				: 'text-2xl sm:text-3xl lg:text-4xl'}"
+			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 > 1150 ? false : true}
+			style:transform="translate(-50%,{-(monsterSectionScroll - 900)/1.6}px)"
+			style:color="#7C7C7C"
+		>{m.monster_lore_d()}</div>
+
+		<div class="absolute top-0 w-full h-full pointer-events-none">
 			<video
-			class="absolute top-1/2 left-0 w-1/3 h-1/3 object-contain"
-			style:animation="leftToRight {10 * widthFactor}s linear infinite"
+			class="absolute top-1/2 left-0 md:w-1/2 h-1/2 object-contain"
+			bind:this={runVideo}
 			autoplay
 			loop
 			playsinline
