@@ -2,8 +2,7 @@
 	import { animationData } from '$lib/animation_data';
 	import { getContext, onMount } from 'svelte';
 	import PlayVideo from './PlayVideo.svelte';
-	import { fixBase, mobileAndTabletCheck } from '$lib/utils';
-	import { base } from '$app/paths';
+	import { mobileAndTabletCheck } from '$lib/utils';
 	import * as m from '$lib/paraglide/messages.js';
 	import ArrowDown from '../common/svg/ArrowDown.svelte';
 	import BackIcon from '../common/svg/BackIcon.svelte';
@@ -302,7 +301,7 @@
 						play={scroll <= 0
 							? true
 							: isVisible(scroll, i * ANIMATION_SCROLL_HEIGHT, (i + 1) * ANIMATION_SCROLL_HEIGHT)}
-						uri="{fixBase(base)}{data.uri}"
+						uri={data.uri}
 						alt={data.name}
 					/>
 				</div>

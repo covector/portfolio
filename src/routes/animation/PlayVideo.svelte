@@ -1,4 +1,6 @@
 <script>
+	import { image } from "$lib/utils";
+
 	const { play, uri, alt = undefined, ...p } = $props();
 	/** @type {HTMLVideoElement} */
 	let videoComponent;
@@ -39,6 +41,6 @@
 	style:z-index="1"
 	style:position="relative"
 >
-	<source src={uri} type="video/mp4" />
+	<source src={image(uri)} type="video/webm" />
 	{#if alt}<p>{alt}</p>{/if}
 </video>

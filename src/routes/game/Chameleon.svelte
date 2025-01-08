@@ -511,7 +511,7 @@
 
 		{/* FEATURES BACKGROUND */ null}
 		<div
-			class="absolute top-0 h-screen w-full"
+			class="absolute top-0 h-screen w-full transition-transform ease-linear duration-500"
 			style:transform="translateY({Math.max(0, featureBoxScroll)}px)"
 		>
 			<Grid />
