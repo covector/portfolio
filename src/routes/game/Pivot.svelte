@@ -264,12 +264,12 @@
 		</div>
 		{/* GAMEPLAY VIDEO */ null}
 		<div
-			class="video-box center-x relative w-3/4 transition-transform duration-700 md:w-2/3"
+			class="video-box center-x relative w-11/12 overflow-hidden transition-transform duration-700 sm:w-3/4 md:w-2/3"
 			style:transform="translate(-50%, {gameplayScroll + (window?.innerHeight ?? 0) * 0.6 > 0
 				? 0
 				: 100}%)"
 		>
-			<div class="relative w-full pt-[56.25%]">
+			<div class="relative w-full pt-[100%] sm:pt-[56.25%]">
 				<iframe
 					title="pivot gameplay"
 					class="absolute bottom-0 left-0 right-0 top-0 size-full select-none rounded-md sm:rounded-xl xl:rounded-3xl"

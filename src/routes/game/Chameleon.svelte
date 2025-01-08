@@ -1,5 +1,5 @@
 <script>
-	import { gotoPage, image } from '$lib/utils';
+	import { gotoPage, image, mobileAndTabletCheck } from '$lib/utils';
 	import * as m from '$lib/paraglide/messages.js';
 	import BackIcon from '../common/svg/BackIcon.svelte';
 	import FlyIn from '../common/FlyIn.svelte';
@@ -12,6 +12,11 @@
 	/** @typedef {import("$lib/paraglide/runtime").AvailableLanguageTag} Lang */
 	/** @type {Lang} */
 	const lang = getContext('lang');
+
+	let isMobile = $state(false);
+	onMount(() => {
+		isMobile = mobileAndTabletCheck();
+	});
 
 	let scroll = $state(0);
 	onMount(() => {
@@ -267,12 +272,12 @@
 		</div>
 		{/* GAMEPLAY VIDEO */ null}
 		<div
-			class="video-box center-x relative z-10 mt-14 w-3/4 transition-transform duration-700 md:w-2/3 lg:mt-20"
+			class="video-box center-x relative z-10 mt-14 w-11/12 overflow-hidden transition-transform duration-700 sm:w-3/4 md:w-2/3 lg:mt-20"
 			style:transform="translate(-50%, {gameplayScroll + (window?.innerHeight ?? 0) * 0.6 > 0
 				? 0
 				: 100}%)"
 		>
-			<div class="relative w-full pt-[56.25%]">
+			<div class="relative w-full pt-[100%] sm:pt-[56.25%]">
 				<iframe
 					title="chameleon gameplay"
 					class="absolute bottom-0 left-0 right-0 top-0 size-full select-none rounded-md border-2 sm:rounded-xl xl:rounded-3xl"
@@ -424,7 +429,7 @@
 			class="absolute top-40 z-30 flex w-full flex-col items-center justify-center gap-x-12 gap-y-16 overflow-hidden sm:gap-y-24 md:flex-row lg:gap-x-20 xl:gap-x-36"
 		>
 			<div
-				class="relative h-[400px] w-11/12 rounded-xl border transition-transform duration-700 sm:h-[520px] sm:w-[550px] md:w-[400px] lg:w-[450px] xl:h-[680px] xl:w-[550px]"
+				class="relative h-[400px] w-11/12 rounded-xl border transition-transform duration-700 sm:h-[520px] sm:w-[550px] md:w-[400px] lg:w-[450px] xl:h-[760px] xl:w-[550px]"
 				style:background-color="#1A2824"
 				style:border-color="#2C4D43"
 				style:transform="translateX({featureBoxScroll + (window?.innerHeight ?? 0) / 2 > 0
@@ -436,9 +441,9 @@
 						<source src={image('games/chameleon/features_2.webm')} type="video/webm" />
 					</video>
 				</div>
-				<div class="relative flex h-1/4 w-full items-center gap-3 sm:gap-4">
+				<div class="flex h-1/2 w-full gap-3 sm:gap-4 xl:h-1/4">
 					<div
-						class="ml-4 h-5/6 w-4 -translate-y-2 rounded-3xl sm:ml-8 sm:-translate-y-3"
+						class="ml-4 h-4/5 w-1 shrink-0 rounded-3xl sm:ml-8 sm:w-2"
 						style:background="linear-gradient(0deg, rgba(53,165,113,1) 0%, rgba(80,138,154,1) 100%)"
 					></div>
 					<div class="mr-2 flex h-full flex-col gap-2 sm:gap-4">
@@ -462,7 +467,7 @@
 				</div>
 			</div>
 			<div
-				class="relative h-[400px] w-11/12 rounded-xl border transition-transform duration-700 sm:h-[520px] sm:w-[550px] md:w-[400px] lg:w-[450px] xl:h-[680px] xl:w-[550px]"
+				class="relative h-[400px] w-11/12 rounded-xl border transition-transform duration-700 sm:h-[520px] sm:w-[550px] md:w-[400px] lg:w-[450px] xl:h-[760px] xl:w-[550px]"
 				style:background-color="#241D2F"
 				style:border-color="#40305F"
 				style:transform="translateX({featureBoxScroll +
@@ -477,9 +482,9 @@
 						<source src={image('games/chameleon/features_1.webm')} type="video/webm" />
 					</video>
 				</div>
-				<div class="relative flex h-1/4 w-full items-center gap-3 sm:gap-4">
+				<div class="flex h-1/2 w-full gap-3 sm:gap-4 xl:h-1/4">
 					<div
-						class="ml-4 h-5/6 w-4 -translate-y-2 rounded-3xl sm:ml-8 sm:-translate-y-3"
+						class="ml-4 h-4/5 w-1 shrink-0 rounded-3xl sm:ml-8 sm:w-2"
 						style:background="linear-gradient(0deg, rgba(53,75,165,1) 0%, rgba(107,80,154,1) 100%)"
 					></div>
 					<div class="mr-2 flex h-full flex-col gap-2 sm:gap-4">
@@ -513,16 +518,20 @@
 		</div>
 
 		{/* DEVICE */ null}
-		<div
-			class="pointer-events-none fixed top-0 z-40 hidden h-screen w-full select-none transition-transform duration-700 md:block"
-			style:transform="translateY({Math.abs(featureBoxScroll) < window.innerHeight / 2 ? 0 : 50}%)"
-		>
-			<img
-				class="center-x absolute bottom-0 h-2/3 w-2/3 object-contain"
-				src={image(`games/chameleon/device/${deviceImgIndex}.webp`)}
-				alt="device"
-			/>
-		</div>
+		{#if !isMobile}
+			<div
+				class="pointer-events-none fixed top-0 z-40 hidden h-screen w-full select-none transition-transform duration-700 md:block"
+				style:transform="translateY({Math.abs(featureBoxScroll) < window.innerHeight / 2
+					? 0
+					: 50}%)"
+			>
+				<img
+					class="center-x absolute bottom-0 h-2/3 w-2/3 object-contain"
+					src={image(`games/chameleon/device/${deviceImgIndex}.webp`)}
+					alt="device"
+				/>
+			</div>
+		{/if}
 
 		<div
 			class="fade absolute bottom-0 z-20 h-[10vh] w-full sm:h-[20vh]"
