@@ -324,7 +324,6 @@
 			<svg
 				width="100%"
 				height="100%"
-				style:display="none"
 				viewBox="0 0 1595 734"
 				fill="none"
 				xmlns="http://www.w3.org/2000/svg"
@@ -539,7 +538,7 @@
 
 		{/* FEATURES BACKGROUND */ null}
 		<div
-			class="absolute top-0 h-screen w-full transition-transform duration-500 ease-linear"
+			class="absolute top-0 h-screen w-full"
 			style:transform="translateY({isIOS ? 0 : Math.max(0, featureBoxScroll)}px)"
 		>
 			<Grid />
