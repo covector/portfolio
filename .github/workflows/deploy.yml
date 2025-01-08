@@ -32,11 +32,11 @@ jobs:
         run: |
           npm run build
 
-      # - name: Map 404 error to index
-      #   env:
-      #     BASE_PATH: '/${{ github.event.repository.name }}'
-      #   run: |
-      #     sudo cp build/index.html build/404.html
+      - name: Map 404 error to index
+        env:
+          BASE_PATH: '/${{ github.event.repository.name }}'
+        run: |
+          sudo cp build/index.html build/404.html
 
       - name: Upload Artifacts
         uses: actions/upload-pages-artifact@v3
