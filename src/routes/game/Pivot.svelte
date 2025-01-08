@@ -20,14 +20,24 @@
 	});
 
 	let scroll = $state(0);
+	let ticking = false;
 	onMount(() => {
-		/** @param {Event} e */
-		function onScroll(e) {
+		function onScroll() {
 			scroll = window.scrollY;
 		}
-		window.addEventListener('scroll', onScroll);
+
+		function onScrollThrottle() {
+			if (!ticking) {
+				window.requestAnimationFrame(() => {
+					onScroll();
+					ticking = false;
+				});
+				ticking = true;
+			}
+		}
+		window.addEventListener('scroll', onScrollThrottle);
 		return () => {
-			window.removeEventListener('scroll', onScroll);
+			window.removeEventListener('scroll', onScrollThrottle);
 		};
 	});
 
@@ -51,8 +61,10 @@
 	/** @type {HTMLDivElement|null} */
 	let largerContainer = $state(null);
 	let ratio = $state(1);
+	let windowSize = $state({ width: 0, height: 0 });
 	function onResize() {
 		scroll = window.scrollY;
+		windowSize = { width: window.innerWidth, height: window.innerHeight };
 		ratio = (largerContainer?.clientWidth ?? 1) / (largerContainer?.clientHeight ?? 1);
 		topCorner = {
 			x: useHeight
@@ -84,9 +96,7 @@
 	let topCorner = $state({ x: 0, y: 0 });
 	const conceptArtScrollPoint = [150, 650, 900, 1100];
 	let conceptArtsShow = $derived(
-		window
-			? conceptArtScrollPoint.map((p) => conceptArtScroll + (window?.innerHeight ?? 0) > p)
-			: [false, false, false, false]
+		conceptArtScrollPoint.map((p) => conceptArtScroll + windowSize.height > p)
 	);
 </script>
 
@@ -149,7 +159,7 @@
 						type="button"
 						class="xl:translate-x-24"
 						onclick={() => {
-							window.scrollTo(0, window.innerHeight);
+							window.scrollTo(0, windowSize.height);
 						}}
 					>
 						<ArrowDown stroke="#A46B6C" class="size-12 animate-bounce hmd:size-16" />
@@ -183,7 +193,7 @@
 					xmlns="http://www.w3.org/2000/svg"
 					preserveAspectRatio="none"
 					class="h-12 w-20 translate-y-5 md:h-20 md:w-32 xl:h-24 xl:w-64"
-					stroke-dashoffset={gameplayScroll + (window?.innerHeight ?? 0) > 0 ? 0 : 100}
+					stroke-dashoffset={isIOS || (gameplayScroll + windowSize.height) > 0 ? 0 : 100}
 					style:transition="stroke-dashoffset 0.5s"
 				>
 					<line
@@ -222,7 +232,7 @@
 							: 'font-dotgothic16 text-2xl md:text-4xl lg:text-6xl'}"
 						style:color="#649B9F"
 						style:transition="width 0.7s"
-						style:width={gameplayScroll + (window?.innerHeight ?? 0) > 0 ? '100%' : '0'}
+						style:width={isIOS || (gameplayScroll + windowSize.height > 0) ? '100%' : '0'}
 					>
 						{m.gameplay()}
 					</div>
@@ -234,7 +244,7 @@
 					xmlns="http://www.w3.org/2000/svg"
 					preserveAspectRatio="none"
 					class="h-12 w-20 translate-y-5 md:h-20 md:w-32 xl:h-24 xl:w-64"
-					stroke-dashoffset={gameplayScroll + (window?.innerHeight ?? 0) > 0 ? 0 : 100}
+					stroke-dashoffset={gameplayScroll + windowSize.height > 0 ? 0 : 100}
 					style:transition="stroke-dashoffset 0.5s"
 				>
 					<line
@@ -270,7 +280,7 @@
 		{/* GAMEPLAY VIDEO */ null}
 		<div
 			class="video-box center-x relative w-11/12 overflow-hidden transition-transform duration-700 sm:w-3/4 md:w-2/3"
-			style:transform="translate(-50%, {gameplayScroll + (window?.innerHeight ?? 0) * 0.6 > 0
+			style:transform="translate(-50%, {gameplayScroll + windowSize.height * 0.6 > 0
 				? 0
 				: 100}%)"
 		>
@@ -307,7 +317,7 @@
 		<div
 			class="center-xy pointer-events-none fixed z-10 select-none transition-transform duration-500"
 			style:filter="drop-shadow(0px 4px 0 rgb(74, 74, 74))"
-			style:transform="translate(-50%, {conceptArtScroll + (window?.innerHeight ?? 0) / 3 > 0
+			style:transform="translate(-50%, {conceptArtScroll + windowSize.height / 3 > 0
 				? -50
 				: -200}%)"
 		>

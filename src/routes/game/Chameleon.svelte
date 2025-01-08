@@ -24,9 +24,9 @@
 	});
 
 	let scroll = $state(0);
+	let ticking = false;
 	onMount(() => {
-		/** @param {Event} e */
-		function onScroll(e) {
+		function onScroll() {
 			scroll = window.scrollY;
 
 			// jumpscare detect
@@ -38,9 +38,19 @@
 				}, 500);
 			}
 		}
-		window.addEventListener('scroll', onScroll);
+
+		function onScrollThrottle() {
+			if (!ticking) {
+				window.requestAnimationFrame(() => {
+					onScroll();
+					ticking = false;
+				});
+				ticking = true;
+			}
+		}
+		window.addEventListener('scroll', onScrollThrottle);
 		return () => {
-			window.removeEventListener('scroll', onScroll);
+			window.removeEventListener('scroll', onScrollThrottle);
 		};
 	});
 
@@ -49,11 +59,13 @@
 	//@ts-ignore
 	let gameplayScroll = $derived(scroll - gameplayBox?.offsetTop);
 
+	let windowSize = $state({ width: 0, height: 0 });
 	const gameplayTextLength = 100;
 	let duplicateCount = $state(0);
 	onMount(() => {
 		function onResize() {
 			duplicateCount = Math.ceil((window?.innerWidth ?? 0) / gameplayTextLength) + 1;
+			windowSize = { width: window.innerWidth, height: window.innerHeight };
 		}
 		onResize();
 		window.addEventListener('resize', onResize);
@@ -72,7 +84,7 @@
 		/** @param {MouseEvent} e */
 		function onMouseMove(e) {
 			mouse = { x: e.clientX, y: e.clientY };
-			deviceImgIndex = Math.round((mouse.x / window.innerWidth) * 10) + 1;
+			deviceImgIndex = Math.round((mouse.x / windowSize.width) * 10) + 1;
 		}
 		window.addEventListener('mousemove', onMouseMove);
 		return () => {
@@ -117,7 +129,7 @@
 	let forwardRun = $state(true);
 	onMount(() => {
 		function playAnimation() {
-			const duration = (500 * (window?.innerWidth ?? 0)) / runVideo.clientWidth;
+			const duration = 500 * windowSize.width / runVideo.clientWidth;
 			runVideo
 				?.animate(
 					forwardRun
@@ -208,7 +220,7 @@
 							normalColor="#6953CB"
 							hoverColor="#0e0821"
 							onclick={() => {
-								window.scrollTo(0, window.innerHeight);
+								window.scrollTo(0, windowSize.height);
 							}}
 						>
 							<ArrowDown stroke="white" class="ml-2 size-6 hmd:size-8" />
@@ -269,7 +281,7 @@
 				: 'py-2 font-dotgothic16 text-2xl md:text-4xl lg:py-4 lg:text-6xl'}"
 			style:background-color="#51418B"
 			style:transition="clip-path 0.7s"
-			style:clip-path={gameplayScroll + (window?.innerHeight ?? 0) > 0
+			style:clip-path={isIOS || (gameplayScroll + windowSize.height > 0)
 				? 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)'
 				: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)'}
 		>
@@ -278,7 +290,7 @@
 		{/* GAMEPLAY VIDEO */ null}
 		<div
 			class="video-box center-x relative z-10 mt-14 w-11/12 overflow-hidden transition-transform duration-700 sm:w-3/4 md:w-2/3 lg:mt-20"
-			style:transform="translate(-50%, {gameplayScroll + (window?.innerHeight ?? 0) * 0.6 > 0
+			style:transform="translate(-50%, {gameplayScroll + windowSize.height * 0.6 > 0
 				? 0
 				: 100}%)"
 		>
@@ -312,6 +324,7 @@
 			<svg
 				width="100%"
 				height="100%"
+				style:display="none"
 				viewBox="0 0 1595 734"
 				fill="none"
 				xmlns="http://www.w3.org/2000/svg"
@@ -321,6 +334,7 @@
 					stroke="#366B67"
 					stroke-width="5"
 				>
+				{#if !isIOS}
 					<animate
 						attributeName="d"
 						dur="21s"
@@ -330,12 +344,14 @@
 						keySplines="0.5 0 0.5 1; 0.5 0 0.5 1"
 						values="M-28 450C188.5 373 63.5 275 291.5 311C519.5 347 823 737.5 1155 701C1487 664.5 1493 399.5 1652.5 370.5;M-20.5 436.5C182 522.5 174.5 510.5 353.5 485.5C582.106 453.572 792.5 293 1124.5 256.5C1456.5 220 1512.5 330.5 1652.5 370.5;M-28 450C188.5 373 63.5 275 291.5 311C519.5 347 823 737.5 1155 701C1487 664.5 1493 399.5 1652.5 370.5;"
 					/>
+				{/if}
 				</path>
 				<path
 					d="M-44 328C89.5 360 301.5 668 438 656C667.938 635.786 677.5 235.5 1009.5 199C1341.5 162.5 1494.5 419.5 1636.5 502.5"
 					stroke="#3B238A"
 					stroke-width="5"
 				>
+				{#if !isIOS}
 					<animate
 						attributeName="d"
 						dur="26s"
@@ -345,6 +361,7 @@
 						keySplines="0.5 0 0.5 1; 0.5 0 0.5 1"
 						values="M-44 328C89.5 360 301.5 668 438 656C667.938 635.786 677.5 235.5 1009.5 199C1341.5 162.5 1494.5 419.5 1636.5 502.5;M-44 342C92 361.5 307 541.5 443.5 529.5C673.438 509.286 795 441.506 1027 416C1313.5 384.502 1499.5 453 1647 333;M-44 328C89.5 360 301.5 668 438 656C667.938 635.786 677.5 235.5 1009.5 199C1341.5 162.5 1494.5 419.5 1636.5 502.5;"
 					/>
+				{/if}
 				</path>
 				<rect
 					x="-43.64"
@@ -355,6 +372,7 @@
 					transform="rotate(33.8917 73.6401 380.5)"
 					fill="#3B238A"
 				>
+				{#if !isIOS}
 					<animateTransform
 						attributeName="transform"
 						attributeType="XML"
@@ -364,6 +382,7 @@
 						dur="20s"
 						repeatCount="indefinite"
 					/>
+				{/if}
 				</rect>
 				<rect
 					x="1422.48"
@@ -374,6 +393,7 @@
 					transform="rotate(69.0763 1572.48 113.003)"
 					fill="#3B238A"
 				>
+				{#if !isIOS}
 					<animateTransform
 						attributeName="transform"
 						attributeType="XML"
@@ -383,6 +403,7 @@
 						dur="16s"
 						repeatCount="indefinite"
 					/>
+				{/if}
 				</rect>
 				<rect
 					x="101.14"
@@ -393,6 +414,7 @@
 					transform="rotate(87.8789 301.14 573.976)"
 					fill="#366B67"
 				>
+				{#if !isIOS}
 					<animateTransform
 						attributeName="transform"
 						attributeType="XML"
@@ -402,6 +424,7 @@
 						dur="10s"
 						repeatCount="indefinite"
 					/>
+				{/if}
 				</rect>
 			</svg>
 		</div>
@@ -437,7 +460,7 @@
 				class="relative h-[400px] w-11/12 rounded-xl border transition-transform duration-700 sm:h-[520px] sm:w-[550px] md:w-[400px] lg:w-[450px] xl:h-[760px] xl:w-[550px]"
 				style:background-color="#1A2824"
 				style:border-color="#2C4D43"
-				style:transform="translateX({featureBoxScroll + (window?.innerHeight ?? 0) / 2 > 0
+				style:transform="translateX({featureBoxScroll + windowSize.height / 2 > 0
 					? 0
 					: '-200%'})"
 			>
@@ -476,8 +499,8 @@
 				style:background-color="#241D2F"
 				style:border-color="#40305F"
 				style:transform="translateX({featureBoxScroll +
-					(window?.innerHeight ?? 0) / 2 -
-					(window?.innerWidth < 768 ? 400 : 0) >
+					windowSize.height / 2 -
+					(windowSize.width < 768 ? 400 : 0) >
 				0
 					? 0
 					: '200%'})"
@@ -517,7 +540,7 @@
 		{/* FEATURES BACKGROUND */ null}
 		<div
 			class="absolute top-0 h-screen w-full transition-transform duration-500 ease-linear"
-			style:transform="translateY({Math.max(0, featureBoxScroll)}px)"
+			style:transform="translateY({isIOS ? 0 : Math.max(0, featureBoxScroll)}px)"
 		>
 			<Grid />
 		</div>
@@ -526,7 +549,7 @@
 		{#if !isMobile}
 			<div
 				class="pointer-events-none fixed top-0 z-40 hidden h-screen w-full select-none transition-transform duration-700 md:block"
-				style:transform="translateY({Math.abs(featureBoxScroll) < window.innerHeight / 2
+				style:transform="translateY({Math.abs(featureBoxScroll) < windowSize.height / 2
 					? 0
 					: 50}%)"
 			>
@@ -551,7 +574,7 @@
 		<img
 			class="absolute right-0 top-[100px] h-[300px] select-none object-cover transition-opacity duration-1000 md:h-[400px]"
 			src={image('games/chameleon/monster_1.webp')}
-			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 > 0 ? false : true}
+			class:opacity-0={monsterSectionScroll + windowSize.height / 2 > 0 ? false : true}
 			alt="monster concept art"
 		/>
 		<div
@@ -559,7 +582,7 @@
 			'en'
 				? 'text-2xl sm:text-3xl lg:text-[2.25rem]'
 				: 'text-xl sm:text-2xl lg:text-[1.875rem]'}"
-			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 + 100 > 0
+			class:opacity-0={monsterSectionScroll + windowSize.height / 2 + 100 > 0
 				? false
 				: true}
 			style:transform="translateY({isIOS ? 0 : -monsterSectionScroll / 3}px)"
@@ -569,7 +592,7 @@
 		</div>
 		<img
 			class="absolute left-[-10px] top-[450px] h-[400px] select-none object-cover transition-opacity duration-1000 md:h-[500px]"
-			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 > 450 ? false : true}
+			class:opacity-0={monsterSectionScroll + windowSize.height / 2 > 450 ? false : true}
 			style:transform="translateY({isIOS ? 0 : -(monsterSectionScroll - 400) / 3.6}px)"
 			src={image('games/chameleon/monster_2.webp')}
 			alt="monster sighting 1"
@@ -579,14 +602,14 @@
 			'en'
 				? 'text-2xl sm:text-[1.8rem] lg:text-[2rem]'
 				: 'text-xl sm:text-2xl lg:text-[1.8rem]'}"
-			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 > 500 ? false : true}
+			class:opacity-0={monsterSectionScroll + windowSize.height / 2 > 500 ? false : true}
 			style:color="#7C7C7C"
 		>
 			{m.monster_lore_b()}
 		</div>
 		<img
 			class="absolute -right-8 top-[900px] h-[230px] select-none object-cover transition-opacity duration-1000 md:left-1/2 md:h-[300px] md:-translate-x-1/4"
-			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 > 830 ? false : true}
+			class:opacity-0={monsterSectionScroll + windowSize.height / 2 > 830 ? false : true}
 			src={image('games/chameleon/monster_3.webp')}
 			alt="monster sighting 2"
 		/>
@@ -595,7 +618,7 @@
 			'en'
 				? 'text-2xl sm:text-3xl lg:text-[2.5rem]'
 				: 'text-xl sm:text-2xl lg:text-[2rem]'}"
-			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 > 650 ? false : true}
+			class:opacity-0={monsterSectionScroll + windowSize.height / 2 > 650 ? false : true}
 			style:transform="translateY({isIOS ? 0 : -(monsterSectionScroll - 650) / 2}px)"
 			style:color="#7C7C7C"
 		>
@@ -606,7 +629,7 @@
 			'en'
 				? 'text-3xl sm:text-4xl lg:text-5xl'
 				: 'text-2xl sm:text-3xl lg:text-4xl'}"
-			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 > 1150 ? false : true}
+			class:opacity-0={monsterSectionScroll + windowSize.height / 2 > 1150 ? false : true}
 			style:transform="translate(-50%,{isIOS ? 0 : -(monsterSectionScroll - 900) / 1.6}px)"
 			style:color="#7C7C7C"
 		>

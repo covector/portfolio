@@ -78,17 +78,3 @@
 		</filter>
 	</defs>
 </svg>
-
-<style>
-	@keyframes hover1 {
-		0% {
-			transform: translateY(0);
-		}
-		50% {
-			transform: translateY(10%);
-		}
-		100% {
-			transform: translateY(0);
-		}
-	}
-</style>

@@ -76,6 +76,7 @@
 		<Blob
 			blobColor1={subdomain.current === 'chameleon' ? '#8855FF' : undefined}
 			blobColor2={subdomain.current === 'chameleon' ? '#8CFDBF' : undefined}
+			animated={false}
 		/>
 	</ScrollColor>
 </OverscrollProvider>
