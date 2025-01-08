@@ -1,5 +1,5 @@
 <script>
-	import { gotoPage, image, mobileAndTabletCheck } from '$lib/utils';
+	import { gotoPage, image, iOS, mobileAndTabletCheck } from '$lib/utils';
 	import * as m from '$lib/paraglide/messages.js';
 	import BackIcon from '../common/svg/BackIcon.svelte';
 	import FlyIn from '../common/FlyIn.svelte';
@@ -16,6 +16,11 @@
 	let isMobile = $state(false);
 	onMount(() => {
 		isMobile = mobileAndTabletCheck();
+	});
+
+	let isIOS = $state(false);
+	onMount(() => {
+		isIOS = iOS();
 	});
 
 	let scroll = $state(0);
@@ -165,7 +170,7 @@
 		<div
 			class="fixed flex size-full"
 			style:z-index="3"
-			style:transform="translateY(-{scroll / 10}px)"
+			style:transform="translateY(-{isIOS ? 0 : scroll / 10}px)"
 		>
 			{/* BANNER TEXT */ null}
 			<FlyIn class="absolute size-full" duration={1} distance="30%">
@@ -224,7 +229,7 @@
 			src={image('games/chameleon/env_2.webp')}
 			style:z-index="2"
 			alt="banner render middle layer"
-			style:transform="translateY(-{scroll / 6}px)"
+			style:transform="translateY(-{isIOS ? 0 : scroll / 6}px)"
 		/>
 		<div class="placeholder right-0 h-full w-full 2xl:w-11/12" style:background-color="#000000">
 			<img
@@ -511,7 +516,7 @@
 
 		{/* FEATURES BACKGROUND */ null}
 		<div
-			class="absolute top-0 h-screen w-full transition-transform ease-linear duration-500"
+			class="absolute top-0 h-screen w-full transition-transform duration-500 ease-linear"
 			style:transform="translateY({Math.max(0, featureBoxScroll)}px)"
 		>
 			<Grid />
@@ -557,7 +562,7 @@
 			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 + 100 > 0
 				? false
 				: true}
-			style:transform="translateY({-monsterSectionScroll / 3}px)"
+			style:transform="translateY({isIOS ? 0 : -monsterSectionScroll / 3}px)"
 			style:color="#7C7C7C"
 		>
 			{m.monster_lore_a()}
@@ -565,7 +570,7 @@
 		<img
 			class="absolute left-[-10px] top-[450px] h-[400px] select-none object-cover transition-opacity duration-1000 md:h-[500px]"
 			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 > 450 ? false : true}
-			style:transform="translateY({-(monsterSectionScroll - 400) / 3.6}px)"
+			style:transform="translateY({isIOS ? 0 : -(monsterSectionScroll - 400) / 3.6}px)"
 			src={image('games/chameleon/monster_2.webp')}
 			alt="monster sighting 1"
 		/>
@@ -591,7 +596,7 @@
 				? 'text-2xl sm:text-3xl lg:text-[2.5rem]'
 				: 'text-xl sm:text-2xl lg:text-[2rem]'}"
 			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 > 650 ? false : true}
-			style:transform="translateY({-(monsterSectionScroll - 650) / 2}px)"
+			style:transform="translateY({isIOS ? 0 : -(monsterSectionScroll - 650) / 2}px)"
 			style:color="#7C7C7C"
 		>
 			{m.monster_lore_c()}
@@ -602,7 +607,7 @@
 				? 'text-3xl sm:text-4xl lg:text-5xl'
 				: 'text-2xl sm:text-3xl lg:text-4xl'}"
 			class:opacity-0={monsterSectionScroll + (window?.innerHeight ?? 0) / 2 > 1150 ? false : true}
-			style:transform="translate(-50%,{-(monsterSectionScroll - 900) / 1.6}px)"
+			style:transform="translate(-50%,{isIOS ? 0 : -(monsterSectionScroll - 900) / 1.6}px)"
 			style:color="#7C7C7C"
 		>
 			{m.monster_lore_d()}

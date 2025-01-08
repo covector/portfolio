@@ -1,5 +1,5 @@
 <script>
-	import { image } from "$lib/utils";
+	import { image } from '$lib/utils';
 
 	const { play, uri, alt = undefined, ...p } = $props();
 	/** @type {HTMLVideoElement} */

@@ -1,5 +1,5 @@
 <script>
-	import { gotoPage, image } from '$lib/utils';
+	import { gotoPage, image, iOS } from '$lib/utils';
 	import * as m from '$lib/paraglide/messages.js';
 	import HorizontalLine from '../common/svg/HorizontalLine.svelte';
 	import { getContext, onMount } from 'svelte';
@@ -13,6 +13,11 @@
 
 	/** @type {Lang} */
 	const lang = getContext('lang');
+
+	let isIOS = $state(false);
+	onMount(() => {
+		isIOS = iOS();
+	});
 
 	let scroll = $state(0);
 	onMount(() => {
@@ -101,7 +106,7 @@
 		{/* BANNER BACKGROUND */ null}
 		<div
 			class="banner-art fixed right-0 h-full w-full xl:w-2/3"
-			style:transform="translateY(-{scroll / 4}px)"
+			style:transform="translateY({isIOS ? 0 : -scroll / 4}px)"
 		>
 			<img
 				class="center-y pointer-events-none absolute h-full select-none object-cover xl:object-contain"
@@ -136,7 +141,7 @@
 							stroke="#649B9F"
 							strokeWidth="2"
 							width="90%"
-							style="transform: translateX({-scroll / 10}px)"
+							style="transform: translateX({isIOS ? 0 : -scroll / 10}px)"
 						/>
 					</div>
 
@@ -306,7 +311,7 @@
 				? -50
 				: -200}%)"
 		>
-			<div class="relative" style:transform="translateY({conceptArtScroll / 8}px)">
+			<div class="relative" style:transform="translateY({isIOS ? 0 : conceptArtScroll / 8}px)">
 				<div
 					class="text-center {lang == 'en'
 						? 'font-jersey text-4xl leading-6 sm:text-6xl lg:text-8xl'
@@ -321,7 +326,7 @@
 		{/* POKER DOTS */ null}
 		<div
 			class="pointer-events-none absolute right-28 top-14 hidden w-48 sm:block"
-			style:transform="translateY({-conceptArtScroll / 10}px)"
+			style:transform="translateY({isIOS ? 0 : -conceptArtScroll / 10}px)"
 		>
 			<img class="w-full select-none" src={image('games/pivot/dots.webp')} alt="poker dots" />
 		</div>
@@ -342,7 +347,9 @@
 			<div
 				class="absolute -left-64 bottom-16 -z-10 h-[200px] w-[728px] rounded-xl"
 				style:background-color="#A2D7D2"
-				style:transform="translateY({-(conceptArtScroll - conceptArtScrollPoint[0]) / 10}px)"
+				style:transform="translateY({isIOS
+					? 0
+					: -(conceptArtScroll - conceptArtScrollPoint[0]) / 10}px)"
 			></div>
 			<div
 				class="absolute -bottom-12 left-3 {lang == 'en'
@@ -369,7 +376,9 @@
 			<div
 				class="absolute -right-14 bottom-12 -z-10 h-[100px] w-[800px] rounded-xl"
 				style:background-color="#A2D7D2"
-				style:transform="translateY({-Math.min(conceptArtScroll - conceptArtScrollPoint[1]) / 8}px)"
+				style:transform="translateY({isIOS
+					? 0
+					: -Math.min(conceptArtScroll - conceptArtScrollPoint[1]) / 8}px)"
 			></div>
 			<div
 				class="absolute -bottom-12 right-6 {lang == 'en'
@@ -395,14 +404,15 @@
 					style:transform="translateX({conceptArtsShow[2] ? 0 : -400}px)"
 					class:opacity-0={!conceptArtsShow[2]}
 				>
-					<source type="video/mp4" src={image(artImg[2])} />
+					<source type="video/webm" src={image(artImg[2])} />
 				</video>
 			</button>
 			<div
 				class="absolute -left-52 bottom-16 -z-10 h-[200px] w-[640px] rounded-xl"
 				style:background-color="#A2D7D2"
-				style:transform="translateY({-Math.min(conceptArtScroll - conceptArtScrollPoint[2]) /
-					11}px)"
+				style:transform="translateY({isIOS
+					? 0
+					: -Math.min(conceptArtScroll - conceptArtScrollPoint[2]) / 11}px)"
 			></div>
 			<div
 				class="absolute -bottom-12 left-3 {lang == 'en'
@@ -429,8 +439,9 @@
 			<div
 				class="absolute -right-52 bottom-12 -z-10 h-[100px] w-[928px] rounded-xl"
 				style:background-color="#A2D7D2"
-				style:transform="translateY({-Math.min(0, conceptArtScroll - conceptArtScrollPoint[3]) /
-					7}px)"
+				style:transform="translateY({isIOS
+					? 0
+					: -Math.min(0, conceptArtScroll - conceptArtScrollPoint[3]) / 7}px)"
 			></div>
 			<div
 				class="absolute -bottom-12 right-6 {lang == 'en'
@@ -466,7 +477,7 @@
 						controls
 						onclick={(e) => e.stopPropagation()}
 					>
-						<source type="video/mp4" src={image(artImg[largerView])} />
+						<source type="video/webm" src={image(artImg[largerView])} />
 					</video>
 				{:else}
 					<!-- svelte-ignore a11y_click_events_have_key_events --><!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
