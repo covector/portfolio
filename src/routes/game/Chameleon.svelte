@@ -13,21 +13,30 @@
 	/** @type {Lang} */
 	const lang = getContext('lang');
 
-	let isMobile = $state(false);
+	let isMobile = $state(mobileAndTabletCheck());
 	onMount(() => {
 		isMobile = mobileAndTabletCheck();
 	});
 
-	let isIOS = $state(false);
+	let isIOS = $state(navigator ? iOS() : false);
 	onMount(() => {
 		isIOS = iOS();
 	});
 
 	let scroll = $state(0);
 	let ticking = false;
+	let topScroll = $state(0);
+	function updateScroll() {
+		scroll = window.scrollY;
+			if (!isIOS) {
+				topScroll = scroll;
+				gameplayScroll = scroll - gameplayBox?.offsetTop;
+				featureBoxScroll = scroll - featureBox?.offsetTop;
+			}
+	};
 	onMount(() => {
 		function onScroll() {
-			scroll = window.scrollY;
+			updateScroll();
 
 			// jumpscare detect
 			if (jumpscareVideo && !jumpscareLock && jumpscareVideo.getBoundingClientRect().top < 10) {
@@ -57,7 +66,7 @@
 	/** @type {HTMLDivElement} */
 	let gameplayBox;
 	//@ts-ignore
-	let gameplayScroll = $derived(scroll - gameplayBox?.offsetTop);
+	let gameplayScroll = $state(-10000);
 
 	let windowSize = $state({ width: 0, height: 0 });
 	const gameplayTextLength = 100;
@@ -77,7 +86,7 @@
 	/** @type {HTMLDivElement} */
 	let featureBox;
 	//@ts-ignore
-	let featureBoxScroll = $derived(scroll - featureBox?.offsetTop);
+	let featureBoxScroll = $state(-10000);
 
 	let mouse = $state({ x: 0, y: 0 });
 	onMount(() => {
@@ -169,20 +178,20 @@
 	{/* BANNER SECTION */ null}
 	<div
 		class="banner h-screen w-full"
-		style="clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); clip-path: fill-box;"
+		style={isIOS ? "" : "clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); clip-path: fill-box;"}
 	>
 		{/* BANNER BACKGROUND */ null}
 		<img
-			class="pointer-events-none fixed right-0 h-full w-full object-cover 2xl:w-11/12"
+			class="pointer-events-none {isIOS ? "absolute" : "fixed"} right-0 h-full w-full object-cover 2xl:w-11/12"
 			src={image('games/chameleon/env_3.webp')}
 			style:z-index="0"
 			alt="banner render back layer"
 		/>
 
 		<div
-			class="fixed flex size-full"
+			class="{isIOS ? "absolute" : "fixed"} flex size-full"
 			style:z-index="3"
-			style:transform="translateY(-{isIOS ? 0 : scroll / 10}px)"
+			style:transform="translateY(-{isIOS ? 0 : topScroll / 10}px)"
 		>
 			{/* BANNER TEXT */ null}
 			<FlyIn class="absolute size-full" duration={1} distance="30%">
@@ -221,6 +230,7 @@
 							hoverColor="#0e0821"
 							onclick={() => {
 								window.scrollTo(0, windowSize.height);
+								updateScroll();
 							}}
 						>
 							<ArrowDown stroke="white" class="ml-2 size-6 hmd:size-8" />
@@ -237,11 +247,11 @@
 			</FlyIn>
 		</div>
 		<img
-			class="pointer-events-none fixed right-0 h-full w-full object-cover 2xl:w-11/12"
+			class="pointer-events-none {isIOS ? "absolute" : "fixed"} right-0 h-full w-full object-cover 2xl:w-11/12"
 			src={image('games/chameleon/env_2.webp')}
 			style:z-index="2"
 			alt="banner render middle layer"
-			style:transform="translateY(-{isIOS ? 0 : scroll / 6}px)"
+			style:transform="translateY(-{isIOS ? 0 : topScroll / 6}px)"
 		/>
 		<div class="placeholder right-0 h-full w-full 2xl:w-11/12" style:background-color="#000000">
 			<img
@@ -262,7 +272,7 @@
 		<div
 			class="center-y relative text-nowrap font-jersey text-2xl"
 			style:--distance="{-gameplayTextLength}px"
-			style:animation="textRoll 4s linear infinite"
+			style:animation={isIOS ? "" : "textRoll 4s linear infinite"}
 		>
 			{#each Array.from({ length: duplicateCount }, (_, i) => i)}
 				<span class="inline-block" style:width="{gameplayTextLength}px">GAMEPLAY</span>
@@ -271,7 +281,7 @@
 	</div>
 	<div
 		class="relative w-full text-nowrap pb-20 pt-12"
-		style="clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); clip-path: padding-box;"
+		style={isIOS ? "" : "clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); clip-path: padding-box;"}
 		bind:this={gameplayBox}
 	>
 		{/* GAMEPLAY TITLE */ null}
@@ -290,7 +300,7 @@
 		{/* GAMEPLAY VIDEO */ null}
 		<div
 			class="video-box center-x relative z-10 mt-14 w-11/12 overflow-hidden transition-transform duration-700 sm:w-3/4 md:w-2/3 lg:mt-20"
-			style:transform="translate(-50%, {gameplayScroll + windowSize.height * 0.6 > 0
+			style:transform="translate(-50%, {isIOS ? 0 : (gameplayScroll + windowSize.height * 0.6 > 0)
 				? 0
 				: 100}%)"
 		>
@@ -459,7 +469,7 @@
 				class="relative h-[400px] w-11/12 rounded-xl border transition-transform duration-700 sm:h-[520px] sm:w-[550px] md:w-[400px] lg:w-[450px] xl:h-[760px] xl:w-[550px]"
 				style:background-color="#1A2824"
 				style:border-color="#2C4D43"
-				style:transform="translateX({featureBoxScroll + windowSize.height / 2 > 0
+				style:transform="translateX({isIOS || (featureBoxScroll + windowSize.height / 2 > 0)
 					? 0
 					: '-200%'})"
 			>
@@ -497,10 +507,10 @@
 				class="relative h-[400px] w-11/12 rounded-xl border transition-transform duration-700 sm:h-[520px] sm:w-[550px] md:w-[400px] lg:w-[450px] xl:h-[760px] xl:w-[550px]"
 				style:background-color="#241D2F"
 				style:border-color="#40305F"
-				style:transform="translateX({featureBoxScroll +
+				style:transform="translateX({isIOS || (featureBoxScroll +
 					windowSize.height / 2 -
 					(windowSize.width < 768 ? 400 : 0) >
-				0
+				0)
 					? 0
 					: '200%'})"
 			>
@@ -545,7 +555,7 @@
 		</div>
 
 		{/* DEVICE */ null}
-		{#if !isMobile}
+		{#if !isIOS && !isMobile}
 			<div
 				class="pointer-events-none fixed top-0 z-40 hidden h-screen w-full select-none transition-transform duration-700 md:block"
 				style:transform="translateY({Math.abs(featureBoxScroll) < windowSize.height / 2
@@ -635,6 +645,7 @@
 			{m.monster_lore_d()}
 		</div>
 
+		{#if !isIOS}
 		<div class="pointer-events-none absolute top-0 h-full w-full">
 			<video
 				class="absolute left-0 top-1/2 h-1/2 object-contain md:w-1/2"
@@ -647,6 +658,7 @@
 				<source src={image('games/chameleon/run.webm')} type="video/webm" />
 			</video>
 		</div>
+		{/if}
 	</div>
 
 	{/* JUMPSCARE SECTION */ null}
@@ -657,7 +669,8 @@
 			muted
 			playsinline
 			onended={() => {
-				window.scrollTo(0, (scroll = featureBox.offsetTop));
+				window.scrollTo(0, (featureBox.offsetTop));
+				updateScroll();
 				jumpscareVideo.pause();
 				jumpscareVideo.currentTime = 0;
 				scrollLock = false;

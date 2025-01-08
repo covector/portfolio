@@ -55,7 +55,7 @@
 		</div>
 
 		<div class="min-h-screen w-full transition-colors duration-1000">
-			<MeasurementProvider>
+			
 				<div class:hidden={domain.current !== 'game'}>
 					{#if subdomain.current === ''}
 						<GameGrid />
@@ -68,9 +68,10 @@
 					{/if}
 				</div>
 				<div class:hidden={domain.current !== 'animation'}>
-					<AnimationScroll />
+					<MeasurementProvider>
+						<AnimationScroll />
+					</MeasurementProvider>
 				</div>
-			</MeasurementProvider>
 		</div>
 
 		<Blob

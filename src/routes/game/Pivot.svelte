@@ -14,16 +14,23 @@
 	/** @type {Lang} */
 	const lang = getContext('lang');
 
-	let isIOS = $state(false);
+	let isIOS = $state(navigator ? iOS() : false);
 	onMount(() => {
 		isIOS = iOS();
 	});
 
 	let scroll = $state(0);
 	let ticking = false;
+	function updateScroll() {
+		if (!isIOS) {
+			scroll = window.scrollY;
+			gameplayScroll = scroll - gameplayBox?.offsetTop;
+			conceptArtScroll = scroll - conceptArtBox?.offsetTop;
+		}
+	}
 	onMount(() => {
 		function onScroll() {
-			scroll = window.scrollY;
+			updateScroll()
 		}
 
 		function onScrollThrottle() {
@@ -44,11 +51,11 @@
 	/** @type {HTMLDivElement} */
 	let gameplayBox;
 	//@ts-ignore
-	let gameplayScroll = $derived(scroll - gameplayBox?.offsetTop);
+	let gameplayScroll = $state(-10000);
 	/** @type {HTMLDivElement} */
 	let conceptArtBox;
 	//@ts-ignore
-	let conceptArtScroll = $derived(scroll - conceptArtBox?.offsetTop);
+	let conceptArtScroll = $state(-10000);
 
 	const artImg = [
 		'games/pivot/axe_concept.webp',
@@ -63,7 +70,6 @@
 	let ratio = $state(1);
 	let windowSize = $state({ width: 0, height: 0 });
 	function onResize() {
-		scroll = window.scrollY;
 		windowSize = { width: window.innerWidth, height: window.innerHeight };
 		ratio = (largerContainer?.clientWidth ?? 1) / (largerContainer?.clientHeight ?? 1);
 		topCorner = {
@@ -115,7 +121,7 @@
 	>
 		{/* BANNER BACKGROUND */ null}
 		<div
-			class="banner-art fixed right-0 h-full w-full xl:w-2/3"
+			class="banner-art {isIOS ? "absolute" : "fixed"} right-0 h-full w-full xl:w-2/3"
 			style:transform="translateY({isIOS ? 0 : -scroll / 4}px)"
 		>
 			<img
@@ -135,7 +141,7 @@
 						stroke="#649B9F"
 						strokeWidth="2"
 						width="90%"
-						style="transform: translateX({scroll / 10}px)"
+						style="transform: translateX({isIOS ? 0 : scroll / 10}px)"
 					/>
 
 					<div
@@ -160,6 +166,7 @@
 						class="xl:translate-x-24"
 						onclick={() => {
 							window.scrollTo(0, windowSize.height);
+							updateScroll();
 						}}
 					>
 						<ArrowDown stroke="#A46B6C" class="size-12 animate-bounce hmd:size-16" />
@@ -193,7 +200,7 @@
 					xmlns="http://www.w3.org/2000/svg"
 					preserveAspectRatio="none"
 					class="h-12 w-20 translate-y-5 md:h-20 md:w-32 xl:h-24 xl:w-64"
-					stroke-dashoffset={isIOS || (gameplayScroll + windowSize.height) > 0 ? 0 : 100}
+					stroke-dashoffset={isIOS || (gameplayScroll + windowSize.height > 0) ? 0 : 100}
 					style:transition="stroke-dashoffset 0.5s"
 				>
 					<line
@@ -244,7 +251,7 @@
 					xmlns="http://www.w3.org/2000/svg"
 					preserveAspectRatio="none"
 					class="h-12 w-20 translate-y-5 md:h-20 md:w-32 xl:h-24 xl:w-64"
-					stroke-dashoffset={gameplayScroll + windowSize.height > 0 ? 0 : 100}
+					stroke-dashoffset={isIOS || (gameplayScroll + windowSize.height > 0) ? 0 : 100}
 					style:transition="stroke-dashoffset 0.5s"
 				>
 					<line
@@ -280,7 +287,7 @@
 		{/* GAMEPLAY VIDEO */ null}
 		<div
 			class="video-box center-x relative w-11/12 overflow-hidden transition-transform duration-700 sm:w-3/4 md:w-2/3"
-			style:transform="translate(-50%, {gameplayScroll + windowSize.height * 0.6 > 0
+			style:transform="translate(-50%, {isIOS ? 0 : (gameplayScroll + windowSize.height * 0.6 > 0)
 				? 0
 				: 100}%)"
 		>
@@ -315,9 +322,9 @@
 	>
 		{/* CONCEPT ARTS TITLE */ null}
 		<div
-			class="center-xy pointer-events-none fixed z-10 select-none transition-transform duration-500"
+			class="{isIOS ? "top-0 left-1/2" : "center-xy"} pointer-events-none {isIOS ? "absolute" : "fixed"} z-10 select-none transition-transform duration-500"
 			style:filter="drop-shadow(0px 4px 0 rgb(74, 74, 74))"
-			style:transform="translate(-50%, {conceptArtScroll + windowSize.height / 3 > 0
+			style:transform="translate(-50%, {isIOS ? 0 : (conceptArtScroll + windowSize.height / 3 > 0)
 				? -50
 				: -200}%)"
 		>
@@ -350,8 +357,8 @@
 					class="relative w-full select-none rounded-xl transition-all duration-700"
 					src={image(artImg[0])}
 					alt="weapon"
-					style:transform="translateX({conceptArtsShow[0] ? 0 : -400}px)"
-					class:opacity-0={!conceptArtsShow[0]}
+					style:transform="translateX({isIOS || conceptArtsShow[0] ? 0 : -400}px)"
+					class:opacity-0={!isIOS && !conceptArtsShow[0]}
 				/>
 			</button>
 			<div
@@ -379,8 +386,8 @@
 					class="relative w-full select-none rounded-xl transition-all duration-700"
 					src={image(artImg[1])}
 					alt="background"
-					style:transform="translateX({conceptArtsShow[1] ? 0 : 400}px)"
-					class:opacity-0={!conceptArtsShow[1]}
+					style:transform="translateX({isIOS || conceptArtsShow[1] ? 0 : 400}px)"
+					class:opacity-0={!isIOS && !conceptArtsShow[1]}
 				/>
 			</button>
 			<div
@@ -411,8 +418,8 @@
 					loop
 					muted
 					playsinline
-					style:transform="translateX({conceptArtsShow[2] ? 0 : -400}px)"
-					class:opacity-0={!conceptArtsShow[2]}
+					style:transform="translateX({isIOS || conceptArtsShow[2] ? 0 : -400}px)"
+					class:opacity-0={!isIOS && !conceptArtsShow[2]}
 				>
 					<source type="video/webm" src={image(artImg[2])} />
 				</video>
@@ -442,8 +449,8 @@
 					class="relative w-full select-none rounded-xl transition-all duration-700"
 					src={image(artImg[3])}
 					alt="monster"
-					style:transform="translateX({conceptArtsShow[3] ? 0 : 400}px)"
-					class:opacity-0={!conceptArtsShow[3]}
+					style:transform="translateX({isIOS || conceptArtsShow[3] ? 0 : 400}px)"
+					class:opacity-0={!isIOS && !conceptArtsShow[3]}
 				/>
 			</button>
 			<div
