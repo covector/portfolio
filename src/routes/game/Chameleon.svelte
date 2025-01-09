@@ -26,15 +26,31 @@
 	let scroll = $state(0);
 	let ticking = false;
 	let topScroll = $state(0);
+	const hideMargin = 100;
+	let hideBanner = $state(false);
+	let hideGameplay = $state(false);
+	let hideFeatures = $state(false);
+	let hideMonster = $state(false);
 	function updateScroll() {
 		scroll = window.scrollY;
-			if (!isIOS) {
-				topScroll = scroll;
-				gameplayScroll = scroll - gameplayBox?.offsetTop;
-				featureBoxScroll = scroll - featureBox?.offsetTop;
-			}
-	};
+		topScroll = scroll;
+		gameplayScroll = scroll - gameplayBox.offsetTop;
+		featureBoxScroll = scroll - featureBox.offsetTop;
+		let monsterScroll = scroll - monsterSection.offsetTop;
+
+		hideBanner = topScroll > windowSize.height + hideMargin;
+		hideGameplay =
+			gameplayScroll < -windowSize.height - hideMargin ||
+			gameplayScroll > gameplayBox.offsetHeight + hideMargin;
+		hideFeatures =
+			featureBoxScroll < -windowSize.height - hideMargin ||
+			featureBoxScroll > featureBox.offsetHeight + hideMargin;
+		hideMonster =
+			monsterScroll < -windowSize.height - hideMargin ||
+			monsterScroll > monsterSection.offsetHeight + hideMargin;
+	}
 	onMount(() => {
+		updateScroll();
 		function onScroll() {
 			updateScroll();
 
@@ -138,7 +154,7 @@
 	let forwardRun = $state(true);
 	onMount(() => {
 		function playAnimation() {
-			const duration = 500 * windowSize.width / runVideo.clientWidth;
+			const duration = (500 * windowSize.width) / runVideo.clientWidth;
 			runVideo
 				?.animate(
 					forwardRun
@@ -178,20 +194,26 @@
 	{/* BANNER SECTION */ null}
 	<div
 		class="banner h-screen w-full"
-		style={isIOS ? "" : "clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); clip-path: fill-box;"}
+		style={isIOS
+			? ''
+			: 'clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); clip-path: fill-box;'}
 	>
 		{/* BANNER BACKGROUND */ null}
 		<img
-			class="pointer-events-none {isIOS ? "absolute" : "fixed"} right-0 h-full w-full object-cover 2xl:w-11/12"
+			class="pointer-events-none {isIOS
+				? 'absolute'
+				: 'fixed'} right-0 h-full w-full object-cover 2xl:w-11/12"
 			src={image('games/chameleon/env_3.webp')}
 			style:z-index="0"
 			alt="banner render back layer"
+			class:hidden={hideBanner}
 		/>
 
 		<div
-			class="{isIOS ? "absolute" : "fixed"} flex size-full"
+			class="{isIOS ? 'absolute' : 'fixed'} flex size-full"
 			style:z-index="3"
 			style:transform="translateY(-{isIOS ? 0 : topScroll / 10}px)"
+			class:hidden={hideBanner}
 		>
 			{/* BANNER TEXT */ null}
 			<FlyIn class="absolute size-full" duration={1} distance="30%">
@@ -247,11 +269,14 @@
 			</FlyIn>
 		</div>
 		<img
-			class="pointer-events-none {isIOS ? "absolute" : "fixed"} right-0 h-full w-full object-cover 2xl:w-11/12"
+			class="pointer-events-none {isIOS
+				? 'absolute'
+				: 'fixed'} right-0 h-full w-full object-cover 2xl:w-11/12"
 			src={image('games/chameleon/env_2.webp')}
 			style:z-index="2"
 			alt="banner render middle layer"
 			style:transform="translateY(-{isIOS ? 0 : topScroll / 6}px)"
+			class:hidden={hideBanner}
 		/>
 		<div class="placeholder right-0 h-full w-full 2xl:w-11/12" style:background-color="#000000">
 			<img
@@ -259,11 +284,13 @@
 				src={image('games/chameleon/env_1.webp')}
 				style:z-index="3"
 				alt="banner render front layer"
+				class:hidden={hideBanner}
 			/>
 		</div>
 		<div
 			class="fade pointer-events-none absolute left-0 top-0 z-10 h-screen w-full"
 			style:background="linear-gradient(0deg, rgb(19 22 39) 0%, rgba(0,0,0,0) 20%)"
+			class:hidden={hideBanner}
 		></div>
 	</div>
 
@@ -272,7 +299,8 @@
 		<div
 			class="center-y relative text-nowrap font-jersey text-2xl"
 			style:--distance="{-gameplayTextLength}px"
-			style:animation={isIOS ? "" : "textRoll 4s linear infinite"}
+			style:animation={isIOS ? '' : 'textRoll 4s linear infinite'}
+			class:hidden={hideGameplay}
 		>
 			{#each Array.from({ length: duplicateCount }, (_, i) => i)}
 				<span class="inline-block" style:width="{gameplayTextLength}px">GAMEPLAY</span>
@@ -281,7 +309,9 @@
 	</div>
 	<div
 		class="relative w-full text-nowrap pb-20 pt-12"
-		style={isIOS ? "" : "clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); clip-path: padding-box;"}
+		style={isIOS
+			? ''
+			: 'clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); clip-path: padding-box;'}
 		bind:this={gameplayBox}
 	>
 		{/* GAMEPLAY TITLE */ null}
@@ -291,18 +321,21 @@
 				: 'py-2 font-dotgothic16 text-2xl md:text-4xl lg:py-4 lg:text-6xl'}"
 			style:background-color="#51418B"
 			style:transition="clip-path 0.7s"
-			style:clip-path={isIOS || (gameplayScroll + windowSize.height > 0)
+			style:clip-path={isIOS || gameplayScroll + windowSize.height > 0
 				? 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)'
 				: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)'}
+			class:hidden={hideGameplay}
 		>
 			{m.gameplay()}
 		</div>
 		{/* GAMEPLAY VIDEO */ null}
 		<div
 			class="video-box center-x relative z-10 mt-14 w-11/12 overflow-hidden transition-transform duration-700 sm:w-3/4 md:w-2/3 lg:mt-20"
-			style:transform="translate(-50%, {isIOS ? 0 : (gameplayScroll + windowSize.height * 0.6 > 0)
+			style:transform="translate(-50%, {isIOS
 				? 0
-				: 100}%)"
+				: gameplayScroll + windowSize.height * 0.6 > 0
+					? 0
+					: 100}%)"
 		>
 			<div class="relative w-full pt-[100%] sm:pt-[56.25%]">
 				<iframe
@@ -315,22 +348,25 @@
 					src="https://www.youtube.com/embed/vGH1aHI1nok?vq=hd720p;feature=oembed&amp;hd=1&amp;modestbranding=1&amp;autohide=1&amp;showinfo=0&&amp;autoplay=0"
 					allow="autoplay; encrypted-media"
 					allowfullscreen
+					class:hidden={hideGameplay}
 				></iframe>
 				<img
 					src={image('games/chameleon/bush_1.webp')}
 					alt="bush decoration"
 					class="pointer-events-none absolute right-0 top-0 z-10 w-3/12 translate-x-1/2 select-none"
+					class:hidden={hideGameplay}
 				/>
 				<img
 					src={image('games/chameleon/bush_2.webp')}
 					alt="bush decoration"
 					class="pointer-events-none absolute left-0 top-0 z-10 w-3/12 select-none"
 					style:transform="translate(-50%, -30%)"
+					class:hidden={hideGameplay}
 				/>
 			</div>
 		</div>
 
-		<div class="absolute top-0 size-full">
+		<div class="absolute top-0 size-full" class:hidden={hideGameplay}>
 			<svg
 				width="100%"
 				height="100%"
@@ -343,34 +379,34 @@
 					stroke="#366B67"
 					stroke-width="5"
 				>
-				{#if !isIOS}
-					<animate
-						attributeName="d"
-						dur="21s"
-						repeatCount="indefinite"
-						calcMode="spline"
-						keyTimes="0; 0.5; 1"
-						keySplines="0.5 0 0.5 1; 0.5 0 0.5 1"
-						values="M-28 450C188.5 373 63.5 275 291.5 311C519.5 347 823 737.5 1155 701C1487 664.5 1493 399.5 1652.5 370.5;M-20.5 436.5C182 522.5 174.5 510.5 353.5 485.5C582.106 453.572 792.5 293 1124.5 256.5C1456.5 220 1512.5 330.5 1652.5 370.5;M-28 450C188.5 373 63.5 275 291.5 311C519.5 347 823 737.5 1155 701C1487 664.5 1493 399.5 1652.5 370.5;"
-					/>
-				{/if}
+					{#if !isIOS}
+						<animate
+							attributeName="d"
+							dur="21s"
+							repeatCount="indefinite"
+							calcMode="spline"
+							keyTimes="0; 0.5; 1"
+							keySplines="0.5 0 0.5 1; 0.5 0 0.5 1"
+							values="M-28 450C188.5 373 63.5 275 291.5 311C519.5 347 823 737.5 1155 701C1487 664.5 1493 399.5 1652.5 370.5;M-20.5 436.5C182 522.5 174.5 510.5 353.5 485.5C582.106 453.572 792.5 293 1124.5 256.5C1456.5 220 1512.5 330.5 1652.5 370.5;M-28 450C188.5 373 63.5 275 291.5 311C519.5 347 823 737.5 1155 701C1487 664.5 1493 399.5 1652.5 370.5;"
+						/>
+					{/if}
 				</path>
 				<path
 					d="M-44 328C89.5 360 301.5 668 438 656C667.938 635.786 677.5 235.5 1009.5 199C1341.5 162.5 1494.5 419.5 1636.5 502.5"
 					stroke="#3B238A"
 					stroke-width="5"
 				>
-				{#if !isIOS}
-					<animate
-						attributeName="d"
-						dur="26s"
-						repeatCount="indefinite"
-						calcMode="spline"
-						keyTimes="0; 0.5; 1"
-						keySplines="0.5 0 0.5 1; 0.5 0 0.5 1"
-						values="M-44 328C89.5 360 301.5 668 438 656C667.938 635.786 677.5 235.5 1009.5 199C1341.5 162.5 1494.5 419.5 1636.5 502.5;M-44 342C92 361.5 307 541.5 443.5 529.5C673.438 509.286 795 441.506 1027 416C1313.5 384.502 1499.5 453 1647 333;M-44 328C89.5 360 301.5 668 438 656C667.938 635.786 677.5 235.5 1009.5 199C1341.5 162.5 1494.5 419.5 1636.5 502.5;"
-					/>
-				{/if}
+					{#if !isIOS}
+						<animate
+							attributeName="d"
+							dur="26s"
+							repeatCount="indefinite"
+							calcMode="spline"
+							keyTimes="0; 0.5; 1"
+							keySplines="0.5 0 0.5 1; 0.5 0 0.5 1"
+							values="M-44 328C89.5 360 301.5 668 438 656C667.938 635.786 677.5 235.5 1009.5 199C1341.5 162.5 1494.5 419.5 1636.5 502.5;M-44 342C92 361.5 307 541.5 443.5 529.5C673.438 509.286 795 441.506 1027 416C1313.5 384.502 1499.5 453 1647 333;M-44 328C89.5 360 301.5 668 438 656C667.938 635.786 677.5 235.5 1009.5 199C1341.5 162.5 1494.5 419.5 1636.5 502.5;"
+						/>
+					{/if}
 				</path>
 				<rect
 					x="-43.64"
@@ -381,17 +417,17 @@
 					transform="rotate(33.8917 73.6401 380.5)"
 					fill="#3B238A"
 				>
-				{#if !isIOS}
-					<animateTransform
-						attributeName="transform"
-						attributeType="XML"
-						type="rotate"
-						from="33.8917 72.64 481.5"
-						to="393.8917 72.64 481.5"
-						dur="20s"
-						repeatCount="indefinite"
-					/>
-				{/if}
+					{#if !isIOS}
+						<animateTransform
+							attributeName="transform"
+							attributeType="XML"
+							type="rotate"
+							from="33.8917 72.64 481.5"
+							to="393.8917 72.64 481.5"
+							dur="20s"
+							repeatCount="indefinite"
+						/>
+					{/if}
 				</rect>
 				<rect
 					x="1422.48"
@@ -402,17 +438,17 @@
 					transform="rotate(69.0763 1572.48 113.003)"
 					fill="#3B238A"
 				>
-				{#if !isIOS}
-					<animateTransform
-						attributeName="transform"
-						attributeType="XML"
-						type="rotate"
-						from="69.0763 1522.48 213"
-						to="-209.0763 1522.48 213"
-						dur="16s"
-						repeatCount="indefinite"
-					/>
-				{/if}
+					{#if !isIOS}
+						<animateTransform
+							attributeName="transform"
+							attributeType="XML"
+							type="rotate"
+							from="69.0763 1522.48 213"
+							to="-209.0763 1522.48 213"
+							dur="16s"
+							repeatCount="indefinite"
+						/>
+					{/if}
 				</rect>
 				<rect
 					x="101.14"
@@ -423,27 +459,28 @@
 					transform="rotate(87.8789 301.14 573.976)"
 					fill="#366B67"
 				>
-				{#if !isIOS}
-					<animateTransform
-						attributeName="transform"
-						attributeType="XML"
-						type="rotate"
-						from="87.8789 168.069 642.755"
-						to="447.8789 168.069 642.755"
-						dur="10s"
-						repeatCount="indefinite"
-					/>
-				{/if}
+					{#if !isIOS}
+						<animateTransform
+							attributeName="transform"
+							attributeType="XML"
+							type="rotate"
+							from="87.8789 168.069 642.755"
+							to="447.8789 168.069 642.755"
+							dur="10s"
+							repeatCount="indefinite"
+						/>
+					{/if}
 				</rect>
 			</svg>
 		</div>
 	</div>
 
 	{/* FEATURES SECTION */ null}
-	<div class="h-4 w-full overflow-hidden bg-black" bind:this={featureBox}></div>
+	<div class="h-4 w-full overflow-hidden bg-black"></div>
 	<div
 		class="relative h-screen min-h-[1150px] w-full overflow-hidden sm:h-[120vh] sm:min-h-[800px] xl:min-h-[900px]"
 		style:background="linear-gradient(247deg, rgba(32,50,48,1) 0%, rgba(13,17,34,1) 100%)"
+		bind:this={featureBox}
 	>
 		{/* FEATURES TITLE */ null}
 		<div
@@ -458,18 +495,23 @@
 			>
 				{m.features()}
 			</div>
-			<div class="absolute bottom-0 h-2 w-full md:h-4" style:background-color="#A2D2BA"></div>
+			<div
+				class="absolute bottom-0 h-2 w-full md:h-4"
+				style:background-color="#A2D2BA"
+				class:hidden={hideFeatures}
+			></div>
 		</div>
 
 		{/* FEATURES CONTENT */ null}
 		<div
 			class="absolute top-40 z-30 flex w-full flex-col items-center justify-center gap-x-12 gap-y-16 overflow-hidden sm:gap-y-24 md:flex-row lg:gap-x-20 xl:gap-x-36"
+			class:hidden={hideFeatures}
 		>
 			<div
 				class="relative h-[400px] w-11/12 rounded-xl border transition-transform duration-700 sm:h-[520px] sm:w-[550px] md:w-[400px] lg:w-[450px] xl:h-[760px] xl:w-[550px]"
 				style:background-color="#1A2824"
 				style:border-color="#2C4D43"
-				style:transform="translateX({isIOS || (featureBoxScroll + windowSize.height / 2 > 0)
+				style:transform="translateX({isIOS || featureBoxScroll + windowSize.height / 2 > 0
 					? 0
 					: '-200%'})"
 			>
@@ -507,10 +549,8 @@
 				class="relative h-[400px] w-11/12 rounded-xl border transition-transform duration-700 sm:h-[520px] sm:w-[550px] md:w-[400px] lg:w-[450px] xl:h-[760px] xl:w-[550px]"
 				style:background-color="#241D2F"
 				style:border-color="#40305F"
-				style:transform="translateX({isIOS || (featureBoxScroll +
-					windowSize.height / 2 -
-					(windowSize.width < 768 ? 400 : 0) >
-				0)
+				style:transform="translateX({isIOS ||
+				featureBoxScroll + windowSize.height / 2 - (windowSize.width < 768 ? 400 : 0) > 0
 					? 0
 					: '200%'})"
 			>
@@ -550,6 +590,7 @@
 		<div
 			class="absolute top-0 h-screen w-full"
 			style:transform="translateY({isIOS ? 0 : Math.max(0, featureBoxScroll)}px)"
+			class:hidden={hideFeatures}
 		>
 			<Grid />
 		</div>
@@ -558,14 +599,14 @@
 		{#if !isIOS && !isMobile}
 			<div
 				class="pointer-events-none fixed top-0 z-40 hidden h-screen w-full select-none transition-transform duration-700 md:block"
-				style:transform="translateY({Math.abs(featureBoxScroll) < windowSize.height / 2
-					? 0
-					: 50}%)"
+				style:transform="translateY({Math.abs(featureBoxScroll) < windowSize.height / 2 ? 0 : 50}%)"
+				class:hidden={hideFeatures}
 			>
 				<img
 					class="center-x absolute bottom-0 h-2/3 w-2/3 object-contain"
 					src={image(`games/chameleon/device/${deviceImgIndex}.webp`)}
 					alt="device"
+					class:hidden={hideFeatures}
 				/>
 			</div>
 		{/if}
@@ -585,17 +626,17 @@
 			src={image('games/chameleon/monster_1.webp')}
 			class:opacity-0={monsterSectionScroll + windowSize.height / 2 > 0 ? false : true}
 			alt="monster concept art"
+			class:hidden={hideMonster}
 		/>
 		<div
 			class="absolute left-12 top-[200px] bg-black transition-opacity duration-1000 sm:left-[100px] sm:w-[500px] lg:bg-transparent xl:left-[unset] xl:right-[600px] 2xl:right-[800px] {lang ==
 			'en'
 				? 'text-2xl sm:text-3xl lg:text-[2.25rem]'
 				: 'text-xl sm:text-2xl lg:text-[1.875rem]'}"
-			class:opacity-0={monsterSectionScroll + windowSize.height / 2 + 100 > 0
-				? false
-				: true}
+			class:opacity-0={monsterSectionScroll + windowSize.height / 2 + 100 > 0 ? false : true}
 			style:transform="translateY({isIOS ? 0 : -monsterSectionScroll / 3}px)"
 			style:color="#7C7C7C"
+			class:hidden={hideMonster}
 		>
 			{m.monster_lore_a()}
 		</div>
@@ -605,6 +646,7 @@
 			style:transform="translateY({isIOS ? 0 : -(monsterSectionScroll - 400) / 3.6}px)"
 			src={image('games/chameleon/monster_2.webp')}
 			alt="monster sighting 1"
+			class:hidden={hideMonster}
 		/>
 		<div
 			class="absolute right-12 top-[650px] bg-black transition-opacity duration-1000 sm:right-[100px] sm:w-[350px] lg:bg-transparent xl:left-[800px] xl:right-[unset] {lang ==
@@ -613,6 +655,7 @@
 				: 'text-xl sm:text-2xl lg:text-[1.8rem]'}"
 			class:opacity-0={monsterSectionScroll + windowSize.height / 2 > 500 ? false : true}
 			style:color="#7C7C7C"
+			class:hidden={hideMonster}
 		>
 			{m.monster_lore_b()}
 		</div>
@@ -621,6 +664,7 @@
 			class:opacity-0={monsterSectionScroll + windowSize.height / 2 > 830 ? false : true}
 			src={image('games/chameleon/monster_3.webp')}
 			alt="monster sighting 2"
+			class:hidden={hideMonster}
 		/>
 		<div
 			class="absolute left-12 top-[950px] bg-black transition-opacity duration-1000 md:w-[650px] lg:bg-transparent xl:left-[unset] xl:right-[580px] 2xl:right-[700px] {lang ==
@@ -630,6 +674,7 @@
 			class:opacity-0={monsterSectionScroll + windowSize.height / 2 > 650 ? false : true}
 			style:transform="translateY({isIOS ? 0 : -(monsterSectionScroll - 650) / 2}px)"
 			style:color="#7C7C7C"
+			class:hidden={hideMonster}
 		>
 			{m.monster_lore_c()}
 		</div>
@@ -641,23 +686,24 @@
 			class:opacity-0={monsterSectionScroll + windowSize.height / 2 > 1150 ? false : true}
 			style:transform="translate(-50%,{isIOS ? 0 : -(monsterSectionScroll - 900) / 1.6}px)"
 			style:color="#7C7C7C"
+			class:hidden={hideMonster}
 		>
 			{m.monster_lore_d()}
 		</div>
 
 		{#if !isIOS}
-		<div class="pointer-events-none absolute top-0 h-full w-full">
-			<video
-				class="absolute left-0 top-1/2 h-1/2 object-contain md:w-1/2"
-				bind:this={runVideo}
-				autoplay
-				loop
-				playsinline
-				muted
-			>
-				<source src={image('games/chameleon/run.webm')} type="video/webm" />
-			</video>
-		</div>
+			<div class="pointer-events-none absolute top-0 h-full w-full" class:hidden={hideMonster}>
+				<video
+					class="absolute left-0 top-1/2 h-1/2 object-contain md:w-1/2"
+					bind:this={runVideo}
+					autoplay
+					loop
+					playsinline
+					muted
+				>
+					<source src={image('games/chameleon/run.webm')} type="video/webm" />
+				</video>
+			</div>
 		{/if}
 	</div>
 
@@ -669,7 +715,7 @@
 			muted
 			playsinline
 			onended={() => {
-				window.scrollTo(0, (featureBox.offsetTop));
+				window.scrollTo(0, featureBox.offsetTop);
 				updateScroll();
 				jumpscareVideo.pause();
 				jumpscareVideo.currentTime = 0;

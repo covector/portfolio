@@ -280,6 +280,9 @@
 				i * ANIMATION_SCROLL_HEIGHT,
 				(i + 1) * ANIMATION_SCROLL_HEIGHT
 			) + 'vh'}
+			class:hidden={i == 0
+				? scroll > (i + 2) * ANIMATION_SCROLL_HEIGHT && !maxScroll
+				: scroll < (i - 1) * ANIMATION_SCROLL_HEIGHT || scroll > (i + 2) * ANIMATION_SCROLL_HEIGHT}
 		>
 			<div
 				style:transform={`translateY(${scroll == 0 || scroll == totalHeight - window.innerHeight ? getContext('overscroll').current : 0}px)`}

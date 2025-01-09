@@ -4,7 +4,7 @@
 	import * as runtime from '$lib/paraglide/runtime';
 	import * as m from '$lib/paraglide/messages.js';
 	import DomainSelect from './common/DomainSelect.svelte';
-	import { setContext } from 'svelte';
+	import { onMount, setContext } from 'svelte';
 	import { i18n } from '$lib/i18n';
 	import { page } from '$app/stores';
 	import LanguageSelect from './common/LanguageSelect.svelte';
@@ -17,7 +17,7 @@
 	import ScrollColor from './common/ScrollColor.svelte';
 	import Chameleon from './game/Chameleon.svelte';
 	import Pivot from './game/Pivot.svelte';
-	import { image } from '$lib/utils';
+	import { image, iOS } from '$lib/utils';
 	/** @typedef {import("$lib/domain.js").Domain} Domain */
 
 	let lang = $state(runtime.languageTag());
@@ -55,23 +55,21 @@
 		</div>
 
 		<div class="min-h-screen w-full transition-colors duration-1000">
-			
-				<div class:hidden={domain.current !== 'game'}>
-					{#if subdomain.current === ''}
-						<GameGrid />
-					{:else if subdomain.current === 'chameleon'}
-						<Chameleon />
-					{:else if subdomain.current === 'pivot'}
-						<Pivot />
-					{:else}
-						<GameGrid />
-					{/if}
-				</div>
-				<div class:hidden={domain.current !== 'animation'}>
-					<MeasurementProvider>
-						<AnimationScroll />
-					</MeasurementProvider>
-				</div>
+			{#if domain.current === 'game'}
+				{#if subdomain.current === ''}
+					<GameGrid />
+				{:else if subdomain.current === 'chameleon'}
+					<Chameleon />
+				{:else if subdomain.current === 'pivot'}
+					<Pivot />
+				{:else}
+					<GameGrid />
+				{/if}
+			{:else if domain.current === 'animation'}
+				<MeasurementProvider>
+					<AnimationScroll />
+				</MeasurementProvider>
+			{/if}
 		</div>
 
 		<Blob

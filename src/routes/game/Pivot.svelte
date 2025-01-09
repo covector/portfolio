@@ -21,16 +21,27 @@
 
 	let scroll = $state(0);
 	let ticking = false;
+	const hideMargin = 100;
+	let hideBanner = $state(false);
+	let hideGameplay = $state(false);
+	let hideConceptArt = $state(false);
 	function updateScroll() {
-		if (!isIOS) {
-			scroll = window.scrollY;
-			gameplayScroll = scroll - gameplayBox?.offsetTop;
-			conceptArtScroll = scroll - conceptArtBox?.offsetTop;
-		}
+		scroll = window.scrollY;
+		gameplayScroll = scroll - gameplayBox?.offsetTop;
+		conceptArtScroll = scroll - conceptArtBox?.offsetTop;
+
+		hideBanner = scroll > windowSize.height + hideMargin;
+		hideGameplay =
+			gameplayScroll < -windowSize.height - hideMargin ||
+			gameplayScroll > gameplayBox.offsetHeight + hideMargin;
+		hideConceptArt =
+			conceptArtScroll < -windowSize.height - hideMargin ||
+			conceptArtScroll > conceptArtBox.offsetHeight + hideMargin;
 	}
 	onMount(() => {
+		updateScroll();
 		function onScroll() {
-			updateScroll()
+			updateScroll();
 		}
 
 		function onScrollThrottle() {
@@ -121,8 +132,9 @@
 	>
 		{/* BANNER BACKGROUND */ null}
 		<div
-			class="banner-art {isIOS ? "absolute" : "fixed"} right-0 h-full w-full xl:w-2/3"
+			class="banner-art {isIOS ? 'absolute' : 'fixed'} right-0 h-full w-full xl:w-2/3"
 			style:transform="translateY({isIOS ? 0 : -scroll / 4}px)"
+			class:hidden={hideBanner}
 		>
 			<img
 				class="center-y pointer-events-none absolute h-full select-none object-cover xl:object-contain"
@@ -130,7 +142,7 @@
 				alt="banner art"
 			/>
 		</div>
-		<div class="placeholder size-full" style:background-color="#030708">
+		<div class="placeholder size-full" style:background-color="#030708" class:hidden={hideBanner}>
 			{/* BANNER TEXT */ null}
 			<FlyIn class="absolute z-20 size-full" distance="100px">
 				<div
@@ -177,10 +189,12 @@
 		<div
 			class="fade absolute left-0 top-0 z-10 hidden h-screen w-full xl:block"
 			style:background="linear-gradient(0deg, rgba(3,7,8,1) 0%, rgba(3,7,8,0) 25%)"
+			class:hidden={hideBanner}
 		></div>
 		<div
 			class="fade absolute left-0 top-0 z-10 block h-screen w-full xl:hidden"
 			style:background="linear-gradient(0deg, rgba(3,7,8,1) 0%, rgba(3,7,8,0) 70%)"
+			class:hidden={hideBanner}
 		></div>
 	</div>
 
@@ -193,14 +207,14 @@
 	>
 		{/* GAMEPLAY TITLE */ null}
 		<div class="title-box h-20 lg:h-28">
-			<div class="flex h-full justify-between pb-12">
+			<div class="flex h-full justify-between pb-12" class:hidden={hideGameplay}>
 				<svg
 					viewBox="0 0 100 120"
 					fill="none"
 					xmlns="http://www.w3.org/2000/svg"
 					preserveAspectRatio="none"
 					class="h-12 w-20 translate-y-5 md:h-20 md:w-32 xl:h-24 xl:w-64"
-					stroke-dashoffset={isIOS || (gameplayScroll + windowSize.height > 0) ? 0 : 100}
+					stroke-dashoffset={isIOS || gameplayScroll + windowSize.height > 0 ? 0 : 100}
 					style:transition="stroke-dashoffset 0.5s"
 				>
 					<line
@@ -239,7 +253,7 @@
 							: 'font-dotgothic16 text-2xl md:text-4xl lg:text-6xl'}"
 						style:color="#649B9F"
 						style:transition="width 0.7s"
-						style:width={isIOS || (gameplayScroll + windowSize.height > 0) ? '100%' : '0'}
+						style:width={isIOS || gameplayScroll + windowSize.height > 0 ? '100%' : '0'}
 					>
 						{m.gameplay()}
 					</div>
@@ -251,7 +265,7 @@
 					xmlns="http://www.w3.org/2000/svg"
 					preserveAspectRatio="none"
 					class="h-12 w-20 translate-y-5 md:h-20 md:w-32 xl:h-24 xl:w-64"
-					stroke-dashoffset={isIOS || (gameplayScroll + windowSize.height > 0) ? 0 : 100}
+					stroke-dashoffset={isIOS || gameplayScroll + windowSize.height > 0 ? 0 : 100}
 					style:transition="stroke-dashoffset 0.5s"
 				>
 					<line
@@ -287,9 +301,11 @@
 		{/* GAMEPLAY VIDEO */ null}
 		<div
 			class="video-box center-x relative w-11/12 overflow-hidden transition-transform duration-700 sm:w-3/4 md:w-2/3"
-			style:transform="translate(-50%, {isIOS ? 0 : (gameplayScroll + windowSize.height * 0.6 > 0)
+			style:transform="translate(-50%, {isIOS
 				? 0
-				: 100}%)"
+				: gameplayScroll + windowSize.height * 0.6 > 0
+					? 0
+					: 100}%)"
 		>
 			<div class="relative w-full pt-[100%] sm:pt-[56.25%]">
 				<iframe
@@ -301,6 +317,7 @@
 					src="https://www.youtube.com/embed/_vjhPJdsp3E?vq=hd720p;feature=oembed&amp;hd=1&amp;modestbranding=1&amp;autohide=1&amp;showinfo=0&&amp;autoplay=0"
 					allow="autoplay; encrypted-media"
 					allowfullscreen
+					class:hidden={hideGameplay}
 				></iframe>
 			</div>
 		</div>
@@ -308,6 +325,7 @@
 		<div
 			class="fade pointer-events-none absolute left-0 top-0 z-10 size-full"
 			style:background="linear-gradient(0deg, rgba(72,165,181,0.2) 0%, rgba(72,165,181,0) 25%)"
+			class:hidden={hideGameplay}
 		></div>
 	</div>
 
@@ -322,11 +340,16 @@
 	>
 		{/* CONCEPT ARTS TITLE */ null}
 		<div
-			class="{isIOS ? "top-0 left-1/2" : "center-xy"} pointer-events-none {isIOS ? "absolute" : "fixed"} z-10 select-none transition-transform duration-500"
+			class="{isIOS ? 'left-1/2 top-0' : 'center-xy'} pointer-events-none {isIOS
+				? 'absolute'
+				: 'fixed'} z-10 select-none transition-transform duration-500"
 			style:filter="drop-shadow(0px 4px 0 rgb(74, 74, 74))"
-			style:transform="translate(-50%, {isIOS ? 0 : (conceptArtScroll + windowSize.height / 3 > 0)
-				? -50
-				: -200}%)"
+			style:transform="translate(-50%, {isIOS
+				? 0
+				: conceptArtScroll + windowSize.height / 3 > 0
+					? -50
+					: -200}%)"
+			class:hidden={hideConceptArt}
 		>
 			<div class="relative" style:transform="translateY({isIOS ? 0 : conceptArtScroll / 8}px)">
 				<div
@@ -345,12 +368,18 @@
 			class="pointer-events-none absolute right-28 top-14 hidden w-48 sm:block"
 			style:transform="translateY({isIOS ? 0 : -conceptArtScroll / 10}px)"
 		>
-			<img class="w-full select-none" src={image('games/pivot/dots.webp')} alt="poker dots" />
+			<img
+				class="w-full select-none"
+				src={image('games/pivot/dots.webp')}
+				alt="poker dots"
+				class:hidden={hideConceptArt}
+			/>
 		</div>
 
 		{/* WEAPON */ null}
 		<div
 			class="center-x relative w-10/12 sm:absolute sm:left-28 sm:top-8 sm:w-[400px] sm:translate-x-0 2xl:left-52"
+			class:hidden={hideConceptArt}
 		>
 			<button class="clickable" onclick={() => (largerView = 0)}>
 				<img
@@ -380,6 +409,7 @@
 		{/* BACKGROUND */ null}
 		<div
 			class="center-x relative w-10/12 sm:absolute sm:left-auto sm:right-6 sm:top-[500px] sm:w-[640px] sm:translate-x-0 xl:top-[344px] 2xl:right-24"
+			class:hidden={hideConceptArt}
 		>
 			<button class="clickable" onclick={() => (largerView = 1)}>
 				<img
@@ -409,6 +439,7 @@
 		{/* ANIMATION */ null}
 		<div
 			class="center-x relative w-10/12 sm:absolute sm:left-48 sm:top-[910px] sm:w-[400px] sm:translate-x-0 sm:xl:top-[650px] 2xl:left-64"
+			class:hidden={hideConceptArt}
 			style:z-index={1}
 		>
 			<button class="clickable" aria-label="click to enlarge" onclick={() => (largerView = 2)}>
@@ -443,6 +474,7 @@
 		{/* MONSTER */ null}
 		<div
 			class="center-x relative w-10/12 sm:absolute sm:left-auto sm:right-14 sm:top-[1380px] sm:w-[500px] sm:translate-x-0 xl:top-[900px] 2xl:right-48"
+			class:hidden={hideConceptArt}
 		>
 			<button class="clickable" onclick={() => (largerView = 3)}>
 				<img
