@@ -1,38 +1,24 @@
-# sv
+# My Portfolio
+|[Link to Portfolio](https://covector.github.io/portfolio/)|
+|-|
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+## Language
+3 languages supported: English, Japanese, Chinese
 
-## Creating a project
+https://github.com/user-attachments/assets/e25abce3-6aa8-4baf-b683-4c0510121844
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Page
+### Game
+_piVot Project Page:_
 
-```bash
-# create a new project in the current directory
-npx sv create
+https://github.com/user-attachments/assets/56d21d3c-c338-4289-bef7-7a5f4470d3d9
 
-# create a new project in my-app
-npx sv create my-app
-```
+_Chameleon Project Page:_
 
-## Developing
+https://github.com/user-attachments/assets/33bb5937-a122-4308-b54f-020a323b720a
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
-```bash
-npm run dev
+### Animation
+_Animation Page:_
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+https://github.com/user-attachments/assets/da4cf657-874a-40a8-9804-17a9ceaa0cda
