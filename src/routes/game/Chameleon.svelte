@@ -228,7 +228,7 @@
 							: 'font-dotgothic16'} text-lg hmd:text-2xl [@media_((min-height:594px)_and_(min-width:1025px))]:text-[1.6rem]"
 						style:color="#8781b9"
 					>
-						{m.quote()}{m.chameleon_description()}{m.quote_end()}
+						{m.double_quote()}{m.chameleon_description()}{m.double_quote_end()}
 					</div>
 					<div class="flex w-full justify-center gap-4">
 						<CoolButton
@@ -638,7 +638,7 @@
 			style:color="#7C7C7C"
 			class:hidden={hideMonster}
 		>
-			{m.monster_lore_a()}
+			{@html m.monster_lore_a()}
 		</div>
 		<img
 			class="absolute left-[-10px] top-[450px] h-[400px] select-none object-cover transition-opacity duration-1000 md:h-[500px]"
@@ -657,7 +657,7 @@
 			style:color="#7C7C7C"
 			class:hidden={hideMonster}
 		>
-			{m.monster_lore_b()}
+			{@html m.monster_lore_b()}
 		</div>
 		<img
 			class="absolute -right-8 top-[900px] h-[230px] select-none object-cover transition-opacity duration-1000 md:left-1/2 md:h-[300px] md:-translate-x-1/4"
@@ -676,7 +676,7 @@
 			style:color="#7C7C7C"
 			class:hidden={hideMonster}
 		>
-			{m.monster_lore_c()}
+			{@html m.monster_lore_c()}
 		</div>
 		<div
 			class="center-x absolute top-[1200px] text-nowrap bg-black transition-opacity duration-1000 md:top-[1350px] {lang ==
@@ -688,7 +688,7 @@
 			style:color="#7C7C7C"
 			class:hidden={hideMonster}
 		>
-			{m.monster_lore_d()}
+			{@html m.monster_lore_d()}
 		</div>
 
 		{#if !isIOS}

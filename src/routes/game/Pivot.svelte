@@ -162,7 +162,7 @@
 							: 'font-dotgothic16'} text-xl xl:translate-x-8 hmd:text-2xl [@media_((min-height:594px)_and_(min-width:1025px))]:text-[1.6rem]"
 						style:color="#649B9F"
 					>
-						{m.quote()}{m.pivot_description()}{m.quote_end()}
+						{m.double_quote()}{m.pivot_description()}{m.double_quote_end()}
 					</div>
 					<div class="flex w-full justify-center xl:translate-x-20">
 						<HorizontalLine

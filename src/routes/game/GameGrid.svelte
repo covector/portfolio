@@ -24,7 +24,7 @@
 				borderColor: '#9675A6',
 				background: 'linear-gradient(167deg, rgba(34,25,46,1) 0%, rgba(63,49,65,1) 100%)',
 				titleColor: '#DFDDF9',
-				descColor: '#84719E',
+				descColor: '#AF92EA',
 				hoverColor: '#47428b'
 			}
 		},
@@ -36,7 +36,7 @@
 				borderColor: '#75A69A',
 				background: 'linear-gradient(167deg, #192E22 0%, #314141 100%)',
 				titleColor: '#DDF9F1',
-				descColor: '#719E9B',
+				descColor: '#8CD2BE',
 				hoverColor: '#468976'
 			}
 		}
