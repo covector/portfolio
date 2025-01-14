@@ -44,7 +44,7 @@
 </script>
 
 <div
-	class="absolute right-0 grid w-full grid-cols-1 justify-items-center gap-y-12 py-40 sm:w-11/12 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
+	class="absolute right-0 grid w-full grid-cols-1 justify-items-center gap-y-12 py-40 xl:w-11/12 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
 	style:transform={`translateY(${getContext('overscroll').current}px)`}
 >
 	{#each games as game, i (i)}
