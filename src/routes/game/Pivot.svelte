@@ -1,5 +1,5 @@
 <script>
-	import { gotoPage, image, iOS } from '$lib/utils';
+	import { gotoPage, image, iOS, mobileAndTabletCheck } from '$lib/utils';
 	import * as m from '$lib/paraglide/messages.js';
 	import HorizontalLine from '../common/svg/HorizontalLine.svelte';
 	import { getContext, onMount } from 'svelte';
@@ -8,11 +8,17 @@
 	import BackIcon from '../common/svg/BackIcon.svelte';
 	import Cross from '../common/svg/Cross.svelte';
 	import FlyIn from '../common/FlyIn.svelte';
+	import PlayIcon from '../common/svg/PlayIcon.svelte';
 
 	/** @typedef {import("$lib/paraglide/runtime").AvailableLanguageTag} Lang */
 
 	/** @type {Lang} */
 	const lang = getContext('lang');
+
+	let isMobile = $state(mobileAndTabletCheck());
+	onMount(() => {
+		isMobile = mobileAndTabletCheck();
+	});
 
 	let isIOS = $state(navigator ? iOS() : false);
 	onMount(() => {
@@ -63,6 +69,7 @@
 	let gameplayBox;
 	//@ts-ignore
 	let gameplayScroll = $state(-10000);
+	let playNowHover = $state(false);
 	/** @type {HTMLDivElement} */
 	let conceptArtBox;
 	//@ts-ignore
@@ -216,6 +223,7 @@
 					class="h-12 w-20 translate-y-5 md:h-20 md:w-32 xl:h-24 xl:w-64"
 					stroke-dashoffset={isIOS || gameplayScroll + windowSize.height > 0 ? 0 : 100}
 					style:transition="stroke-dashoffset 0.5s"
+					style:transition-delay="0.2s"
 				>
 					<line
 						x1="0"
@@ -245,19 +253,51 @@
 						stroke-dasharray="100"
 					/>
 				</svg>
-				<div class="flex h-full items-center gap-4 md:gap-6 xl:gap-8">
+				<div class="relative flex h-full items-center gap-4 md:gap-6 xl:gap-8">
 					<VerticalLine stroke="#649B9F" strokeWidth="2" height="100%" class="w-1 lg:w-[6px]" />
 					<div
 						class="overflow-hidden text-nowrap {lang == 'en'
 							? 'font-jersey text-4xl leading-6 md:text-6xl lg:text-8xl'
 							: 'font-dotgothic16 text-2xl md:text-4xl lg:text-6xl'}"
 						style:color="#649B9F"
-						style:transition="width 0.7s"
-						style:width={isIOS || gameplayScroll + windowSize.height > 0 ? '100%' : '0'}
 					>
 						{m.gameplay()}
 					</div>
 					<VerticalLine stroke="#649B9F" strokeWidth="6" height="100%" class="w-1 lg:w-[6px]" />
+					<div class="absolute flex select-none translate-x-1/2 -translate-y-full md:translate-x-0 md:translate-y-0 top-0 md:top-[unset] right-1/2 md:-right-10 lg:-right-14 h-8 lg:h-12">
+						<button
+							class="size-8 lg:size-12 shrink-0 transition-transform ease-[cubic-bezier(.26,1.93,.45,1)] delay-200 duration-300"
+							style:transform="scale({isIOS || gameplayScroll + windowSize.height > 0 || isMobile ? (playNowHover ? 1.2 : 1) : 0})"
+							onmouseenter={() => playNowHover = true}
+							onmouseleave={() => playNowHover = false}
+							onclick={() => {
+								window.open('https://covector.github.io/piVot2/', '_blank');
+							}}
+						>
+							<PlayIcon color="#A46B6C" />
+						</button>
+						<button
+						class="w-fit overflow-hidden text-nowrap {isMobile ? 
+							"relative h-full shrink-0 md:left-10 lg:left-14 md:absolute md:acenter-y" :
+							"left-10 lg:left-14 absolute center-y"
+						}"
+
+						class:cursor-auto={!isMobile}
+						onclick={() => {
+							if (isMobile) {
+								window.open('https://covector.github.io/piVot2/', '_blank');
+							}
+						}}
+						>
+							<div
+							class="pr-4 {lang == 'en'
+							? 'text-2xl lg:text-3xl font-jersey leading-6'
+							: 'text-xl lg:text-2xl font-dotgothic16'
+							} transition-transform duration-700 {isMobile || playNowHover ? "translate-x-0" : "-translate-x-full"}"
+							style:color="#A46B6C">{m.play_now()}</div>
+						</button>
+					</div>
+					
 				</div>
 				<svg
 					viewBox="0 0 100 120"
@@ -267,6 +307,7 @@
 					class="h-12 w-20 translate-y-5 md:h-20 md:w-32 xl:h-24 xl:w-64"
 					stroke-dashoffset={isIOS || gameplayScroll + windowSize.height > 0 ? 0 : 100}
 					style:transition="stroke-dashoffset 0.5s"
+					style:transition-delay="0.2s"
 				>
 					<line
 						x1="100"
@@ -351,7 +392,7 @@
 					: -200}%)"
 			class:hidden={hideConceptArt}
 		>
-			<div class="relative" style:transform="translateY({isIOS ? 0 : conceptArtScroll / 8}px)">
+			<div class="relative" style:transform="translateY({isIOS ? 25 : conceptArtScroll / 8}px)">
 				<div
 					class="text-center {lang == 'en'
 						? 'font-jersey text-4xl leading-6 sm:text-6xl lg:text-8xl'

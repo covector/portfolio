@@ -185,7 +185,7 @@
 
 <div class={lang == 'en' ? 'font-jersey text-2xl leading-6' : 'font-dotgothic16 leading-9'}>
 	<button
-		class="min-[400px]:top-10 fixed left-8 top-32 z-30 sm:left-20 sm:top-20 lg:left-28"
+		class="min-[400px]:top-10 fixed left-8 top-32 z-40 sm:left-20 sm:top-20 lg:left-28"
 		onclick={() => gotoPage('game')}
 		aria-label="Back to games"
 	>
